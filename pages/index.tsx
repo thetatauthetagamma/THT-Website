@@ -1,5 +1,7 @@
 import Head from 'next/head'
 
+import Brotherhood from '../components/Brotherhood'
+
 export default function Home() {
   return (
     <div>
@@ -9,7 +11,16 @@ export default function Home() {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="favicon.png" />
      </Head>
-      <h1>Theta Tau Theta Gamma Website</h1>
+      <div className="">
+        <div className = "">
+          <h1 className= "">
+              THETA TAU THETA GAMMA
+          </h1>
+        </div>
+        <div className = "">
+          <Brotherhood />
+        </div>
+      </div>
     </div>
   )
 }
