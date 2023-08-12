@@ -1,6 +1,6 @@
 import React from 'react';
 import FastMarquee from 'react-fast-marquee';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 // brotherhood first row images are here:
 import image1 from '../images/homepage/brotherhood/1.jpg';
@@ -61,15 +61,15 @@ const Brotherhood: React.FC = () => {
   ];
 
   return (
-    <div className="pillar-item">
-      <div className="pillar-title brotherhood-title">BROTHERHOOD</div>
+    <div className="relative flex flex-col h-60">
+      <div className="">BROTHERHOOD</div>
       <FastMarquee
         speed={60}
         delay={0}
         pauseOnHover
         direction="left"
         gradient={false}
-        className="pillar-marquee"
+        className=""
       >
         {firstrow.map((image, index) => (
           <Image
@@ -78,7 +78,7 @@ const Brotherhood: React.FC = () => {
             alt={`brotherhood-${index}`}
             layout="fill"
             objectFit='cover'
-            className="img"
+            className=""
           />
         ))}
       </FastMarquee>
