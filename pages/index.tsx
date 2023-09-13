@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import Typewriter from '@/components/Typewriter';
+import Image from 'next/image';
+import frat from '../public/fratphoto.jpg'
 
 // import Brotherhood from '../components/Brotherhood'
 
@@ -15,22 +17,21 @@ export default function Home() {
       </Head>
 
       <div className="relative">
-        <img
-          src="fratphoto.jpg" // Replace with the actual image path
-          alt="Your Image"
-          className="w-full h-auto"
-          style={{ zIndex: 1 }} // Set a higher z-index for the image
+        <Image
+          src={frat}
+          alt="Full Fraternity Photo"
+          className="w-full h-auto z-1"
         />
 
-        <div className="absolute inset-0 tint-red" style={{ zIndex: 2 }}></div>
+        <div className="absolute inset-0 tint-red z-2"></div>
         
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
-          <h1 className="text-8xl font-bold" style={{ zIndex: 3 }}>THETA TAU</h1>
-          <h1 className="text-6xl font-bold" style={{ zIndex: 3 }}>THETA GAMMA</h1>
-          <h2 className="text-3xl font-semibold mt-10" style={{ zIndex: 3 }}>
-          More than a fraternity, we are a{' '}
-          <Typewriter words={words} />
-        </h2>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold z-3 mt-2" >THETA TAU</h1>
+          <h1 className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-bold z-3" >THETA GAMMA</h1>
+          <h2 className="text-lg sm:text-lg md:text-2xl lg:text-3xl font-semibold z-3 mt-2 text-center" >
+            More than a fraternity, we are a{' '}
+            <Typewriter words={words} />
+          </h2>
         </div>
       </div>
     </div>
