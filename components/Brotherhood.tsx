@@ -61,46 +61,48 @@ const Brotherhood: React.FC = () => {
   ];
 
   return (
-    <div className="relative flex flex-col h-60">
+<div className="flex flex-col">
       <div className="">BROTHERHOOD</div>
-      <FastMarquee
-        speed={60}
-        delay={0}
-        pauseOnHover
-        direction="left"
-        gradient={false}
-        className=""
-      >
-        {firstrow.map((image, index) => (
-          <Image
-            key={index}
-            src={image}
-            alt={`brotherhood-${index}`}
-            layout="fill"
-            objectFit='cover'
-            className=""
-          />
-        ))}
-      </FastMarquee>
-      <FastMarquee
-        speed={60}
-        delay={0}
-        pauseOnHover
-        gradient={false}
-        direction="left"
-        className=""
-      >
-        {secondrow.map((image, index) => (
-          <Image
-            key={index}
-            src={image}
-            alt={`brotherhood-${index}`}
-            layout="fill"
-            objectFit='cover'
-            className=""
-          />
-        ))}
-      </FastMarquee>
+      <div className="relative h-60 w-40">
+        <FastMarquee
+          speed={60}
+          delay={0}
+          pauseOnHover
+          direction="left"
+          gradient={false}
+        >
+          {firstrow.map((image, index) => (
+            <div key={index} className="w-full h-full relative">
+              <Image
+                src={image}
+                alt={`brotherhood-${index}`}
+                layout="fill"
+                objectFit='cover'
+              />
+            </div>
+          ))}
+        </FastMarquee>
+      </div>
+      <div className="relative h-60 w-40">
+        <FastMarquee
+          speed={60}
+          delay={0}
+          pauseOnHover
+          gradient={false}
+          direction="left"
+        >
+          {secondrow.map((image, index) => (
+            <div key={index} className="w-full h-full relative">
+              <Image
+                src={image}
+                alt={`brotherhood-${index}`}
+                layout="fill"
+                objectFit='cover'
+              />
+            </div>
+          ))}
+        </FastMarquee>
+      </div>
     </div>
   );
 };
