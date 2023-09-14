@@ -9,23 +9,28 @@ const Navbar = () => {
   <div>
       <nav className="flex flex-row border-b-2 border-red-800">
         
-          <div className="justify-left">
-              <Image
-                  src={logo}
-                  alt="Full Fraternity Photo"
-                  className="w-14 pb-2 pt-2 pl-4 h-auto z-1"
-              />
-          </div>
+        <div className="justify-left">
+          <Image
+            src={logo}
+            alt="Full Fraternity Photo"
+            className="w-14 pb-2 pt-2 pl-4 h-auto z-1"
+          />
+        </div>
 
-          <div className="flex-grow">
+        <div className="flex-grow">
 
-          </div>
+        </div>
 
         <div>
           <ul className="flex md:flex-row flex-col md:justify-end py-4 gap-4 px-5 md:items-center justify-right text-right">
             <li className="mx-1">
               <Link legacyBehavior href="/">
                 <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-xl ">Home</a>
+              </Link>
+            </li>
+            <li className="mx-1">
+              <Link legacyBehavior href="/committees">
+                <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-xl ">Committees</a>
               </Link>
             </li>
             <li className="mx-1">
