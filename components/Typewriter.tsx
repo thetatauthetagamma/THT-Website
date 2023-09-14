@@ -10,7 +10,7 @@ const Typewriter: React.FC<TypewriterProps> = ({ words }) => {
       <TypeAnimation
         sequence={words}
         wrapper="span"
-        speed={40}
+        speed={20}
         repeat={Infinity}
       />
   );
