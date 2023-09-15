@@ -6,6 +6,8 @@ const config: Config = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./src/**/*.{html,js}",
+    "./node_modules/tw-elements/dist/js/**/*.js"
   ],
   theme: {
 
@@ -19,6 +21,7 @@ const config: Config = {
       'gray-dark': '#273444',
       'gray': '#8492a6',
       'gray-light': '#d3dce6',
+      'tht-red': '#8b0000'
     },
 
     extend: {
@@ -30,16 +33,16 @@ const config: Config = {
       keyframes: {
         menu: {
           '0%': {transform: 'scaleY(0)'},
-          '80%': {transform: 'scaleY(1.2)'},
+          '70%': {transform: 'scaleY(1.1)'},
           '100%': {transform: 'scaleY(1)'},
         },
       },
       animation: {
-        'open-menu': 'menu 0.4s ease-in-out forwards',
+        'open-menu': 'menu 0.6s ease-in-out forwards',
       },
     },
   },
   
-  plugins: [],
+  plugins: [require("tw-elements/dist/plugin.cjs")],
 }
 export default config
