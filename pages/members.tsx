@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import gear from 'images/theta-tau-gear.png'
+import React from 'react';
+import HorizontalMarquee from '../components/HorizontalMarquee';
 
 export default function members() {
     return (
@@ -149,6 +151,10 @@ export default function members() {
 
 
 
+        <div className='pr-6 pl-6 md:pl-40 md:pr-40 pb-20'>
+          <HorizontalMarquee />
+        </div>
+       
 
 
 
