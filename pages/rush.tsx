@@ -8,8 +8,8 @@ export default function rush() {
           type="text/javascript"
           src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 
-          <div className="inset-0 flex flex-col justify-center items-center pt-4 text-[#8b0000]">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-bold z-3 mt-2 mb-1" >Rush</h1>
+          <div className="inset-0 flex flex-col justify-center items-center md:pt-8 pt-4  text-[#8b0000]">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-bold z-3 pb-1" >Rush</h1>
             <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-bold z-3" >THETA TAU</h1>
           </div>
         
@@ -27,8 +27,8 @@ export default function rush() {
           </div>
 
           <div className='flex flex-grow flex-col pb-8 pt-8 bg-white'>
-            <div className="inset-0 flex flex-col justify-center items-center pt-6 text-[#8b0000]">
-              <h1 className="text-2xl md:text-3xl font-bold z-3 mt-2 pb-8" >Frequently Asked Questions</h1>
+            <div className="inset-0 flex flex-col justify-center items-center md:pt-8 pt-4 md:pb-8 pb-4 text-[#8b0000]">
+              <h1 className="text-2xl md:text-3xl font-bold z-3 mt-2" >Frequently Asked Questions</h1>
               
             </div >
             <div className='mb-8'>
@@ -48,10 +48,6 @@ export default function rush() {
           
           
           </div>
-
-        
-
-
           
     </div>
       
