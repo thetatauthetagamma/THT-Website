@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, {useState, useEffect} from "react"
 import Image from 'next/image';
 import logo from 'images/tht-logo.png'
+import cheveron from 'images/chevron.png'
 
 
 
@@ -31,7 +32,7 @@ const Navbar = () => {
   <div className='bg-white'>
       
       
-      <div className={navState1}>
+      
       <nav className="flex flex-row border-b-2 border-red-800">
         
         <div className="justify-left">
@@ -70,11 +71,12 @@ const Navbar = () => {
               <li className="mx-1">
                 <Link legacyBehavior href="/members">
                   <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg">Members</a>
+                  
                 </Link>
               </li>
               <li className="mx-1">
                 <Link legacyBehavior href="/rush">
-                  <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg">Rush</a>
+                  <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg">Rush </a>
                 </Link>
               </li>
               <li className='mx-1'>
@@ -87,12 +89,12 @@ const Navbar = () => {
           </section>
         </div>
       </nav>
-      </div>
+      
 
     
     <div className={navState}>
-    <section id="mobile-menu" className={'top-0 w-full flex bg-white text-5xl flex-col justify-content-center origin-top animate-open-menu'} onClick={toggleMenuOff}>
-        <button className='text-6xl self-end px-6'>
+    <section id="mobile-menu" className={'bg-white top-0 w-full h-full absolute flex bg-white text-5xl flex-col justify-content-center origin-top animate-open-menu'} onClick={toggleMenuOff}>
+        <button className='text-6xl self-end px-6 pt-2'>
           &times;
         </button>
         

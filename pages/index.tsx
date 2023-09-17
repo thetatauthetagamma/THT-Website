@@ -18,38 +18,35 @@ export default function Home() {
 
       <div className='bg-gray-50'>
           
-          <div className='relative'>
-            <Image
-              src={frat}
-              alt="Full Fraternity Photo"
-              className="w-full h-auto z-1"
-            />
-
-            <div className="absolute inset-0 tint-red z-2">
-
-            </div>
+          <div className="bg-tht-main bg-cover flex w-full z-0 ">
             
-            <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold z-3 mt-2" >THETA TAU</h1>
-              <h1 className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-bold z-3" >THETA GAMMA</h1>
-              <h2 className="text-lg sm:text-lg md:text-2xl lg:text-3xl font-semibold z-3 mt-2 text-center" >
-                More than a fraternity, we are a{' '}
-                <Typewriter words={words} />
-              </h2>
-            </div>
+            
+            
+              <div className="bg-[#8b000070] inset-0 flex flex-col flex-grow justify-center text-white w-full h-[200px] md:h-[600px] z-2">
+                <div className='justify-center items-center text-center'>
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold  mt-2" >THETA TAU</h1>
+                  <h1 className="text-1xl sm:text-2xl md:text-3xl lg:text-5xl font-bold " >THETA GAMMA</h1>
+                </div>
+                <h2 className="text-md sm:text-lg md:text-1xl lg:text-2xl font-semibold mt-2 text-center pl-6 pr-6" >
+                  More than a fraternity, we are a{' '}
+                  <Typewriter words={words} />
+                </h2>
+              </div>
+        
+           
           </div>
           
         
       
 
-        <div className="text-lg sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center py-4 font-semibold z-3 mt-2">
+        <div className="text-base sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center py-4 font-semibold z-3 mt-2">
           <p>
             Theta Tau is Professional Engineering Fraternity. As a group, we are dedicated to the professional and social development of our members into professionals that will enter the industry as strong, contributing members.
             Our chapter is known as Theta Gamma Chapter and is one of the largest chapters in the Country.
           </p>
         </div>
 
-        <div className="text-lg sm:text-base md:text-lg lg:text-xl px-4 text-center pb-4 pr-6 pl-6 md:pr-40 md:pl-40  font-semibold z-3 mt-2">
+        <div className="text-base sm:text-base md:text-lg lg:text-xl px-4 text-center pb-4 pr-6 pl-6 md:pr-40 md:pl-40  font-semibold z-3 mt-2">
         <p>Theta Tau is made up of smart, driven engineers who come
                           from a diverse range of backgrounds and majors. Our
                           chapter holds events weekly designed to instill a

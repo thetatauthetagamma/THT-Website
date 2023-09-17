@@ -34,11 +34,14 @@ export const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
         onClick={toggleAccordion}
       >
         <p className="inline-block text-footnote light font-semibold text-left text-lg md:text-xl ">{title}</p>
+        
+
         <Image
           src={cheveron}
           alt="Chevron icon"
-          className={`${rotate} w-8 h-8`}
+          className={`${rotate} w-6 h-6 md:w-8 md:h-8`}
         />
+       
       </button>
       <div
         ref={contentSpace}

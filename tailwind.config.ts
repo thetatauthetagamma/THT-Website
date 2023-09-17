@@ -1,3 +1,5 @@
+import { url } from 'inspector'
+import { DefaultRouteMatcherManager } from 'next/dist/server/future/route-matcher-managers/default-route-matcher-manager'
 import type { Config } from 'tailwindcss'
 
 
@@ -10,25 +12,21 @@ const config: Config = {
     "./node_modules/tw-elements/dist/js/**/*.js"
   ],
   theme: {
-
-    color: {
-      'blue': '#1fb6ff',
-      'purple': '#7e5bef',
-      'pink': '#ff49db',
-      'orange': '#ff7849',
-      'green': '#13ce66',
-      'yellow': '#ffc82c',
-      'gray-dark': '#273444',
-      'gray': '#8492a6',
-      'gray-light': '#d3dce6',
-      'tht-red': '#8b0000'
-    },
-
     extend: {
+      color: {
+        'Lily-White': '#EBEBEB',
+        'Seal-Brown': '#1E1513',
+        'Blanc': '#DAD3C2',
+        'Foggy-Grey': '#A5A59A',
+        'Makara': '#665A64',
+        'Falu-Red': '#6D0F10',
+        'Carmine': '#A00E11',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'tht-main': "url('../public/fratphoto.jpg')",
       },
       keyframes: {
         menu: {
