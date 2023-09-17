@@ -18,19 +18,25 @@ export default function committees() {
     <div className='flex-grow flex-col'>
       
       <div className="flex flex-row bg-gray-50 flex-grow pr-6 pl-6 md:pr-40 md:pl-40 md:pt-8 md:pb-8 pt-4 pb-4">
-        <div className="flex flex-col">
+        <div className="flex flex-col w-[50%]">
            <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold mt-2 md:text-left text-center text-[#8b0000]" >Professional Development</h1>
-           <div className="flex flex-col md:flex-row  md:text-md text-sm justify-around md:pt-8 pt-4 pb-4">
-            grid-cols-2
-            
+           <div className="flex flex-col md:flex-row  md:text-md text-sm md:pt-8 pt-4 pb-4">
+           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+           incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+           exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+           dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
+            mollit anim id est laborum.
           </div>
         </div>
-        <div className="items-right">
+        <div className="w-[50%] flex flex-grow justify-end items-center">
+          <div className="">
             <Image
               src={frat}
               alt="Full Fraternity Photo"
-              className="w-[400px] h-[400px] rounded-full"
+              className="w-[500px] height-auto"
             />
+          </div>
         </div>
       </div>
 

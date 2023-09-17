@@ -40,8 +40,11 @@ const HorizontalMarquee = () => {
             gradient={false}
             className= "h-[8em] w-auto py-4"
             >
+            
             {firstrow.map((image) => (
+              <div className='pl-4 pr-4'>
               <Image src={image} alt="companies" className="h-[8em] w-auto rounded-lg"></Image>
+              </div>
             ))}
           </FastMarquee>
           </div>
