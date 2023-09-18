@@ -3,26 +3,26 @@ import React from 'react';
 import FastMarquee from 'react-fast-marquee';
 import Image from 'next/image';
 
-import image1 from 'images/companies/1.jpg';
-import image2 from 'images/companies/2.jpg';
-import image3 from 'images/companies/3.jpg';
-import image4 from 'images/companies/4.jpg';
-import image5 from 'images/companies/5.jpg';
-import image6 from 'images/companies/6.jpg';
-import image7 from 'images/companies/7.jpg';
-import image8 from 'images/companies/8.jpg';
-import image9 from 'images/companies/9.jpg';
-import image10 from 'images/companies/10.jpg';
-import image11 from 'images/companies/11.jpg';
-import image12 from 'images/companies/12.jpg';
-import image13 from 'images/companies/13.jpg';
-import image14 from 'images/companies/14.jpg';
-import image15 from 'images/companies/15.jpg';
-import image16 from 'images/companies/16.jpg';
-import image17 from 'images/companies/17.jpg';
-import image18 from 'images/companies/18.jpg';
-import image19 from 'images/companies/19.jpg';
-import image20 from 'images/companies/20.jpg';
+import image1 from '../public/companies/1.jpg';
+import image2 from '../public/companies/2.jpg';
+import image3 from '../public/companies/3.jpg';
+import image4 from '../public/companies/4.jpg';
+import image5 from '../public/companies/5.jpg';
+import image6 from '../public/companies/6.jpg';
+import image7 from '../public/companies/7.jpg';
+import image8 from '../public/companies/8.jpg';
+import image9 from '../public/companies/9.jpg';
+import image10 from '../public/companies/10.jpg';
+import image11 from '../public/companies/11.jpg';
+import image12 from '../public/companies/12.jpg';
+import image13 from '../public/companies/13.jpg';
+import image14 from '../public/companies/14.jpg';
+import image15 from '../public/companies/15.jpg';
+import image16 from '../public/companies/16.jpg';
+import image17 from '../public/companies/17.jpg';
+import image18 from '../public/companies/18.jpg';
+import image19 from '../public/companies/19.jpg';
+import image20 from '../public/companies/20.jpg';
 
 
 

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React, {useState, useEffect} from "react"
 import Image from 'next/image';
-import logo from 'images/tht-logo.png'
-import cheveron from 'images/chevron.png'
+import logo from '../public/tht-logo.png'
+import cheveron from '../public/chevron.png'
 
 
 

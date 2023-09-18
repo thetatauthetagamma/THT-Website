@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import React, {useState, useEffect} from "react"
 import Image from 'next/image';
-import logo from 'images/tht-logo.png'
-import ig from 'images/insta.png'
-import linked from 'images/linked-in.png'
-import tiktok from 'images/tiktok.png'
+import logo from '../public/tht-logo.png'
+import ig from '../public/insta.png'
+import linked from '../public/linked-in.png'
+import tiktok from '../public/tiktok.png'
 
 const Footer = () => {
     return(

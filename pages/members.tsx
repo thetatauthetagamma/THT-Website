@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import gear from 'images/theta-tau-gear.png'
+import gear from '../public/theta-tau-gear.png'
 import React from 'react';
 import HorizontalMarquee from '../components/HorizontalMarquee';
 
