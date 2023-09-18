@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import rush23 from '../images/f23-rush.jpeg'
+import rush23 from '../public/f23-rush.jpeg'
 import Faq from '@/components/Faq'
 export default function rush() {
     return (

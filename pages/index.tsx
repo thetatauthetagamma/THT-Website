@@ -1,7 +1,5 @@
 import Head from 'next/head'
 import Typewriter from '@/components/Typewriter';
-import Image from 'next/image';
-import frat from '../public/fratphoto.jpg'
 
 // import Brotherhood from '../components/Brotherhood'
 
