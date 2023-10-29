@@ -6,8 +6,8 @@ import HorizontalMarquee from '../components/HorizontalMarquee';
 export default function members() {
     return (
       <div className='flex-grow flex-col'>
-        <div className="bg-gray-50 flex flex-grow flex-col pr-6 pl-6 md:pr-40 md:pl-40 md:pt-8 md:pb-8 pt-4 pb-4">
-           <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold mt-2 md:text-left text-center text-[#8b0000]" >Executive Board</h1>
+        <div className="bg-gray-50 flex flex-grow flex-col pr-6 pl-6 md:pr-40 md:pl-40 md:pt-8 md:pb-8 pt-4 pb-4 border-b-2 border-[#8b000050]">
+           <h1 className="pt-4 pb-4 text-3xl md:text-4xl font-bold mt-2 text-center text-[#8b0000]" >Executive Board</h1>
            <div className="flex flex-col md:flex-row items-center justify-around md:text-md text-sm  md:pt-8 pt-4 pb-4  top-0">
             
             <div className='flex-col text-center w-120 h-180 md:pb-0 pb-4'>
@@ -64,7 +64,7 @@ export default function members() {
         </div>
 
         <div className="bg-white flex flex-grow flex-col pr-6 pl-6 md:pr-40 md:pl-40 md:pt-8 md:pb-8 pt-4 pb-4">
-           <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold mt-2  text-[#8b0000] md:text-right text-center" >Brothers</h1>
+           <h1 className="pt-4 pb-4 text-3xl md:text-4xl font-bold mt-2  text-[#8b0000] text-center" >Brothers</h1>
            <div className='flex flex-row md:pt-8 pt-4 justify-around items-center'>
             <div className='flex flex-col text-center'>
               <div className='font-bold text-[#8b0000] text-3xl sm:text-4xl md:text-5xl lg:text-6xl'>
@@ -95,7 +95,7 @@ export default function members() {
            </div>
 
 
-           <div className='font-semibold pt-8 text-left flex flex-col'>
+           <div className='font-semibold pt-8 text-left flex flex-col '>
               <div className='pb-4 text-lg sm:text-2lg md:text-1xl lg:text-3xl font-bold mt-2  text-[#8b0000] text-left'>
                 Theta Tau is
               </div>
@@ -151,7 +151,7 @@ export default function members() {
 
 
 
-        <div className='pr-6 pl-6 md:pl-40 md:pr-40 pb-20'>
+        <div className='pr-6 pl-6 md:pl-40 md:pr-40 pb-20 border-b-2 border-[#8b000050]'>
           <HorizontalMarquee />
         </div>
        

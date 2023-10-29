@@ -6,7 +6,7 @@ import frat from '../public/fratphoto.jpg'
 // import Brotherhood from '../components/Brotherhood'
 
 export default function Home() {
-  const words = ["brotherhood", "philanthropy organization", "professional community", "society of engineers", "family"];
+  const words = ["brotherhood", "philanthropy organization", "professional community", "society of engineers", "family", ];
   return (
     <div className='flex flex-grow h-full'>
       <Head>
@@ -16,7 +16,7 @@ export default function Home() {
         <link rel="icon" href="favicon.png" />
       </Head>
 
-      <div className='bg-gray-50'>
+      <div className='bg-gray-50  border-b-2 border-[#8b000050]'>
           
           <div className="bg-tht-main bg-cover flex w-full z-0 ">
             
@@ -39,14 +39,14 @@ export default function Home() {
         
       
 
-        <div className="text-base sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center py-4 font-semibold z-3 mt-2">
+        <div className="text-base sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center py-4 font-semibold z-3 pt-8">
           <p>
             Theta Tau is Professional Engineering Fraternity. As a group, we are dedicated to the professional and social development of our members into professionals that will enter the industry as strong, contributing members.
             Our chapter is known as Theta Gamma Chapter and is one of the largest chapters in the Country.
           </p>
         </div>
 
-        <div className="text-base sm:text-base md:text-lg lg:text-xl px-4 text-center pb-4 pr-6 pl-6 md:pr-40 md:pl-40  font-semibold z-3 mt-2">
+        <div className="text-base sm:text-base md:text-lg lg:text-xl px-4 text-center pb-8 pr-6 pl-6 md:pr-40 md:pl-40  font-semibold z-3 mt-2">
         <p>Theta Tau is made up of smart, driven engineers who come
                           from a diverse range of backgrounds and majors. Our
                           chapter holds events weekly designed to instill a
