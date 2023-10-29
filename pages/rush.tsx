@@ -10,24 +10,24 @@ export default function rush() {
 
           <div className="inset-0 flex flex-col justify-center items-center md:pt-8 pt-4  text-[#8b0000]">
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-bold z-3 pb-1" >Rush</h1>
-            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-bold z-3" >THETA TAU</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-bold z-3" >Theta Tau</h1>
           </div>
         
           <div className=" flex-row text-lg sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center md:py-4 font-semibold z-3 mt-2">
             <p>
               Please fill out our&nbsp;
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkkBsNRStO4TpcSuEaEuqltBbucz5l7Ch2Q02OwVADmQ8Wtw/closedform" className="text-blue-400">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkkBsNRStO4TpcSuEaEuqltBbucz5l7Ch2Q02OwVADmQ8Wtw/closedform" className="text-blue-500 hover:text-blue-300">
                   rush form.
               </a>
             </p>
           </div>
 
-          <div className='flex justify-center items-center pb-0 md:pb-20 pt-4'>
+          <div className='flex justify-center items-center pb-0 md:pb-20 pt-4 border-b-2 border-[#8b000050]'>
             <Image src={rush23} alt="rush23" className='w-auto h-auto'></Image>
           </div>
 
-          <div className='flex flex-grow flex-col pb-8 pt-8 bg-white'>
-            <div className="inset-0 flex flex-col justify-center items-center md:pt-8 pt-4 md:pb-8 pb-4 text-[#8b0000]">
+          <div className='flex flex-grow flex-col pb-8 pt-8 bg-white border-b-2 border-[#8b000050]'>
+            <div className="inset-0 flex flex-col justify-center items-center md:pt-8 md:pb-8 pb-4 text-[#8b0000]">
               <h1 className="text-2xl md:text-3xl font-bold z-3 mt-2" >Frequently Asked Questions</h1>
               
             </div >

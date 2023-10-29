@@ -13,15 +13,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      color: {
-        'Lily-White': '#EBEBEB',
-        'Seal-Brown': '#1E1513',
-        'Blanc': '#DAD3C2',
-        'Foggy-Grey': '#A5A59A',
-        'Makara': '#665A64',
-        'Falu-Red': '#6D0F10',
-        'Carmine': '#A00E11',
-      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -38,7 +29,9 @@ const config: Config = {
       animation: {
         'open-menu': 'menu 0.6s ease-in-out forwards',
       },
+      
     },
+   
   },
   
   plugins: [require("tw-elements/dist/plugin.cjs")],
