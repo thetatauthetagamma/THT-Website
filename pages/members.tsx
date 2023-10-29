@@ -160,19 +160,7 @@ export default function members() {
 
 
 
-        <div className="bg-gray-50 flex flex-grow flex-col pr-6 pl-6 md:pr-40 md:pl-40 md:pt-8 md:pb-8 pt-4 pb-4">
-           <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold mt-2  md:text-left text-center text-[#8b0000]" >Contact Us</h1>
-           <div className="contact-info-content py-4 pt-4">
-            <div className="info">
-                <div className = "flex flex-col">
-                    <a href="mailto:tht-eboard@umich.edu" className= "hover:text-gray-400   text-sm md:text-base font-semibold pb-4"> Executive Board  </a>
-                    <a href="mailto:tht-regents@umich.edu" className= "hover:text-gray-400   text-sm md:text-base font-semibold pb-4"> Regent & Vice Regent  </a>
-                    <a href="mailto:tht-corsec@umich.edu" className= "hover:text-gray-400   text-sm  md:text-base font-semibold pb-4"> Alumni & Interchapter Relations  </a>
-                    <a href="mailto:tht-corporate@umich.edu" className= "hover:text-gray-400  text-sm  md:text-base font-semibold pb-4"> Cooporate & Sponsorship Events </a>
-                </div>
-            </div>
-        </div>
-        </div>
+        
         
       </div>
     )

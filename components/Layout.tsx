@@ -15,16 +15,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       
       
       <div className="flex flex-col min-h-screen">
-        
-        
-        
-        
+            
         <Navbar/>
-       
-        
-      
-        
-
 
         <div className="flex flex-col flex-grow z-1">
           {children}

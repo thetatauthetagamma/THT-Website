@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, {useState, useEffect} from "react"
 import Image from 'next/image';
 import logo from '../public/tht-logo.png'
+import supabase from '../supabase.js';
 
 
 const Navbar = () => {
@@ -10,8 +11,34 @@ const Navbar = () => {
     
     const [navState, setNavState] = useState('hidden')
     const [navState1, setNavState1] = useState('')
+    const [data, setData] = useState("")
+    const [isBrother, setIsBrother] = useState(false)
+    const [userEmail, setUserEmail] = useState('');
     
+    useEffect(() => {
+      const fetchSession = async () => {
+        try {
+          const session = await supabase.auth.getSession();
+          if (session) {
+            console.log(session)
+            setUserEmail(session.data.session?.user.email || '')
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
   
+      fetchSession();
+      // Listen for changes in the authentication state
+      const authListener = supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+          setUserEmail(session.user?.email || '');
+        }
+        if (event === 'SIGNED_OUT') {
+          setUserEmail('');
+        }
+      });
+    }, []);
 
     const toggleMenuOn = () => {
       setNavState(navState => '');
@@ -24,6 +51,20 @@ const Navbar = () => {
       setNavState1(navState1 => '');
       console.log(navState);
     }
+
+    const handleGoogleSignIn = async () => {
+      // Handle the Google sign in
+      const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+      console.log('here');
+      // setData(data)
+      console.log(error);
+    };
+  
+    const handleGoogleSignOut = async () => {
+      // Handle the Google sign out
+      const { error } = await supabase.auth.signOut();
+      console.log(error);
+    };
 
   
   return (
@@ -44,8 +85,6 @@ const Navbar = () => {
         <div className="flex-grow">
 
         </div>
-
-        <script src="js/Navbar.js"></script>
 
         <div className='pr-6 pt-4 pb-4 justify-end items-center'>
           <button id='hamburger-button' className='text-3xl md:hidden cursor-pointer' onClick={toggleMenuOn}>
@@ -77,8 +116,21 @@ const Navbar = () => {
                   <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg">Rush </a>
                 </Link>
               </li>
-              
-              
+              { isBrother ? 
+                (
+                  <li className="mx-1" onClick={handleGoogleSignIn}>
+                    <Link legacyBehavior href="/brothers">
+                      <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-8"> Brothers </a>
+                    </Link>
+                  </li>
+                )
+                :
+                (
+                  <li className="mx-1" onClick={handleGoogleSignIn}>
+                    <a className='text-black mx-1 hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg  pr-8'> Sign in </a>
+                  </li>
+                )
+              }
             </ul>
           </section>
         </div>
@@ -111,14 +163,24 @@ const Navbar = () => {
               </li>
               <li className="mx-1">
                 <Link legacyBehavior href="/rush">
-                  <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg">Rush</a>
+                  <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg">Rush </a>
                 </Link>
               </li>
-              <li className='mx-1 pb-6'>
-                <Link legacyBehavior href="/brothers">
-                  <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg">Brothers</a>
-                </Link>
-              </li>
+              { isBrother ? 
+                (
+                  <li className="mx-1" onClick={handleGoogleSignIn}>
+                    <Link legacyBehavior href="/brothers">
+                      <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg"> Brothers </a>
+                    </Link>
+                  </li>
+                )
+                :
+                (
+                  <li className="mx-1" onClick={handleGoogleSignIn}>
+                    <a className='text-black mx-1 hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg'> Sign in </a>
+                  </li>
+                )
+              }
             </ul>
         </nav>
     </section>
