@@ -41,6 +41,26 @@ export default function committees() {
       </div>
 
       
+      <div className="flex flex-col md:flex-row bg-gray-50 justify-center flex-grow pr-6 pl-6 md:pr-40 md:pl-40 md:pt-8 md:pb-8 pt-4 pb-4 border-b-2 border-[#8b000050]">
+        <div className="flex flex-col w-full md:w-[50%]">
+           <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Brotherhood</h1>
+           <div className="flex flex-col md:flex-row  md:text-md text-sm pt-4 pb-4">
+           The Brotherhood Committee is an integral part of our organization, dedicated to fostering a strong sense of unity among brothers. Through planned events and activities, the committee aims to bring our brothers together, encouraging meaningful connections and a supportive environment. By nurturing bonds and promoting solidarity, the Brotherhood Committee plays a vital role in cultivating a closely-knit and supportive community within Theta Tau.
+          </div>
+        </div>
+        <div className="w-full md:w-[50%] flex flex-grow justify-center items-center pt-4 pb-4">
+          
+            <Image
+              src={frat}
+              alt="Full Fraternity Photo"
+              className="w-[80%] height-auto"
+            />
+          
+        </div>
+      </div>
+
+
+
         
     </div>
   );
