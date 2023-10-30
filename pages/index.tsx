@@ -55,7 +55,7 @@ export default function Home() {
         </div>
 
         <section className="bg-gray-200 py-10">
-      <div className="container mx-auto text-center pl-16 pr-16">
+      <div className="container mx-auto text-center md:pl-16 md:pr-16 pl-4 pr-4">
         <div className="text-base sm:text-base md:text-lg lg:text-2xl font-semibold mt-2">
           We Value
         </div>
