@@ -54,45 +54,45 @@ export default function Home() {
             well as our college and University.</p>
         </div>
 
-        <section className="bg-gray-200 py-10">
-      <div className="container mx-auto text-center md:pl-16 md:pr-16 pl-4 pr-4">
-        <div className="text-base sm:text-base md:text-lg lg:text-2xl font-semibold mt-2">
-          We Value
-        </div>
+        <section className="bg-gray-100 py-10">
+          <div className="container mx-auto text-center md:pl-16 md:pr-16 pl-4 pr-4">
+            <div className="text-base sm:text-base md:text-lg lg:text-2xl font-semibold mt-2">
+              We Value
+            </div>
 
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {/* Tile 1 */}
-          <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm mx-auto transition-transform transform-gpu hover:scale-105 hover:text-red-800 hover:border-b-2 border-transparent">
-            <div className="flex flex-col items-center"> {/* Center content vertically */}
-              <h2 className="text-sm font-semibold mb-2 md:text-lg">
-                Brotherhood
-              </h2>
-              <p className = "text-black">Theta Tau is a brotherhood. A brotherhood is more than just a collection of individuals; it's a bond that goes beyond friendship. Being part of a brotherhood means having a deep connection with others who share your values, dreams, and aspirations. It's about standing by one another through the highs and lows, offering unwavering support, and fostering a sense of unity.</p>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+              {/* Tile 1 */}
+              <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm mx-auto transition-transform transform-gpu hover:scale-105 hover:text-red-800 hover:border-b-2 border-transparent">
+                <div className="flex flex-col items-center"> {/* Center content vertically */}
+                  <h2 className="text-sm font-semibold mb-2 md:text-lg">
+                    Brotherhood
+                  </h2>
+                  <p className="text-black">Theta Tau is a brotherhood. A brotherhood is more than just a collection of individuals; it's a bond that goes beyond friendship. Being part of a brotherhood means having a deep connection with others who share your values, dreams, and aspirations. It's about standing by one another through the highs and lows, offering unwavering support, and fostering a sense of unity.</p>
+                </div>
+              </div>
+
+              {/* Tile 2 */}
+              <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm mx-auto transition-transform transform-gpu hover:scale-105 hover:text-red-800 hover:border-b-2 border-transparent">
+                <div className="flex flex-col items-center"> {/* Center content vertically */}
+                  <h2 className="text-sm font-semibold mb-2 md:text-lg">
+                    Service
+                  </h2>
+                  <p className="text-black">We wholeheartedly dedicate ourselves to serving both our University and our local community. Our service initiatives provide our members with valuable opportunities to make a meaningful difference in the communities that matter to us.</p>
+                </div>
+              </div>
+
+              {/* Tile 3 */}
+              <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm mx-auto transition-transform transform-gpu hover:scale-105 hover:text-red-800 hover:border-b-2 border-transparent">
+                <div className="flex flex-col items-center"> {/* Center content vertically */}
+                  <h2 className="text-sm font-semibold mb-2 md:text-lg">
+                    Professionalism
+                  </h2>
+                  <p className="text-black">We are a professional engineering fraternity. We value professionalism and seek to develop our members' professional skills. Whether that be through resume workshops, mock interviews, or talking to older brothers and alumni, we are always growing professionally and applying these skills in our academics, our workplace, and our lives.</p>
+                </div>
+              </div>
             </div>
           </div>
-
-          {/* Tile 2 */}
-          <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm mx-auto transition-transform transform-gpu hover:scale-105 hover:text-red-800 hover:border-b-2 border-transparent">
-            <div className="flex flex-col items-center"> {/* Center content vertically */}
-              <h2 className="text-sm font-semibold mb-2 md:text-lg">
-                Service
-              </h2>
-              <p className = "text-black">We wholeheartedly dedicate ourselves to serving both our University and our local community. Our service initiatives provide our members with valuable opportunities to make a meaningful difference in the communities that matter to us.</p>
-            </div>
-          </div>
-
-          {/* Tile 3 */}
-          <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm mx-auto transition-transform transform-gpu hover:scale-105 hover:text-red-800 hover:border-b-2 border-transparent">
-            <div className="flex flex-col items-center"> {/* Center content vertically */}
-              <h2 className="text-sm font-semibold mb-2 md:text-lg">
-                Professionalism
-              </h2>
-              <p className = "text-black">We are a professional engineering fraternity. We value professionalism and seek to develop our members' professional skills. Whether that be through resume workshops, mock interviews, or talking to older brothers and alumni, we are always growing professionally.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        </section>
       </div>
 
 
