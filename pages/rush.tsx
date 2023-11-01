@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import rush23 from '../public/f23-rush.jpeg'
+import rush24 from '../public/rush2024.jpeg'
 import Faq from '@/components/Faq'
 export default function rush() {
     return (
@@ -16,14 +16,14 @@ export default function rush() {
           <div className=" flex-row text-lg sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center md:py-4 font-semibold z-3 mt-2">
             <p>
               Please fill out our&nbsp;
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSdkkBsNRStO4TpcSuEaEuqltBbucz5l7Ch2Q02OwVADmQ8Wtw/closedform" className="text-blue-500 hover:text-blue-300">
-                  rush form.
+              <a target="blank" href="https://docs.google.com/forms/d/e/1FAIpQLSd3c6jPUBBd24J1Fxcvg2tdMN5k8_qV7iditqSQlzmzCDVtzw/viewform?usp=sf_link" className="text-blue-500 hover:text-blue-300 ">
+                  interest form.
               </a>
             </p>
           </div>
 
           <div className='flex justify-center items-center pb-0 md:pb-20 pt-4 border-b-2 border-[#8b000050]'>
-            <Image src={rush23} alt="rush23" className='w-auto h-auto'></Image>
+            <Image src={rush24} alt="rush23" className='w-auto h-auto'></Image>
           </div>
 
           <div className='flex flex-grow flex-col pb-8 pt-8 bg-white border-b-2 border-[#8b000050]'>
