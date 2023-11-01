@@ -17,6 +17,9 @@ export default function brothers() {
             <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
               <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXFsB9u0jzLG83rmDiPWynPQgRHBgk6V1hTC6a8fi6iW2aJw/viewform" target="_blank" className="block p-2 rounded">📝 Risk Manager Feedback Form</a>
             </li>
+            <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSf0r2ESFIBakxZSL_dCAV9CrAQjwo0KUrG-Ac_lBvRHZyzc_w/viewform" target="_blank" className="block p-2 rounded">👶 Pledge Feedback Form</a>
+            </li>
             <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow">
               <a href="https://docs.google.com/forms/d/e/1FAIpQLSfBGJTqwIAoKUeJt81nheVrPapZNrJUBBFC3wyxrbhrKGLVTA/viewform" target="_blank" className="block p-2 rounded">🚑 Brother of Concern/General Risk Form</a>
             </li>
