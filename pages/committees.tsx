@@ -1,17 +1,18 @@
-import Pd from "public/committees/Pd.jpg"
-import Academic from "../public/committees/Academic.jpg"
+import Pd from "public/committees/pd1.jpeg"
+import Academic from "../public/committees/academic.jpeg"
 import RecSports from "../public/committees/RecSports.jpg"
 import Marketing from "../public/committees/Marketing.jpeg"
-import Social from "../public/committees/Social.jpg"
-import Brohood from "../public/committees/BroHood.jpg"
-import wellness from "../public/committees/wellness.jpeg"
-import diversity from "../public/committees/diversity.jpeg"
-import philanthropy from "../public/committees/philanthropy.jpg"
+import Social from "../public/committees/social1.jpeg"
+import Brohood from "../public/committees/brohood.jpeg"
+import wellness from "../public/committees/wellnesscropped.jpeg"
+import diversity from "../public/committees/diversity1.jpeg"
+import philanthropy from "../public/committees/philanthropy1.jpeg"
+import historian from "../public/committees/hist1.jpeg"
 import Image from 'next/image';
 import Head from 'next/head'
 import frat from '../public/fratphoto.jpg'
-
-
+import pledge from '../public/committees/pledge.jpeg'
+import socialmedia from '../public/committees/socialmedia.jpeg'
 
 export default function committees() {
   return (
@@ -27,7 +28,7 @@ export default function committees() {
           <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
             <Image
-              src={frat}
+              src={Pd}
               alt="Full Fraternity Photo"
               className="w-[100%] height-auto"
             />
@@ -47,7 +48,7 @@ export default function committees() {
           <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
             <Image
-              src={frat}
+              src={Brohood}
               alt="Full Fraternity Photo"
               className="w-[100%] height-auto"
             />
@@ -68,7 +69,7 @@ export default function committees() {
           <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
             <Image
-              src={frat}
+              src={philanthropy}
               alt="Full Fraternity Photo"
               className="w-[100%] height-auto"
             />
@@ -92,7 +93,7 @@ export default function committees() {
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
               <Image
-                src={frat}
+                src={pledge}
                 alt="Full Fraternity Photo"
                 className="w-[100%] height-auto"
               />
@@ -113,7 +114,7 @@ export default function committees() {
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
               <Image
-                src={frat}
+                src={Academic}
                 alt="Full Fraternity Photo"
                 className="w-[100%] height-auto"
               />
@@ -140,7 +141,7 @@ export default function committees() {
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
               <Image
-                src={frat}
+                src={socialmedia}
                 alt="Full Fraternity Photo"
                 className="w-[100%] height-auto"
               />
@@ -161,7 +162,7 @@ export default function committees() {
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
               <Image
-                src={frat}
+                src={Social}
                 alt="Full Fraternity Photo"
                 className="w-[100%] height-auto"
               />
@@ -207,7 +208,7 @@ export default function committees() {
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
               <Image
-                src={frat}
+                src={diversity}
                 alt="Full Fraternity Photo"
                 className="w-[100%] height-auto"
               />
@@ -234,7 +235,7 @@ export default function committees() {
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
               <Image
-                src={frat}
+                src={wellness}
                 alt="Full Fraternity Photo"
                 className="w-[100%] height-auto"
               />
@@ -255,8 +256,7 @@ export default function committees() {
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
               <Image
-                src={frat
-}
+                src={historian}
                 alt="Full Fraternity Photo"
                 className="w-[100%] height-auto"
               />
