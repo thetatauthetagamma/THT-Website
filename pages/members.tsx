@@ -2,6 +2,11 @@ import Image from 'next/image';
 import gear from '../public/theta-tau-gear.png'
 import React from 'react';
 import HorizontalMarquee from '../components/HorizontalMarquee';
+import KatieBailey from '../public/eboard/KatieBailey.jpeg';
+import SarahDouglas from '../public/eboard/SarahDouglas.jpg';
+import Casey from '../public/eboard/casey.jpg';
+import KateMcGraw from '../public/eboard/kateM.jpg';
+import Kirsten from '../public/eboard/kirsten.jpeg';
 
 export default function members() {
     return (
@@ -10,54 +15,54 @@ export default function members() {
            <h1 className="pt-4 pb-4 text-3xl md:text-4xl font-bold mt-2 text-center text-[#8b0000]" >Executive Board</h1>
            <div className="flex flex-col md:flex-row items-center justify-around md:text-md text-sm  md:pt-8 pt-4 pb-4  top-0">
             
-            <div className='flex-col text-center w-120 h-180 md:pb-0 pb-4'>
+            <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-1 pr-3 pl-3'>
               <Image
-                src={gear}
+                src={Kirsten}
                 alt="Gear icon"
-                className='w-full h-full'
+                className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold" >Kirsten Knowles</h1>
-              <h1 className="md:text-xs" >Regent</h1>
+              <h1 className="font-semibold text-lg pt-4" >Kirsten Knowles</h1>
+              <h1 className="md:text-md " >Regent</h1>
             </div>
 
-            <div className='flex-col text-center w-120 h-180 md:pb-0 pb-4'>
+            <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3'>
               <Image
-                src={gear}
+                src={SarahDouglas}
                 alt="Gear icon"
-                className='w-full h-full'
+                className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold" >Sarah Douglas</h1>
-              <h1 className=" md:text-xs" >Vice Regent</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >Sarah Douglas</h1>
+              <h1 className=" md:text-md text-m" >Vice Regent</h1>
             </div>
 
-            <div className='flex-col text-center w-120 h-180 md:pb-0 pb-4'>
+            <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3'>
               <Image
-                src={gear}
+                src={KateMcGraw}
                 alt="Gear icon"
-                className='w-full h-full'
+                className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold" >Kate McGraw</h1>
-              <h1 className=" md:text-xs" >Scribe</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >Kate McGraw</h1>
+              <h1 className=" md:text-md text-s" >Scribe</h1>
             </div>
 
-            <div className='flex-col text-center w-120 h-180 md:pb-0 pb-4'>
+            <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4  pr-3 pl-3'>
               <Image
-                src={gear}
+                src={Casey}
                 alt="Gear icon"
-                className='w-full h-full'
+                className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold" >Casey Kousoulas</h1>
-              <h1 className="md:text-xs" >Treasurer</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >Casey Kousoulas</h1>
+              <h1 className="md:text-md text-s" >Treasurer</h1>
             </div>
 
-            <div className='flex-col text-center w-120 h-180'>
+            <div className='flex-col text-center md:w-1/5 w-3/4 pr-3 pl-3'>
                 <Image
-                  src={gear}
+                  src={KatieBailey}
                   alt="Gear icon"
-                  className='w-full h-full'
+                  className='w-full h-full rounded-full'
                 />
-                <h1 className="font-semibold" >Katie Bailey</h1>
-                <h1 className="md:text-xs" >Corresponding Secretary</h1>
+                <h1 className="font-semibold md:text-lg text-md pt-4" >Katie Bailey</h1>
+                <h1 className="md:text-md text-s" >Corresponding Secretary</h1>
               </div>
 
            </div>
@@ -96,54 +101,43 @@ export default function members() {
 
 
            <div className='font-semibold pt-8 text-left flex flex-col '>
-              <div className='pb-4 text-lg sm:text-2lg md:text-1xl lg:text-3xl font-bold mt-2  text-[#8b0000] text-left'>
+              <div className='pb-4 text-lg sm:text-2lg md:text-1xl lg:text-3xl font-semibold mt-2  text-[#8b0000] text-left'>
                 Theta Tau is
               </div>
               <div className="pt-4 pb-4">
-                first and foremost a <b>brotherhood</b> of
-                engineers. Being a brother of Theta Tau means that you
-                have a community of brilliant men AND women not only on
-                campus, but across the country that will see you as
-                family. Being a brother means you hold a strong
-                connection to a broad network of other engineers - a
-                network that permeates through your academic,
-                professional, and social life.
+                first and foremost a brotherhood of engineers. 
+                Being a brother of Theta Tau means that you have a community 
+                of brilliant men AND women not only on campus, but across the 
+                country that will see you as family. Being a brother means you 
+                hold a strong connection to a broad network of other engineers - 
+                a network that permeates through your academic, professional, and social life.
               </div>
               <div className="pt-4 pb-4">
-                This network is a support structure that you can rely on
-                in the face of struggles that you will face in your
-                college career. Being a brother means being part of a
-                community that you can depend on beyond the campus and
-                throughout your life. Being a brother means building
-                deep relationships with a diverse group of people who
-                hold vast reservoir of insight and experience in many
-                areas of life. The wealth of these experiences enrich
-                your life and teach you lessons that you can't learn
-                from the classroom or even a job. Being a brother means
-                building a college experience that is incredibly unique
-                and valuable.
+                This network is a support structure that you can rely on in the face of 
+                struggles that you will face in your college career. Being a brother 
+                means being part of a community that you can depend on beyond the campus 
+                and throughout your life. Being a brother means building deep relationships 
+                with a diverse group of people who hold vast reservoirs of insight and experience 
+                in many areas of life. The wealth of these experiences enriches your life and 
+                teaches you lessons that you can't learn from the classroom or even a job. 
+                Being a brother means building a college experience that is incredibly 
+                unique and valuable.
               </div>
               <div className="pt-4 pb-4">
-                When you ask someone why they joined Theta Tau,
-                you'll probably get a diverse set of answers. Some
-                join because they seek professional growth. Others
-                join to meet more engineers in their major and
-                across disciplines. Some are attracted to networking
-                opportunities, or have heard that Theta Tau is the
-                oldest and largest Professional Engineering
-                Fraternity in the country.
+                When you ask someone why they joined Theta Tau, you'll probably get a 
+                diverse set of answers. Some join because they seek professional growth. 
+                Others join to meet more engineers in their major and across disciplines. 
+                Some are attracted to networking opportunities or have heard that Theta Tau 
+                is the oldest and largest Professional Engineering Fraternity in the country.
               </div>
               <div className="pt-4 pb-4">
-                However, when you ask someone why they stayed, and
-                continue to participate in the Fraternity, you'll
-                likely ever hear one answer. <b>It's the people</b>.
-                Among all other things, it's the people, their
-                values and their culture that make your college
-                experience, and what you will remember years after
-                you graduate. And this is especially true with Theta
-                Gamma Chapter, which is made of some of the most
-                diverse and extraordinary engineers you will ever
-                meet. These people are going places.
+              However, when you ask someone why they stayed, and continue to participate 
+              in the Fraternity, you'll likely never hear one answer. It's the people. 
+              Among all other things, it's the people, their values, and their culture 
+              that make your college experience, and what you will remember years after 
+              you graduate. This is especially true with Theta Gamma Chapter, which is 
+              made up of some of the most diverse and extraordinary engineers you will 
+              ever meet. These people are going places.
               </div>
            </div>
         </div>

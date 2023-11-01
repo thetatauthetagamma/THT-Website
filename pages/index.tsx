@@ -41,15 +41,14 @@ export default function Home() {
 
         <div className="text-base sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center py-4 font-semibold z-3 pt-8">
           <p>
-            Theta Tau is Professional Engineering Fraternity. As a group, we are dedicated to the professional and social development of our members into professionals that will enter the industry as strong, contributing members.
-            Our chapter is known as Theta Gamma Chapter and is one of the largest chapters in the Country.
+          Theta Tau is a professional engineering fraternity. As a group, we are dedicated to the professional and social development of our members, preparing them to enter the industry as strong, contributing professionals. Our chapter is known as Theta Gamma Chapter and is one of the largest chapters in the country.
           </p>
         </div>
 
         <div className="text-base sm:text-base md:text-lg lg:text-xl px-4 text-center pb-8 pr-6 pl-6 md:pr-40 md:pl-40  font-semibold z-3 mt-2 mb-10">
           <p>Theta Tau is made up of smart, driven engineers who come
             from a diverse range of backgrounds and majors. Our
-            chapter holds events weekly designed to instill a
+            chapter holds weekly events designed to instill a
             brotherhood among our members and develop ourselves as
             well as our college and University.</p>
         </div>

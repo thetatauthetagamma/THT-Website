@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, {useState, useEffect} from "react"
+import Router from 'next/router';
 import Image from 'next/image';
 import logo from '../public/tht-logo.png'
 import supabase from '../supabase.js';
@@ -11,7 +12,6 @@ const Navbar = () => {
     
     const [navState, setNavState] = useState('hidden')
     const [navState1, setNavState1] = useState('')
-    const [data, setData] = useState("")
     const [isBrother, setIsBrother] = useState(false)
     const [userEmail, setUserEmail] = useState('');
     
@@ -36,9 +36,26 @@ const Navbar = () => {
         }
         if (event === 'SIGNED_OUT') {
           setUserEmail('');
+          setIsBrother(false);
+          Router.push('/');
         }
       });
     }, []);
+
+    useEffect(() => {
+      const checkIfBrother = async () => {
+
+        const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
+        if(data?.length == 1 && !error) {
+          setIsBrother(true);
+          Router.push('/brothers');
+        }
+      }
+
+      checkIfBrother();
+    }, [userEmail]);
+
+    
 
     const toggleMenuOn = () => {
       setNavState(navState => '');
@@ -55,8 +72,6 @@ const Navbar = () => {
     const handleGoogleSignIn = async () => {
       // Handle the Google sign in
       const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-      console.log('here');
-      // setData(data)
       console.log(error);
     };
   
@@ -118,11 +133,16 @@ const Navbar = () => {
               </li>
               { isBrother ? 
                 (
-                  <li className="mx-1" onClick={handleGoogleSignIn}>
-                    <Link legacyBehavior href="/brothers">
-                      <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-8"> Brothers </a>
-                    </Link>
-                  </li>
+                  <div className="flex flex-row">
+                    <li className="mx-1">
+                      <Link legacyBehavior href="/brothers">
+                        <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-4"> Brothers </a>
+                      </Link>
+                    </li>
+                    <li className="mx-1" onClick={handleGoogleSignOut}>
+                      <a className='text-black mx-1 hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg  pr-8'> Sign out </a>
+                    </li>
+                  </div>
                 )
                 :
                 (
@@ -131,6 +151,7 @@ const Navbar = () => {
                   </li>
                 )
               }
+
             </ul>
           </section>
         </div>
@@ -168,11 +189,16 @@ const Navbar = () => {
               </li>
               { isBrother ? 
                 (
-                  <li className="mx-1" onClick={handleGoogleSignIn}>
-                    <Link legacyBehavior href="/brothers">
-                      <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg"> Brothers </a>
-                    </Link>
-                  </li>
+                  <div className="flex flex-row">
+                    <li className="mx-1">
+                      <Link legacyBehavior href="/brothers">
+                        <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-4"> Brothers </a>
+                      </Link>
+                    </li>
+                    <li className="mx-1" onClick={handleGoogleSignOut}>
+                      <a className='text-black mx-1 hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg  pr-8'> Sign out </a>
+                    </li>
+                  </div>
                 )
                 :
                 (
