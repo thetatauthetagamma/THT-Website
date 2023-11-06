@@ -7,7 +7,7 @@ import SarahDouglas from '../public/eboard/SarahDouglas.jpg';
 import Casey from '../public/eboard/casey.jpg';
 import KateMcGraw from '../public/eboard/kateM.jpg';
 import Kirsten from '../public/eboard/kirsten.jpeg';
-import image1 from '../public/one.jpg';
+import image1 from '../public/companies/1.jpg';
 import image2 from '../public/companies/2.jpg';
 import image3 from '../public/companies/3.jpg';
 import image4 from '../public/companies/4.jpg';

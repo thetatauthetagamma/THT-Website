@@ -1,6 +1,43 @@
+import ProtectedRoute from "@/components/ProtectedRoute"
+import { useEffect, useState } from "react";
+import supabase from "@/supabase";
+import { useRouter } from "next/router";
 
 export default function brothers() {
+
+const [userEmail, setUserEmail] = useState('');
+const [isBrother, setIsBrother] = useState('');
+
+useEffect(() => {
+const fetchSession = async () => {
+    try {
+      const session = await supabase.auth.getSession();
+      if (session) {
+        console.log(session)
+        setUserEmail(session.data.session?.user.email || '')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchSession();
+}, []);
+
+useEffect(() => {
+    const checkIfBrother = async () => {
+
+      const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
+      if(data?.length == 1 && !error) {
+        setIsBrother("brother");
+      }
+    }
+
+    checkIfBrother();
+  }, [userEmail]);
+  
   return (
+    <ProtectedRoute allowedRoles={[isBrother]}>
     <div className="flex md:flex-row flex-col flex-grow  border-b-2 border-[#a3000020]">
       <div className="md:border-r-2 md:border-b-0 border-r-0 border-b-2 border-[#a3000020] flex-col justify-center items-center">
         <div className="pt-4 pl-6 pr-6 pb-4">
@@ -37,5 +74,6 @@ export default function brothers() {
         </div>
       </div>
     </div>
+    </ProtectedRoute>
   )
 }
