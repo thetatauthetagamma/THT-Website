@@ -3,7 +3,7 @@ import React from 'react';
 import FastMarquee from 'react-fast-marquee';
 import Image from 'next/image';
 
-import image1 from '../public/companies/1.jpg';
+import image1 from '../public/companies/one.jpg';
 import image2 from '../public/companies/2.jpg';
 import image3 from '../public/companies/3.jpg';
 import image4 from '../public/companies/4.jpg';
