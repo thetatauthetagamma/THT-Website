@@ -7,6 +7,28 @@ import SarahDouglas from '../public/eboard/SarahDouglas.jpg';
 import Casey from '../public/eboard/casey.jpg';
 import KateMcGraw from '../public/eboard/kateM.jpg';
 import Kirsten from '../public/eboard/kirsten.jpeg';
+import image1 from '../public/one.jpg';
+import image2 from '../public/companies/2.jpg';
+import image3 from '../public/companies/3.jpg';
+import image4 from '../public/companies/4.jpg';
+import image5 from '../public/companies/5.jpg';
+import image6 from '../public/companies/6.jpg';
+import image7 from '../public/companies/7.jpg';
+import image8 from '../public/companies/8.jpg';
+import image9 from '../public/companies/9.jpg';
+import image10 from '../public/companies/10.jpg';
+import image11 from '../public/companies/11.jpg';
+import image12 from '../public/companies/12.jpg';
+import image13 from '../public/companies/13.jpg';
+import image14 from '../public/companies/14.jpg';
+import image15 from '../public/companies/15.jpg';
+import image16 from '../public/companies/16.jpg';
+import image17 from '../public/companies/17.jpg';
+import image18 from '../public/companies/18.jpg';
+import image19 from '../public/companies/19.jpg';
+import image20 from '../public/companies/20.jpg';
+
+const firstrow = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10 , image11, image12, image13, image14, image15, image16, image17, image18, image19, image20];
 
 export default function members() {
     return (
@@ -146,7 +168,7 @@ export default function members() {
 
 
         <div className='pr-6 pl-6 md:pl-40 md:pr-40 pb-20 border-b-2 border-[#8b000050]'>
-          <HorizontalMarquee />
+          <HorizontalMarquee images={firstrow}/>
         </div>
        
 
