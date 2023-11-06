@@ -1,10 +1,10 @@
 import React from 'react';
 import FastMarquee from 'react-fast-marquee';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 
 // Define the type for the 'images' prop
 interface HorizontalMarqueeProps {
-  images: string[]; // Assuming 'images' is an array of image file paths
+  images: StaticImageData[];
 }
 
 const HorizontalMarquee: React.FC<HorizontalMarqueeProps> = ({ images }) => {
