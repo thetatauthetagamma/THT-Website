@@ -4,7 +4,7 @@ import RecSports from "../public/committees/RecSports.jpg"
 import Marketing from "../public/committees/Marketing.jpeg"
 import Social from "../public/committees/social1.jpeg"
 import Brohood from "../public/committees/brohood.jpeg"
-import wellness from "../public/committees/wellness.jpeg"
+import wellness from "../public/committees/wellness1.jpeg"
 import diversity from "../public/committees/diversity1.jpeg"
 import philanthropy from "../public/committees/philanthropy1.jpeg"
 import historian from "../public/committees/hist1.jpeg"
@@ -13,7 +13,7 @@ import Head from 'next/head'
 import frat from '../public/fratphoto.jpg'
 import pledge from '../public/committees/pledge.jpeg'
 import socialmedia from '../public/committees/socialmedia.jpeg'
-
+import corporate from '../public/committees/corporatelol.jpeg'
 export default function committees() {
   return (
     <div className='flex-grow flex-col'>
@@ -79,7 +79,7 @@ export default function committees() {
       </div>
 
       <div className="flex flex-col md:flex-row ">
-        <div className='flex flex-grow pb-4 md:w-1/2 '>
+        <div className='flex flex-grow pb-4 md:w-1/2 md:pr-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16 md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Pledge</h1>
@@ -90,12 +90,12 @@ export default function committees() {
 
 </div>
             </div>
-            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
+            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4 self-end">
 
               <Image
                 src={pledge}
                 alt="Full Fraternity Photo"
-                className="w-[100%] height-auto"
+                className="w-[100%] height-auto self-end"
               />
 
             </div>
@@ -103,7 +103,7 @@ export default function committees() {
         </div>
 
 
-        <div className='flex flex-grow pb-4 md:w-1/2 md:pl-4'>
+        <div className='flex flex-grow pb-4 md:w-1/2 md:pl-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16  md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Academic</h1>
@@ -111,12 +111,12 @@ export default function committees() {
               The Academic Committee is dedicated to enhancing the educational experience of our members in the field of engineering. Throughout the semester, we organize and host study tables to provide a conducive space for academic growth. We also extend a wealth of academic resources to our fraternity brothers, ranging from study materials to tutoring support. In addition, our proactive approach brings together members with common classes, interests, and majors, fostering a spirit of collaboration that not only bolsters individual academic performance but also strengthens the unity of our fraternity. We are committed to empowering our members to excel academically and thrive in their engineering pursuits, forging a path towards success in their educational journey.
               </div>
             </div>
-            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
+            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4 self-end">
 
               <Image
                 src={Academic}
                 alt="Full Fraternity Photo"
-                className="w-[100%] height-auto"
+                className="w-[100%] height-auto self-end"
               />
 
             </div>
@@ -130,7 +130,7 @@ export default function committees() {
 
 
       <div className="flex flex-col md:flex-row ">
-        <div className='flex flex-grow pb-4 md:w-1/2 '>
+        <div className='flex flex-grow pb-4 md:w-1/2 md:pr-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16 md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Social Media</h1>
@@ -138,12 +138,12 @@ export default function committees() {
               The Social Media Committee within our professional engineering fraternity takes charge of our online presence. With an active presence on Instagram and TikTok, we keep our members and followers engaged with captivating content that highlights our fraternity's activities, achievements, and the vibrant community we've built. Whether it's sharing exciting event updates, showcasing member accomplishments, or providing a glimpse into our fraternity's culture, the Social Media Committee ensures that our digital platforms are a dynamic and interactive hub for fraternity news and connection.
               </div>
             </div>
-            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
+            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4 self-end">
 
               <Image
                 src={socialmedia}
                 alt="Full Fraternity Photo"
-                className="w-[100%] height-auto"
+                className="w-[100%] height-auto self-end"
               />
 
             </div>
@@ -151,7 +151,7 @@ export default function committees() {
         </div>
 
 
-        <div className='flex flex-grow pb-4 md:w-1/2 md:pl-4'>
+        <div className='flex flex-grow pb-4 md:w-1/2 md:pl-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16  md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Social</h1>
@@ -159,12 +159,12 @@ export default function committees() {
               The Social Committee takes the lead in making sure that our professional engineering fraternity members have unforgettable social experiences. From planning and executing our most prominent events like Semi-formal to organizing engaging Retreats, we're here to ensure that our fraternity remains a hub of fun, connection, and camaraderie. We understand that a healthy work-life balance is essential, and we're committed to fostering a vibrant social environment within our fraternity.
               </div>
             </div>
-            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
+            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4 self-end">
 
               <Image
                 src={Social}
                 alt="Full Fraternity Photo"
-                className="w-[100%] height-auto"
+                className="w-[100%] height-auto self-end"
               />
 
             </div>
@@ -176,7 +176,7 @@ export default function committees() {
 
 
       <div className="flex flex-col md:flex-row ">
-        <div className='flex flex-grow pb-4 md:w-1/2 '>
+        <div className='flex flex-grow pb-4 md:w-1/2 md:pr-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16 md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Corporate</h1>
@@ -187,9 +187,9 @@ export default function committees() {
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
 
               <Image
-                src={frat}
+                src={corporate}
                 alt="Full Fraternity Photo"
-                className="w-[100%] height-auto"
+                className="w-[100%] height-auto self-end"
               />
 
             </div>
@@ -197,7 +197,7 @@ export default function committees() {
         </div>
 
 
-        <div className='flex flex-grow pb-4 md:w-1/2 md:pl-4'>
+        <div className='flex flex-grow pb-4 md:w-1/2 md:pl-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16  md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Diversity</h1>
@@ -210,7 +210,7 @@ export default function committees() {
               <Image
                 src={diversity}
                 alt="Full Fraternity Photo"
-                className="w-[100%] height-auto"
+                className="w-[100%] height-auto self-end"
               />
 
             </div>
@@ -224,7 +224,7 @@ export default function committees() {
 
 
       <div className="flex flex-col md:flex-row ">
-        <div className='flex flex-grow pb-4 md:w-1/2 '>
+        <div className='flex flex-grow pb-4 md:w-1/2 md:pr-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16 md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Wellness</h1>
@@ -237,7 +237,7 @@ export default function committees() {
               <Image
                 src={wellness}
                 alt="Full Fraternity Photo"
-                className="w-[100%] height-auto"
+                className="w-[100%] height-auto self-end"
               />
 
             </div>
@@ -245,20 +245,20 @@ export default function committees() {
         </div>
 
 
-        <div className='flex flex-grow pb-4 md:w-1/2 md:pl-4'>
+        <div className='flex flex-grow pb-4 md:w-1/2 md:pl-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16  md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Historian</h1>
-              <div className="flex flex-col md:flex-row  md:text-md text-sm pt-4 pb-4">
+              <div className="flex flex-col md:flex-row  md:text-md text-sm pt-4 pb-4 flex-grow">
               Historian committee is responsible for capturing all the fun and professional moments we have as a brotherhood. Whether it’s playing games at retreat or taking headshots, we are there to save the memory for current and future brothers to look back on. 
               </div>
             </div>
-            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4">
+            <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4 ">
 
               <Image
                 src={historian}
                 alt="Full Fraternity Photo"
-                className="w-[100%] height-auto"
+                className="w-[100%] height-auto self-end"
               />
 
             </div>
