@@ -13,7 +13,7 @@ import Head from 'next/head'
 import frat from '../public/fratphoto.jpg'
 import pledge from '../public/committees/pledge.jpeg'
 import socialmedia from '../public/committees/socialmedia.jpeg'
-import corporate from '../public/committees/corporatelol.jpeg'
+import corporate from '../public/committees/pd.jpeg'
 export default function committees() {
   return (
     <div className='flex-grow flex-col'>
