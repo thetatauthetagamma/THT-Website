@@ -250,7 +250,7 @@ export default function committees() {
             <div className="flex flex-col w-full items-center">
               <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Historian</h1>
               <div className="flex flex-col md:flex-row  md:text-md text-sm pt-4 pb-4 flex-grow">
-              Historian committee is responsible for capturing all the fun and professional moments we have as a brotherhood. Whether it’s playing games at retreat or taking headshots, we are there to save the memory for current and future brothers to look back on. 
+              The Historian committee is dedicated to preserving the memories and moments that define Theta Tau. We capture a wide range of experiences, from documenting events and activities to taking professional headshots and candid photos of our members. Our goal is to create a visual record that allows both current and future brothers to look back on the fun and professional moments we share as a close-knit brotherhood, ensuring that our collective history is never forgotten. 
               </div>
             </div>
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4 ">
