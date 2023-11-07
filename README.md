@@ -13,7 +13,7 @@ Made by THT Web Committee
 8. Owen Willouhby
 
 # Domain
-1. Currently deployed @ https://melodic-smakager-952e84.netlify.app
+1. Currently deployed @ [https://melodic-smakager-952e84.netlify.app](https://main--melodic-smakager-952e84.netlify.app/)
 2. Used Netlify to connect my personal github (HariChidam) to to THT Organization and deploys through mine.
 
 # How to get set up
