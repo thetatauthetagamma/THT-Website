@@ -15,7 +15,6 @@ const config: Config = {
     extend: {
       
       backgroundImage: {
-        'tht-main': "url('../public/fratphoto.jpg')",
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',

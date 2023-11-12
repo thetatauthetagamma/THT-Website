@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Typewriter from '@/components/Typewriter';
 
 
+
 // import Brotherhood from '../components/Brotherhood'
 
 export default function Home() {
@@ -18,7 +19,7 @@ export default function Home() {
 
       <div className='bg-gray-50  border-b-2 border-[#8b000050]'>
 
-        <div className="bg-tht-main bg-cover flex w-full z-0 ">
+        <div className="bg-[url('../public/fratphoto.jpg')] bg-cover flex w-full z-0 ">
 
 
 
