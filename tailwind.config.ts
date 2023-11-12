@@ -13,6 +13,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Rajdhani','Poppins', 'Arial', 'sans-serif'],
+        custom: ['Montserrat', 'Arial', 'sans-serif'],
+        
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
