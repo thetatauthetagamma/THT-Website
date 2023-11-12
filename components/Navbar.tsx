@@ -189,14 +189,14 @@ const Navbar = () => {
               </li>
               { isBrother ? 
                 (
-                  <div className="flex flex-row">
+                  <div className="flex flex-col">
                     <li className="mx-1">
                       <Link legacyBehavior href="/brothers">
                         <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-4"> Brothers </a>
                       </Link>
                     </li>
                     <li className="mx-1" onClick={handleGoogleSignOut}>
-                      <a className='text-black mx-1 hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg  pr-8'> Sign out </a>
+                      <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-4"> Sign out </a>
                     </li>
                   </div>
                 )
