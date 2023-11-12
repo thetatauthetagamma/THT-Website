@@ -19,7 +19,7 @@ export default function Home() {
 
       <div className='bg-gray-50  border-b-2 border-[#8b000050]'>
 
-        <div className="bg-[url('../public/fratphoto.jpg')] bg-cover flex w-full z-0 ">
+        <div className="tint-red bg-cover flex w-full z-0 ">
 
 
 
