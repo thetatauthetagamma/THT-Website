@@ -136,18 +136,18 @@ const Navbar = () => {
                   <div className="flex flex-row">
                     <li className="mx-1">
                       <Link legacyBehavior href="/brothers">
-                        <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-4"> Brothers </a>
+                        <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg"> Brothers </a>
                       </Link>
                     </li>
                     <li className="mx-1" onClick={handleGoogleSignOut}>
-                      <a className='text-black mx-1 hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg  pr-8'> Sign out </a>
+                      <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-8"> Sign out </a>
                     </li>
                   </div>
                 )
                 :
                 (
                   <li className="mx-1" onClick={handleGoogleSignIn}>
-                    <a className='text-black mx-1 hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg  pr-8'> Sign in </a>
+                    <a className="text-black hover:text-gray-400 transition-colors duration-300 pl-4 py-2 rounded-md font-bold text-lg pr-8"> Sign in </a>
                   </li>
                 )
               }
