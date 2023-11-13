@@ -10,7 +10,7 @@ interface HorizontalMarqueeProps {
 const HorizontalMarquee: React.FC<HorizontalMarqueeProps> = ({ images }) => {
   return (
     <div className="w-auto h-[10em]">
-      <h2 className="pb-8 text-lg sm:text-2lg md:text-1xl lg:text-3xl font-bold mt-2 text-[#8b0000] text-left">
+      <h2 className="pb-8 text-3xl font-bold mt-2 text-[#8b0000] text-left">
         We Work Here
       </h2>
       <FastMarquee

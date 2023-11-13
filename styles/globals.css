@@ -1,11 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
+
 .tint-red {
-    filter: brightness(70%) hue-rotate(10deg) saturate(150%);
+    filter: brightness(70%) hue-rotate(10deg) saturate(125%);
     background-color: rgba(163, 0, 0, 0.5); /* Adjust the color and opacity as needed */
+    background-image: url('../public/fratphoto.jpg');
   }
 
   
