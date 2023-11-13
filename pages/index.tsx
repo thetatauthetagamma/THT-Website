@@ -17,13 +17,14 @@ export default function Home() {
         <link rel="icon" href="favicon.png" />
       </Head>
 
+      
       <div className='bg-gray-50  border-b-2 border-[#8b000050]'>
 
-        <div className="bg-cover tint-red flex w-full z-0 ">
+        <div className="bg-cover bg-[url('/fratphoto.jpg')] flex w-full">
 
 
 
-          <div className="bg-[#8b000070] inset-0 flex flex-col flex-grow justify-center text-white w-full h-[200px] md:h-[600px] z-2">
+          <div className="bg-[#8b000070] inset-0 flex flex-col flex-grow justify-center text-white w-full h-[200px] md:h-[600px]">
             <div className='justify-center items-center text-center'>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold  mt-2" >THETA TAU</h1>
               <h1 className="text-1xl sm:text-2xl md:text-3xl lg:text-5xl font-bold " >THETA GAMMA</h1>
