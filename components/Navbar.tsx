@@ -94,6 +94,7 @@ const Navbar = () => {
             src={logo}
             alt="THT Logo"
             className="w-12 md:w-14 pb-2 pt-2 pl-2 h-auto z-1"
+            onClick={() => Router.push('/')}
           />
         </div>
 
