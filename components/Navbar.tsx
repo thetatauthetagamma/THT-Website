@@ -33,7 +33,6 @@ const Navbar = () => {
       const authListener = supabase.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_IN' && session) {
           setUserEmail(session.user?.email || '');
-          Router.push('/brothers');
         }
         if (event === 'SIGNED_OUT') {
           setUserEmail('');
@@ -49,6 +48,7 @@ const Navbar = () => {
         const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
         if(data?.length == 1 && !error) {
           setIsBrother(true);
+          Router.push('/brothers');
         }
       }
 
