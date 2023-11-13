@@ -8,7 +8,7 @@
 .tint-red {
     filter: brightness(90%) hue-rotate(10deg) saturate(125%);
     background-color: rgba(163, 0, 0, 0.5); /* Adjust the color and opacity as needed */
-    background-image: url('../public/fratphoto.jpg');
+    background-image: url('/fratphoto.jpg');
   }
 
   
