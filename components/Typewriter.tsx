@@ -6,25 +6,16 @@ interface TypewriterProps {
 }
 
 const Typewriter: React.FC<TypewriterProps> = ({ words }) => {
-  const sequenceWithDelays = words.flatMap((word, index) => {
-    // Add a delay after each word except for the last one
-    return index === words.length - 1 ? [word] : [word, 750];
-  });
+  const sequenceWithDelays = words.flatMap((word, index) => [word, 750]);
 
   return (
     <TypeAnimation
       sequence={sequenceWithDelays}
       wrapper="span"
-      speed={1}
+      speed={5}
       repeat={Infinity}
     />
   );
 };
 
 export default Typewriter;
-
-
-
-
-
-
