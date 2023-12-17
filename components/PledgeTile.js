@@ -20,7 +20,6 @@ const PledgeTile = ({ pledge }) => {
   const [events, setEvents] = useState([])
   const [pledgeName, setPledgeName] = useState('')
   const [userID, setUserID] = useState('')
-  const [broUniqname, setbroUniqname] = useState('');
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -28,11 +27,13 @@ const PledgeTile = ({ pledge }) => {
         const session = await supabase.auth.getSession()
         if (session) {
           setUserID(session.data.session?.user.email || '')
-          console.log(userID)
+          console.log(userID);
         }
+       
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
+      
     }
 
     fetchSession()
@@ -90,12 +91,12 @@ const PledgeTile = ({ pledge }) => {
       if (data) {
         // Check if brotherID exists in the Interviews array
         const { uniqname, interviews } = data;
-  
-        if (interviews && interviews.includes(brother)) {
-          console.log(`${brother} is in the Interviews array for ${uniqname}`);
+        console.log(userID);
+        if (interviews && interviews.includes(userID)) {
+          console.log(`${userID} is in the Interviews array for ${uniqname}`);
           sethasInterviewed(true);
         } else {
-          console.log(`${brother} is not in the Interviews array for ${uniqname}`);
+          console.log(`${userID} is not in the Interviews array for ${uniqname}`);
         }
       } else {
         console.log(`Pledge with uniqname ${pledge} not found`);
@@ -124,10 +125,9 @@ const PledgeTile = ({ pledge }) => {
   }, [])
 
   const handleInterviewClick = async () => {
-    const{data,error} = await supabase.from('Brothers').select('userid').eq('email',userID);
-    setbroUniqname(data[0].userid);
-    console.log(broUniqname);
-    console.log(data);
+
+    console.log(userID);
+
     
     const { data: existingPledgeData, error: existingPledgeError } =
       await supabase
@@ -138,11 +138,11 @@ const PledgeTile = ({ pledge }) => {
     const currentInterviews = existingPledgeData
       ? existingPledgeData.interviews || []
       : []
-      console.log(broUniqname);
-    if (!currentInterviews.includes(broUniqname)) {
+      console.log(userID);
+    if (!currentInterviews.includes(userID) && !hasInterviewed) {
 
       // Add the loggedInBrotherId to the Interviews array
-      const updatedInterviews = [...currentInterviews, broUniqname]
+      const updatedInterviews = [...currentInterviews, userID]
       console.log(updatedInterviews)
       // Update the "Interviews" array in the corresponding "Pledges" row
       const { data: updatedPledgeData, error: updatePledgeError } =
@@ -163,11 +163,11 @@ const PledgeTile = ({ pledge }) => {
           updatePledgeError.message
         )
       } else {
-        console.log(`Added ${broUniqname} to the Interviews array for ${pledge}`)
+        console.log(`Added ${userID} to the Interviews array for ${pledge}`)
       }
     } else {
-      console.log(`${broUniqname} is already in the Interviews array for ${pledge} Now removing.`)
-      const updatedInterviews = currentInterviews.filter(item => item !== broUniqname);
+      console.log(`${userID} is already in the Interviews array for ${pledge} Now removing.`)
+      const updatedInterviews = currentInterviews.filter(item => item !== userID);
       console.log('Updated Interviews:', updatedInterviews);
   
       // Update the "Interviews" array in the corresponding "Pledges" row
@@ -216,7 +216,7 @@ const PledgeTile = ({ pledge }) => {
         </div>
       </div>
       <div className='flex flex-col pl-10 pt-8'>
-        <div>Number of Interviews: </div>
+        <div>Number of Interviews: {interviews?.length}/30</div>
         <div>PD Requirements: </div>
         <div>Committee Sign offs: </div>
         <button
