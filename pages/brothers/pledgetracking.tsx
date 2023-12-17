@@ -9,6 +9,31 @@ import PledgeTile from '../../components/PledgeTile'
 
 
 const PledgeTracking: NextPage = () => {
+  const [pledges, setPledges] = useState(['']);
+  useEffect(() => {
+    const fetchPledges = async () => {
+      try {
+        const { data, error } = await supabase.from('Pledges').select('uniqname');
+        console.log(data);
+        
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          const uniqnames = data.map((item) => item.uniqname);
+          setPledges(uniqnames);
+          console.log(uniqnames);
+        }
+      } catch (error) {
+        console.error('Error fetching pledges:');
+      }
+    };
+
+    fetchPledges();
+  }, []);
+  
+  
   return (
 
     <div className="flex md:flex-row flex-col flex-grow  border-b-2 border-[#a3000020]">
@@ -48,8 +73,12 @@ const PledgeTracking: NextPage = () => {
     <div className="flex-grow">
     
       <div className="flex-grow h-full m-4">
-      <div className = "">
-      <PledgeTile pledge="hari"></PledgeTile>
+      <div>
+      {pledges.map((uniqname) => (
+        <div key={uniqname}>
+          <PledgeTile pledge={uniqname} />
+        </div>
+      ))}
     </div>
       </div>
     </div>
