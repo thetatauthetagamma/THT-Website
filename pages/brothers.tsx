@@ -4,6 +4,8 @@ import supabase from "../supabase";
 import Custom404 from "./404";
 import DateTimePicker from 'react-datetime-picker';
 import {google} from 'googleapis';
+import Link from 'next/link';
+
 const Brothers: NextPage = () => {
 
   const [accessToken, setAccessToken] = useState("");
@@ -38,6 +40,11 @@ const Brothers: NextPage = () => {
       <div className="md:border-r-2 md:border-b-0 border-r-0 border-b-2 border-[#a3000020] flex-col justify-center items-center">
         <div className="pt-4 pl-6 pr-6 pb-4">
           <ul className="space-y-2 font-bold">
+          <li className="mx-1">
+                <Link legacyBehavior href="/brothers/pledgetracking">
+                  <a className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow ">Pledge Tracking</a>
+                </Link>
+              </li>
             <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow">
               <a href="https://docs.google.com/forms/d/e/1FAIpQLSeyJg3VlVoX7AR3f-EfA4vJX8MHbtOJ85uHEtqIcsbgwioADQ/viewform?usp=sf_link" target="_blank" className="block p-2 rounded">📋 Attendance Form</a>
             </li>
