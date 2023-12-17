@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import ProgressBar from "@ramonak/react-progress-bar";
+import ProgressBar from '@ramonak/react-progress-bar'
 import thtlogo from '../public/tht-logo.png'
 import Image from 'next/image'
 import supabase from '../supabase'
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem
+} from '@nextui-org/react'
 
 const PledgeTile = ({ pledge }) => {
   const [interviews, setInterviews] = useState(pledge.interviews)
   const [hasInterviewed, sethasInterviewed] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
 
-  const [pd, setPD] = useState(0);
-  const [committeeSO, setCommitteeSO] = useState(0);
-  const [completed , setCompleted] = useState(0);
+  const [pd, setPD] = useState(0)
+  const [committeeSO, setCommitteeSO] = useState(0)
+  const [completed, setCompleted] = useState(0)
 
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
@@ -24,6 +31,29 @@ const PledgeTile = ({ pledge }) => {
   const [pledgeName, setPledgeName] = useState('')
   const [userID, setUserID] = useState('')
 
+  //used for committee sign off button:
+  const [selectedCommittee, setSelectedCommittee] = useState('');
+  const [selectedPDSO, setselectedPDSO] = useState('');
+  //key = supabase column, value = display value
+  const pdRequirementList = {
+    "resume": "Resume and Cover Letter",
+    "interview": "Mock Interview",
+    "careerChat": "Career Coffee Chat",
+    "coResearch": "Company Research",
+    "4YrPlan": "Four Year Class Plan",
+    "jobApp": "Apply for a Job"
+  };
+
+  const committeeList = {
+    "brohood": "Brotherhood",
+    "pd": "PD",
+    "philanthropy": "Philanthropy",
+    "recsports": "Rec Sports",
+    "social": "Social",
+    "diversity": "Diversity",
+    "historian": "Historian",
+    "corsec": "CorSec",
+  };
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -31,10 +61,7 @@ const PledgeTile = ({ pledge }) => {
         if (session) {
           setUserID(session.data.session?.user.email || '')
         }
-       
-      } catch (error) {
-      }
-      
+      } catch (error) {}
     }
 
     fetchSession()
@@ -42,7 +69,7 @@ const PledgeTile = ({ pledge }) => {
 
   useEffect(() => {
     fetchPledgeDetails()
-    checkBrotherInPledge();
+    checkBrotherInPledge()
   }, [userID])
 
   async function fetchPledgeDetails () {
@@ -57,63 +84,53 @@ const PledgeTile = ({ pledge }) => {
       }
 
       if (data) {
-
         setFirstname(data[0].firstname)
         setLastname(data[0].lastname)
         setMajor(data[0].major)
         setPronouns(data[0].pronouns)
         setYear(data[0].year)
         setInterviews(data[0].interviews)
-        setCommitteeSO(data[0].CommitteeSO)
-        setPD(data[0].PD)
       } else {
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
-  
-  async function checkBrotherInPledge() {
+  async function checkBrotherInPledge () {
     try {
-      if(pledge)
-      {
+      if (pledge) {
         const { data, error } = await supabase
           .from('Pledges')
           .select('uniqname, interviews')
           .eq('uniqname', pledge)
-          .single();
-    
+          .single()
+
         if (error) {
-          throw error;
+          throw error
         }
-    
+
         if (data) {
           // Check if brotherID exists in the Interviews array
-          const { uniqname, interviews } = data;
+          const { uniqname, interviews } = data
           if (interviews && interviews.includes(userID)) {
-            sethasInterviewed(true);
+            sethasInterviewed(true)
           } else {
           }
         } else {
         }
-    }
-    } catch (error) {
-    }
+      }
+    } catch (error) {}
   }
 
   useEffect(() => {
     const fetchPledgeImage = async () => {
-
-    
-      if(pledge)
-      {
+      if (pledge) {
         const { data: ImageData, error } = await supabase.storage
-        .from('pledges')
-        .download(`${pledge}.jpeg`)
+          .from('pledges')
+          .download(`${pledge}.jpeg`)
 
         console.log(`${pledge}.jpeg`)
-        
-        if(!error){
+
+        if (!error) {
           setImageUrl(URL.createObjectURL(ImageData))
           console.log(URL.createObjectURL(ImageData))
         }
@@ -125,11 +142,119 @@ const PledgeTile = ({ pledge }) => {
 
   useEffect(() => {
     const calculateProgress = async () => {
-        setCompleted(Math.round((interviews?.length + pd + committeeSO) * 100 /44))
+      setCompleted(
+        Math.round(((interviews?.length + pd + committeeSO) * 100) / 44)
+      )
     }
 
     calculateProgress()
   }, [interviews, pd, committeeSO])
+
+  useEffect(() => {
+    const fetchCommitteeSignoffs = async () => {
+      const { data, error } = await supabase
+        .from('CommitteeSignOffs')
+        .select('*')
+        .eq('pledge', pledge)
+      
+      if (data && data.length > 0) {
+        const committeeSignOffCount = Object.values(data[0]).filter(
+          value => value == true
+        ).length
+     
+        setCommitteeSO(committeeSignOffCount)
+      } else {
+        console.log('error fetching data:', error)
+      }
+    }
+    fetchCommitteeSignoffs()
+  }, [selectedCommittee])
+
+  useEffect(() => {
+    const fetchPDSignoffs = async () => {
+      const { data, error } = await supabase
+        .from('PDSignOffs')
+        .select('*')
+        .eq('pledge', pledge)
+     
+      if (data && data.length > 0) {
+        const pdSignOffCount = Object.values(data[0]).filter(
+          value => value == true
+        ).length
+     
+        setPD(pdSignOffCount)
+      } else {
+        console.log('error fetching data:', error)
+      }
+    }
+    fetchPDSignoffs()
+  }, [selectedPDSO])
+
+  const handleCommitteeSignOffSubmit = async () => {
+    try {
+      // Make sure a committee is selected
+      if (!selectedCommittee) {
+        console.error('Please select a committee')
+        return
+      }
+
+      // Update the selected committee sign-off value to true in Supabase
+      const { error } = await supabase.from('CommitteeSignOffs').upsert(
+        [
+          {
+            pledge,
+            [selectedCommittee]: true
+          }
+        ],
+        { onConflict: ['pledge'] }
+      )
+
+      if (error) {
+        console.error('Error updating committee sign-off:', error.message)
+      } else {
+        console.log(`Committee sign-off for ${pledge} updated successfully`)
+        setSelectedCommittee('');
+        // Optionally, you can refetch the committee sign-offs data here
+      }
+    } catch (error) {
+      console.error('Error updating committee sign-off:', error.message)
+    }
+  }
+
+  const handlePDSignOff = async () => {
+    try {
+      // Make sure a committee is selected
+      if (!selectedPDSO) {
+        console.error('Please select a committee')
+        return
+      }
+
+      // Update the selected committee sign-off value to true in Supabase
+      const { error } = await supabase.from('PDSignOffs').upsert(
+        [
+          {
+            pledge,
+            [selectedPDSO]: true
+          }
+        ],
+        { onConflict: ['pledge'] }
+      )
+
+      if (error) {
+        console.error('Error updating committee sign-off:', error.message)
+      } else {
+        console.log(`Committee sign-off for ${pledge} updated successfully`)
+        window.alert(`You have signed off ${pledge} for ${selectedPDSO} successfully.`)
+        setselectedPDSO('');
+       
+        // Optionally, you can refetch the committee sign-offs data here
+      }
+    } catch (error) {
+      console.error('Error updating committee sign-off:', error.message)
+    }
+  }
+
+
 
   const handleInterviewClick = async () => {
     const { data: existingPledgeData, error: existingPledgeError } =
@@ -142,7 +267,6 @@ const PledgeTile = ({ pledge }) => {
       ? existingPledgeData.interviews || []
       : []
     if (!currentInterviews.includes(userID) && !hasInterviewed) {
-
       // Add the loggedInBrotherId to the Interviews array
       const updatedInterviews = [...currentInterviews, userID]
       // Update the "Interviews" array in the corresponding "Pledges" row
@@ -166,8 +290,10 @@ const PledgeTile = ({ pledge }) => {
       } else {
       }
     } else {
-      const updatedInterviews = currentInterviews.filter(item => item !== userID);
-  
+      const updatedInterviews = currentInterviews.filter(
+        item => item !== userID
+      )
+
       // Update the "Interviews" array in the corresponding "Pledges" row
       const { data: updatedPledgeData, error: updatePledgeError } =
         await supabase.from('Pledges').upsert(
@@ -178,10 +304,10 @@ const PledgeTile = ({ pledge }) => {
             }
           ],
           { onConflict: ['uniqname'] }
-        );
-  
-      setInterviews(updatedInterviews);
-      sethasInterviewed(false);
+        )
+
+      setInterviews(updatedInterviews)
+      sethasInterviewed(false)
     }
   }
 
@@ -189,22 +315,19 @@ const PledgeTile = ({ pledge }) => {
     <div className='flex flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
       <div className='flex flex-col items-center w-3/12'>
         <div className='mb-2 w-40 h-40'>
-          {imageUrl ?
-           (<img
+          {imageUrl ? (
+            <img
               src={imageUrl}
               alt='Pledge'
               className='rounded-full w-full h-full object-cover'
             />
-           )
-           :
-           (
+          ) : (
             <Image
-            src={thtlogo}
-            alt='logo'
-            className='rounded-full w-full h-full object-cover'
+              src={thtlogo}
+              alt='logo'
+              className='rounded-full w-full h-full object-cover'
             />
-           )
-          }
+          )}
         </div>
         <div className='text-center'>
           <p className='font-bold'>
@@ -222,21 +345,31 @@ const PledgeTile = ({ pledge }) => {
             <p className='text-lg font-bold'>{interviews?.length}</p>
           </div>
           <div className='flex flex-col items-center'>
-            <p className='text-lg font-semibold mb-1'># of PD Requirements Done</p>
+            <p className='text-lg font-semibold mb-1'>
+              # of PD Requirements Done
+            </p>
             <p className='text-lg font-bold'>{pd}</p>
           </div>
           <div className='flex flex-col items-center'>
-            <p className='text-lg font-semibold mb-1'># of Committee Signoffs Done</p>
+            <p className='text-lg font-semibold mb-1'>
+              # of Committee Signoffs Done
+            </p>
             <p className='text-lg font-bold'>{committeeSO}</p>
           </div>
         </div>
         <div className='flex flex-col items-center w-full p-2'>
-          <ProgressBar className='w-full' completed={completed} bgColor='#22c55e' height='40px' />
+          <ProgressBar
+            className='w-full'
+            completed={completed}
+            bgColor='#22c55e'
+            height='40px'
+          />
         </div>
-        <div className='flex flex-col items-center mt-4'>
+        <div className='flex flex-row items-center mt-4 w-full justify-evenly'>
+          {/* Interview Button (to the left) */}
           <button
             onClick={handleInterviewClick}
-            className={`mt-2 ${
+            className={`flex-start ${
               hasInterviewed ? 'bg-green-500' : 'bg-red-500'
             } text-white py-2 px-4 rounded-md flex flex-col items-center justify-center`}
           >
@@ -247,10 +380,107 @@ const PledgeTile = ({ pledge }) => {
             </span>
             <div className='text-sm mt-1'>(Click to change)</div>
           </button>
+
+          {/* Centered Buttons (Committee Dropdown and Submit) */}
+          <div className='flex items-center justify-center'>
+            {/* Committee Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <button className='bg-gray-500 text-white py-2 px-4 rounded-md'>
+                  {pdRequirementList[selectedPDSO] || 'Select PD Requirement▼'}
+                </button>
+              </DropdownTrigger>
+              <DropdownMenu className="bg-gray-200 rounded-md">
+                <DropdownSection>
+                <DropdownItem onClick={() => {
+                   setselectedPDSO('coResearch');
+                  }} className='hover:bg-gray-300 cursor-pointer'>
+                    Company Research
+                    </DropdownItem>
+                    <DropdownItem onClick={() => {
+                   setselectedPDSO('resume');
+                  }} className='hover:bg-gray-300 cursor-pointer'>
+                    Resume and Cover Letter
+                    </DropdownItem>
+                  <DropdownItem onClick={() => setselectedPDSO('jobApp')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Apply for a Job
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setselectedPDSO('careerChat')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Career Coffee Chat
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setselectedPDSO('interview')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Mock Interview
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setselectedPDSO('4YrPlan')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Four-Year Class Plan
+                  </DropdownItem>
+                  {/* Add other committees as needed */}
+                </DropdownSection>
+              </DropdownMenu>
+            </Dropdown>
+
+            {/* Submit Button */}
+            <button
+              onClick={handlePDSignOff}
+              className='ml-2 bg-green-500 text-white py-2 px-4 rounded-md'
+            >
+              Submit
+            </button>
+          </div>
+
+          <div className='flex items-center justify-center'>
+            {/* Committee Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <button className='bg-gray-500 text-white py-2 px-4 rounded-md'>
+                  {committeeList[selectedCommittee] || 'Select Committee ▼'}
+                </button>
+              </DropdownTrigger>
+              <DropdownMenu className="bg-gray-200 rounded-md">
+                <DropdownSection>
+                  <DropdownItem onClick={() => setSelectedCommittee('brohood')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Brotherhood
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setSelectedCommittee('pd')}  className='hover:bg-gray-300 cursor-pointer'>
+                  PD
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setSelectedCommittee('philanthropy')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Philanthropy
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setSelectedCommittee('recsports')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Rec Sports
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setSelectedCommittee('social')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Social
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setSelectedCommittee('diversity')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Diversity
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setSelectedCommittee('historian')}  className='hover:bg-gray-300 cursor-pointer'>
+                  Historian
+                  </DropdownItem>
+                  <DropdownItem onClick={() => setSelectedCommittee('corsec')}  className='hover:bg-gray-300 cursor-pointer'>
+                  CorSec
+                  </DropdownItem>
+                  {/* Add other committees as needed */}
+                </DropdownSection>
+              </DropdownMenu>
+            </Dropdown>
+
+            {/* Submit Button */}
+            <button
+              onClick={handleCommitteeSignOffSubmit}
+              className='ml-2 bg-green-500 text-white py-2 px-4 rounded-md'
+            >
+              Submit
+            </button>
+          </div>
+
+
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PledgeTile;
+export default PledgeTile
