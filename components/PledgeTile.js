@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import Image from 'next/legacy/image'
+import ProgressBar from "@ramonak/react-progress-bar";
 import thtlogo from '../public/tht-logo.png'
-
+import Image from 'next/image'
 import supabase from '../supabase'
-import Router from 'next/router'
 
 const PledgeTile = ({ pledge }) => {
   const [interviews, setInterviews] = useState(pledge.interviews)
   const [hasInterviewed, sethasInterviewed] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
+
+  const [pd, setPD] = useState(0);
+  const [committeeSO, setCommitteeSO] = useState(0);
+  const [completed , setCompleted] = useState(0);
 
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
@@ -27,11 +30,9 @@ const PledgeTile = ({ pledge }) => {
         const session = await supabase.auth.getSession()
         if (session) {
           setUserID(session.data.session?.user.email || '')
-          console.log(userID);
         }
        
       } catch (error) {
-        console.log(error);
       }
       
     }
@@ -41,7 +42,6 @@ const PledgeTile = ({ pledge }) => {
 
   useEffect(() => {
     fetchPledgeDetails()
-    console.log('fetching pledge details')
     checkBrotherInPledge();
   }, [userID])
 
@@ -57,78 +57,81 @@ const PledgeTile = ({ pledge }) => {
       }
 
       if (data) {
-        console.log(data)
 
         setFirstname(data[0].firstname)
-        console.log(firstname)
         setLastname(data[0].lastname)
-        console.log(lastname)
         setMajor(data[0].major)
         setPronouns(data[0].pronouns)
         setYear(data[0].year)
         setInterviews(data[0].interviews)
+        setCommitteeSO(data[0].CommitteeSO)
+        setPD(data[0].PD)
       } else {
-        console.log(`Pledge with uniqname ${pledgeName} not found`)
       }
     } catch (error) {
-      console.error('Error fetching pledge details:', error.message)
     }
   }
 
   
   async function checkBrotherInPledge() {
     try {
-      const { data, error } = await supabase
-        .from('Pledges')
-        .select('uniqname, interviews')
-        .eq('uniqname', pledge)
-        .single();
-  
-      if (error) {
-        throw error;
-      }
-  
-      if (data) {
-        // Check if brotherID exists in the Interviews array
-        const { uniqname, interviews } = data;
-        console.log(userID);
-        if (interviews && interviews.includes(userID)) {
-          console.log(`${userID} is in the Interviews array for ${uniqname}`);
-          sethasInterviewed(true);
-        } else {
-          console.log(`${userID} is not in the Interviews array for ${uniqname}`);
+      if(pledge)
+      {
+        const { data, error } = await supabase
+          .from('Pledges')
+          .select('uniqname, interviews')
+          .eq('uniqname', pledge)
+          .single();
+    
+        if (error) {
+          throw error;
         }
-      } else {
-        console.log(`Pledge with uniqname ${pledge} not found`);
-      }
+    
+        if (data) {
+          // Check if brotherID exists in the Interviews array
+          const { uniqname, interviews } = data;
+          if (interviews && interviews.includes(userID)) {
+            sethasInterviewed(true);
+          } else {
+          }
+        } else {
+        }
+    }
     } catch (error) {
-      console.error('Error checking brother in pledge:', error.message);
     }
   }
 
   useEffect(() => {
     const fetchPledgeImage = async () => {
-      console.log('looking for image')
 
-      const { data: ImageData, error } = await supabase.storage
+    
+      if(pledge)
+      {
+        const { data: ImageData, error } = await supabase.storage
         .from('pledges')
-        .download(pledge)
+        .download(`${pledge}.jpeg`)
 
-      if (error) {
-        console.log(error)
-      } else {
-        setImageUrl(URL.createObjectURL(ImageData))
+        console.log(`${pledge}.jpeg`)
+        
+        if(!error){
+          setImageUrl(URL.createObjectURL(ImageData))
+          console.log(URL.createObjectURL(ImageData))
+        }
       }
     }
 
     fetchPledgeImage()
   }, [])
 
+  useEffect(() => {
+    const calculateProgress = async () => {
+        setCompleted(Math.round((interviews?.length + pd + committeeSO) * 100 /44))
+    }
+
+    calculateProgress()
+  }, [interviews, pd, committeeSO])
+
   const handleInterviewClick = async () => {
-
-    console.log(userID);
-
-    
     const { data: existingPledgeData, error: existingPledgeError } =
       await supabase
         .from('Pledges')
@@ -138,12 +141,10 @@ const PledgeTile = ({ pledge }) => {
     const currentInterviews = existingPledgeData
       ? existingPledgeData.interviews || []
       : []
-      console.log(userID);
     if (!currentInterviews.includes(userID) && !hasInterviewed) {
 
       // Add the loggedInBrotherId to the Interviews array
       const updatedInterviews = [...currentInterviews, userID]
-      console.log(updatedInterviews)
       // Update the "Interviews" array in the corresponding "Pledges" row
       const { data: updatedPledgeData, error: updatePledgeError } =
         await supabase.from('Pledges').upsert(
@@ -163,12 +164,9 @@ const PledgeTile = ({ pledge }) => {
           updatePledgeError.message
         )
       } else {
-        console.log(`Added ${userID} to the Interviews array for ${pledge}`)
       }
     } else {
-      console.log(`${userID} is already in the Interviews array for ${pledge} Now removing.`)
       const updatedInterviews = currentInterviews.filter(item => item !== userID);
-      console.log('Updated Interviews:', updatedInterviews);
   
       // Update the "Interviews" array in the corresponding "Pledges" row
       const { data: updatedPledgeData, error: updatePledgeError } =
@@ -188,54 +186,71 @@ const PledgeTile = ({ pledge }) => {
   }
 
   return (
-    <div className='flex felx-row'>
-      <div className='flex flex-col items-center pr-5'>
-        <div className='mb-2 w-16 flex-start'>
-          {imageUrl ? (
-            <Image
+    <div className='flex flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
+      <div className='flex flex-col items-center w-3/12'>
+        <div className='mb-2 w-40 h-40'>
+          {imageUrl ?
+           (<img
               src={imageUrl}
               alt='Pledge'
-              className='rounded-lg w-4 h-auto'
+              className='rounded-full w-full h-full object-cover'
             />
-          ) : (
+           )
+           :
+           (
             <Image
-              src={thtlogo}
-              alt='Pledge'
-              className='rounded-lg w-4 h-auto'
+            src={thtlogo}
+            alt='logo'
+            className='rounded-full w-full h-full object-cover'
             />
-          )}
+           )
+          }
         </div>
         <div className='text-center'>
           <p className='font-bold'>
             {firstname} {lastname}
           </p>
           <p>
-            {year} | {pronouns}
+            {year} | {pronouns} | {major}
           </p>
-          <p>{major}</p>
         </div>
       </div>
-      <div className='flex flex-col pl-10 pt-8'>
-        <div>Number of Interviews: {interviews?.length}/30</div>
-        <div>PD Requirements: </div>
-        <div>Committee Sign offs: </div>
-        <button
-  onClick={handleInterviewClick}
-  className={`mt-2 ${
-    hasInterviewed ? 'bg-green-500' : 'bg-red-500'
-  } text-white py-2 px-4 rounded-md flex flex-col items-center justify-center`}
->
-  <span>
-    {hasInterviewed
-      ? `${firstname} has interviewed me`
-      : `${firstname} has not interviewed me`}
-  </span>
-  <div className="text-sm mt-1">(Click to change)</div>
-
-</button>
+      <div className='flex flex-col items-center w-9/12'>
+        <div className='flex flex-row items-center justify-evenly w-full'>
+          <div className='flex flex-col items-center'>
+            <p className='text-lg font-semibold mb-1'># of Interviews Done</p>
+            <p className='text-lg font-bold'>{interviews?.length}</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <p className='text-lg font-semibold mb-1'># of PD Requirements Done</p>
+            <p className='text-lg font-bold'>{pd}</p>
+          </div>
+          <div className='flex flex-col items-center'>
+            <p className='text-lg font-semibold mb-1'># of Committee Signoffs Done</p>
+            <p className='text-lg font-bold'>{committeeSO}</p>
+          </div>
+        </div>
+        <div className='flex flex-col items-center w-full p-2'>
+          <ProgressBar className='w-full' completed={completed} bgColor='#22c55e' height='40px' />
+        </div>
+        <div className='flex flex-col items-center mt-4'>
+          <button
+            onClick={handleInterviewClick}
+            className={`mt-2 ${
+              hasInterviewed ? 'bg-green-500' : 'bg-red-500'
+            } text-white py-2 px-4 rounded-md flex flex-col items-center justify-center`}
+          >
+            <span>
+              {hasInterviewed
+                ? `${firstname} has interviewed me`
+                : `${firstname} has not interviewed me`}
+            </span>
+            <div className='text-sm mt-1'>(Click to change)</div>
+          </button>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PledgeTile
+export default PledgeTile;
