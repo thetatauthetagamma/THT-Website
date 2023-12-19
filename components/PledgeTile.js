@@ -31,6 +31,9 @@ const PledgeTile = ({ pledge }) => {
   const [pledgeName, setPledgeName] = useState('')
   const [userID, setUserID] = useState('')
 
+  const [socialHours, setSocialHours] = useState(0);
+  const [academicHours, setAcademicHours] = useState(0);
+
   //used for committee sign off button:
   const [selectedCommittee, setSelectedCommittee] = useState('');
   const [selectedPDSO, setselectedPDSO] = useState('');
@@ -90,6 +93,8 @@ const PledgeTile = ({ pledge }) => {
         setPronouns(data[0].pronouns)
         setYear(data[0].year)
         setInterviews(data[0].interviews)
+        setAcademicHours(data[0].AcademicHours)
+        setSocialHours(data[0].SocialHours)
       } else {
       }
     } catch (error) {}
@@ -143,7 +148,7 @@ const PledgeTile = ({ pledge }) => {
   useEffect(() => {
     const calculateProgress = async () => {
       setCompleted(
-        Math.round(((interviews?.length + pd + committeeSO) * 100) / 44)
+        Math.round(((interviews?.length + pd + committeeSO + socialHours + academicHours) * 100) / 74)
       )
     }
 
@@ -182,6 +187,7 @@ const PledgeTile = ({ pledge }) => {
           value => value == true
         ).length
      
+        console.log(pdSignOffCount)
         setPD(pdSignOffCount)
       } else {
         console.log('error fetching data:', error)
@@ -312,7 +318,7 @@ const PledgeTile = ({ pledge }) => {
   }
 
   return (
-    <div className='flex flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
+    <div className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
       <div className='flex flex-col items-center w-3/12'>
         <div className='mb-2 w-40 h-40'>
           {imageUrl ? (
@@ -339,24 +345,28 @@ const PledgeTile = ({ pledge }) => {
         </div>
       </div>
       <div className='flex flex-col items-center w-9/12'>
-        <div className='flex flex-row items-center justify-evenly w-full'>
-          <div className='flex flex-col items-center'>
-            <p className='text-lg font-semibold mb-1'># of Interviews Done</p>
-            <p className='text-lg font-bold'>{interviews?.length}</p>
-          </div>
-          <div className='flex flex-col items-center'>
-            <p className='text-lg font-semibold mb-1'>
-              # of PD Requirements Done
-            </p>
-            <p className='text-lg font-bold'>{pd}</p>
-          </div>
-          <div className='flex flex-col items-center'>
-            <p className='text-lg font-semibold mb-1'>
-              # of Committee Signoffs Done
-            </p>
-            <p className='text-lg font-bold'>{committeeSO}</p>
-          </div>
+      <div className='flex flex-col md:flex-row items-center justify-evenly w-full pb-2'>
+        <div className='flex flex-col items-center p-2 '>
+          <p className='text-md font-semibold mb-1'># of Interviews</p>
+          <p className='text-md'>{interviews?.length}</p>
         </div>
+        <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
+          <p className='text-md font-semibold mb-1'># of PD Activities</p>
+          <p className='text-md'>{pd}</p>
+        </div>
+        <div className='flex flex-col items-center p-2'>
+          <p className='text-md font-semibold mb-1'># of Committee Signoffs</p>
+          <p className='text-md'>{committeeSO}</p>
+        </div>
+        <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
+          <p className='text-md font-semibold mb-1'># of Social Hours</p>
+          <p className='text-md'>{socialHours}</p>
+        </div>
+        <div className='flex flex-col items-center p-2'>
+          <p className='text-md font-semibold mb-1'># of Academic Hours</p>
+          <p className='text-md'>{academicHours}</p>
+        </div>
+      </div>
         <div className='flex flex-col items-center w-full p-2'>
           <ProgressBar
             className='w-full'
@@ -365,29 +375,28 @@ const PledgeTile = ({ pledge }) => {
             height='40px'
           />
         </div>
-        <div className='flex flex-row items-center mt-4 w-full justify-evenly'>
+        <div className='flex flex-col md:flex-row items-center m-4 w-full justify-evenly'>
           {/* Interview Button (to the left) */}
           <button
             onClick={handleInterviewClick}
             className={`flex-start ${
               hasInterviewed ? 'bg-green-500' : 'bg-red-500'
-            } text-white py-2 px-4 rounded-md flex flex-col items-center justify-center`}
+            } text-white py-2 px-4 rounded-md flex flex-col items-center m-2 justify-center md:w-1/4 hover:scale-105`}
           >
             <span>
               {hasInterviewed
                 ? `${firstname} has interviewed me`
                 : `${firstname} has not interviewed me`}
             </span>
-            <div className='text-sm mt-1'>(Click to change)</div>
           </button>
 
           {/* Centered Buttons (Committee Dropdown and Submit) */}
-          <div className='flex items-center justify-center'>
+          <div className='flex items-center justify-center  m-2 md:w-1/3'>
             {/* Committee Dropdown */}
             <Dropdown>
               <DropdownTrigger>
-                <button className='bg-gray-500 text-white py-2 px-4 rounded-md'>
-                  {pdRequirementList[selectedPDSO] || 'Select PD Requirement▼'}
+                <button className='bg-gray-500 text-white p-2 rounded-md'>
+                  {pdRequirementList[selectedPDSO] || 'Select PD Activity ▼'}
                 </button>
               </DropdownTrigger>
               <DropdownMenu className="bg-gray-200 rounded-md">
@@ -422,17 +431,17 @@ const PledgeTile = ({ pledge }) => {
             {/* Submit Button */}
             <button
               onClick={handlePDSignOff}
-              className='ml-2 bg-green-500 text-white py-2 px-4 rounded-md'
+              className='ml-2 bg-green-500 text-white py-2 px-4 rounded-md hover:scale-105'
             >
               Submit
             </button>
           </div>
 
-          <div className='flex items-center justify-center'>
+          <div className='flex items-center justify-center m-2 md:w-1/3'>
             {/* Committee Dropdown */}
             <Dropdown>
               <DropdownTrigger>
-                <button className='bg-gray-500 text-white py-2 px-4 rounded-md'>
+                <button className='bg-gray-500 text-white p-2 rounded-md'>
                   {committeeList[selectedCommittee] || 'Select Committee ▼'}
                 </button>
               </DropdownTrigger>
@@ -470,7 +479,7 @@ const PledgeTile = ({ pledge }) => {
             {/* Submit Button */}
             <button
               onClick={handleCommitteeSignOffSubmit}
-              className='ml-2 bg-green-500 text-white py-2 px-4 rounded-md'
+              className='ml-2 bg-green-500 text-white py-2 px-4 rounded-md hover:scale-105'
             >
               Submit
             </button>

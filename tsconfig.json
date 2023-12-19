@@ -22,6 +22,6 @@
     "typeRoots": ["./node_modules/@types", "./@types"],
     "types": ["node"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/AddRushee.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/**/*", "middleware/**/*"],
   "exclude": ["node_modules"]
 }

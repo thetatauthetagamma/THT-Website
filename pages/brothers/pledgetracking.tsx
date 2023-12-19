@@ -1,87 +1,75 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import supabase from "../../supabase";
-import Custom404 from "../404";
-import DateTimePicker from 'react-datetime-picker';
-import {google} from 'googleapis';
-import Link from 'next/link';
 import PledgeTile from '../../components/PledgeTile'
+import BroNavBar from "@/components/BroNavBar";
 
+interface PledgeData {
+  uniqname: string;
+  firstname: string;
+}
 
 const PledgeTracking: NextPage = () => {
-  const [pledges, setPledges] = useState(['']);
+  const [pledges, setPledges] = useState<PledgeData[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   useEffect(() => {
     const fetchPledges = async () => {
       try {
-        const { data, error } = await supabase.from('Pledges').select('uniqname');
-        console.log(data);
+        const { data, error } = await supabase.from('Pledges').select('uniqname, firstname');
         
         if (error) {
           throw error;
         }
 
         if (data) {
-          const uniqnames = data.map((item) => item.uniqname);
-          setPledges(uniqnames);
-          console.log(uniqnames);
+          setPledges(data as PledgeData[]);
         }
       } catch (error) {
-        console.error('Error fetching pledges:');
+        console.error('Error fetching pledges:', error);
       }
     };
 
     fetchPledges();
   }, []);
-  
-  
-  return (
 
-    <div className="flex md:flex-row flex-col flex-grow  border-b-2 border-[#a3000020]">
-    <div className="md:border-r-2 md:border-b-0 border-r-0 border-b-2 border-[#a3000020] flex-col justify-center items-center lg:w-1/4">
-      <div className="pt-4 pl-6 pr-6 pb-4">
-      <ul className="space-y-2 font-bold space-5">
-          <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow py-4">
-                <Link legacyBehavior href="/brothers/pledgetracking" className="block p-2 rounded ">
-                  <a >Pledge Tracking</a>
-                </Link>
-              </li>
-              <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow py-4">
-                <Link legacyBehavior href="/brothers/broresources" className="block p-2 rounded">
-                  <a >Resources</a>
-                </Link>
-              </li>
-              <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow py-4">
-                <Link legacyBehavior href="/brothers/pledgetracking" className="block p-2 rounded ">
-                  <a >Member Directory</a>
-                </Link>
-              </li>
-          
-        </ul>
-      </div>
-    </div>
+  const filteredPledges = searchQuery
+    ? pledges.filter(
+        pledge =>
+          pledge.uniqname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          pledge.firstname.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : pledges;
 
-    <div className="flex-grow">
-    
-      <div className="flex-grow h-full m-4">
-        <h1 className= "font-bold text-4xl pb-4">Pledge Progress</h1>
-      <div>
-      {pledges.map((uniqname) => (
-        <div key={uniqname}>
-          <PledgeTile pledge={uniqname} />
+    return (
+      <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
+        <BroNavBar />
+        <div className="flex-grow">
+          <div className="flex-grow h-full m-4">
+            <h1 className="font-bold text-4xl pb-4">Pledge Progress</h1>
+            {/* Search Bar */}
+            <input
+              type="text"
+              placeholder="Search by pledge first name"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="p-2 border border-gray-800 rounded w-full mb-4"
+            />
+            <div style={{ maxHeight: '550px', overflowY: 'auto' }} >
+              {filteredPledges.map((pledge) => (
+                <div key={pledge.uniqname}>
+                  <PledgeTile pledge={pledge.uniqname} />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      ))}
-    </div>
       </div>
-    </div>
-  </div>
-   
-  )
-}
+    );
+};
 
-
-export default function ProtectedDashboard() {
-
-  const [isBrother, setIsBrother] = useState(false)
+const ProtectedDashboard: NextPage = () => {
+  const [isBrother, setIsBrother] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   
   useEffect(() => {
@@ -102,7 +90,7 @@ export default function ProtectedDashboard() {
 
   useEffect(() => {
     const checkIfBrother = async () => {
-      if (userEmail) { // Check if userEmail is not empty
+      if (userEmail) {
         const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
         if (data?.length === 1 && !error) {
           setIsBrother(true);
@@ -117,9 +105,9 @@ export default function ProtectedDashboard() {
 
   return (
     <>
-      {
-        isBrother ? (<PledgeTracking />) : (<Custom404 />)
-      }
+      <PledgeTracking />
     </>
-  )
-}
+  );
+};
+
+export default ProtectedDashboard;
