@@ -66,16 +66,16 @@ export default function MemberDirectory() {
       <BroNavBar />
       <div className="flex-grow">
         <div className="flex-grow h-full m-4">
-          <h1 className="font-bold text-4xl pb-4">Our Brothers</h1>
-          <div className='flex flex-row item-center justify-start'>
+          <h1 className="font-bold text-4xl xs:max-sm:text-center pb-4">Our Brothers</h1>
+          <div className='flex flex-col md:flex-row items-center md:item-center md:justify-start'>
             <input
               type="text"
               placeholder="Search by brother first name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="p-2 border border-gray-800 rounded w-1/2 mb-4 mr-8"
+              className="p-2 border border-gray-800 rounded w-full md:w-1/2 mb-4 md:mr-8"
             />
-            <div className="mb-4 w-1/4">
+            <div className="mb-4 md:w-1/4">
               <select
                 value={selectedMajor}
                 onChange={(e) => setSelectedMajor(e.target.value)}
