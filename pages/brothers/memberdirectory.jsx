@@ -79,7 +79,7 @@ export default function MemberDirectory() {
               <select
                 value={selectedMajor}
                 onChange={(e) => setSelectedMajor(e.target.value)}
-                className="p-4 border border-gray-800 rounded w-full"
+                className="p-2 border border-gray-800 rounded w-full"
               >
                 <option value="">All Majors</option>
                 {majors.map((major) => (
