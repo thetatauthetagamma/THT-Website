@@ -54,9 +54,20 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
                 <div className='text-2xl font-bold mr-8'>
                     {firstname} {lastname}
                 </div>
-                <div className='text-xl'>
-                    {year} | {major}
-                </div>
+                {
+                  year ? 
+                  ( 
+                    <div className='text-xl'>
+                      {year} | {major}
+                    </div>
+                  )
+                  :
+                  (
+                    <div className='text-xl'>
+                      year | major
+                    </div>
+                  )
+                }
             </div>
             <div className='flex flex-row items-center justify-evenly w-full'>
                 <div className='flex flex-col items-center p-2 '>
@@ -65,7 +76,9 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
                 </div>
                 <div className='flex flex-col items-center p-2'>
                 <p className='text-lg font-semibold mb-1'>Phone Number:</p>
-                <p className='text-lg'>{phone}</p>
+                {
+                  phone ? (<p className='text-lg'>{phone}</p>) : (<p className='text-lg'>(xxx)-xxx-xxxx</p>)
+                }
                 </div>
                 <div className='flex flex-col items-center p-2'>
                 <p className='text-lg font-semibold mb-1'>Email:</p>
@@ -75,7 +88,7 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
                     <Image
                         src={linkdenLogo}
                         alt='linkedin'
-                        className='w-14 h-14'
+                        className='w-14 h-14 hover:scale-105'
                     />
             </a>  
         </div>
