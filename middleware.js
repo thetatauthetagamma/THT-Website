@@ -14,15 +14,20 @@ export default async function middleware(req) {
     return NextResponse.next();
   }
 
-  const Cookie = req.cookies.get('userEmail').value
+  const Cookie = req.cookies.get('userEmail')
 
-  if (Cookie == '' && protectedRoutes.includes(path)) {
+  if(Cookie == null)
+  {
+    return NextResponse.next();
+  }
+
+  if (Cookie.value == '' && protectedRoutes.includes(path)) {
     const httpsRedirectUrl = new URL(`/404`, req.nextUrl).toString();
     return NextResponse.redirect(httpsRedirectUrl);
   }
 
-  if (Cookie != '' && protectedRoutes.includes(path)) {
-    const isUserBrother = await isBrother(Cookie);
+  if (Cookie.value != '' && protectedRoutes.includes(path)) {
+    const isUserBrother = await isBrother(Cookie.value);
 
 
     if (!isUserBrother) {
