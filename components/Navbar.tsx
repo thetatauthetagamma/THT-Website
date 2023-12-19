@@ -4,7 +4,7 @@ import Router from 'next/router';
 import Image from 'next/image';
 import logo from '../public/tht-logo.png'
 import supabase from '../supabase.js';
-
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
   
@@ -20,8 +20,8 @@ const Navbar = () => {
         try {
           const session = await supabase.auth.getSession();
           if (session) {
-            console.log(session)
             setUserEmail(session.data.session?.user.email || '')
+            Cookies.set('userEmail', session.data.session?.user.email || '');
           }
         } catch (error) {
           console.log(error);
@@ -33,9 +33,11 @@ const Navbar = () => {
       const authListener = supabase.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_IN' && session) {
           setUserEmail(session.user?.email || '');
+          Cookies.set('userEmail', session.user?.email || '');
         }
         if (event === 'SIGNED_OUT') {
           setUserEmail('');
+          Cookies.set('userEmail', '')
           setIsBrother(false);
           Router.push('/');
         }
@@ -48,7 +50,6 @@ const Navbar = () => {
         const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
         if(data?.length == 1 && !error) {
           setIsBrother(true);
-          Router.push('/brothers');
         }
       }
 
@@ -60,13 +61,11 @@ const Navbar = () => {
     const toggleMenuOn = () => {
       setNavState(navState => '');
       setNavState1(navState1 => 'hidden');
-      console.log(navState);
     }
 
     const toggleMenuOff = () => {
       setNavState(navState => 'hidden');
       setNavState1(navState1 => '');
-      console.log(navState);
     }
 
     const handleGoogleSignIn = async () => {
