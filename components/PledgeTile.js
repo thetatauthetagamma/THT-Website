@@ -133,11 +133,9 @@ const PledgeTile = ({ pledge }) => {
           .from('pledges')
           .download(`${pledge}.jpeg`)
 
-        console.log(`${pledge}.jpeg`)
 
         if (!error) {
           setImageUrl(URL.createObjectURL(ImageData))
-          console.log(URL.createObjectURL(ImageData))
         }
       }
     }
@@ -187,7 +185,6 @@ const PledgeTile = ({ pledge }) => {
           value => value == true
         ).length
      
-        console.log(pdSignOffCount)
         setPD(pdSignOffCount)
       } else {
         console.log('error fetching data:', error)
@@ -218,7 +215,6 @@ const PledgeTile = ({ pledge }) => {
       if (error) {
         console.error('Error updating committee sign-off:', error.message)
       } else {
-        console.log(`Committee sign-off for ${pledge} updated successfully`)
         setSelectedCommittee('');
         // Optionally, you can refetch the committee sign-offs data here
       }

@@ -55,7 +55,6 @@ export default function ProtectedDashboard() {
       try {
         const session = await supabase.auth.getSession();
         if (session) {
-          console.log(session)
           setUserEmail(session.data.session?.user.email || '')
         }
       } catch (error) {
@@ -73,7 +72,6 @@ export default function ProtectedDashboard() {
         if (data?.length === 1 && !error) {
           setIsBrother(true);
         }
-        console.log(data);
       }
     }
   

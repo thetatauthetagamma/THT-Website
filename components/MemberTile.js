@@ -16,12 +16,9 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
             const { data: ImageData, error } = await supabase.storage
               .from('brothers')
               .download(`${userid}.jpeg`)
-    
-            console.log(`${userid}.jpeg`)
-    
+        
             if (!error) {
               setImageUrl(URL.createObjectURL(ImageData))
-              console.log(URL.createObjectURL(ImageData))
             }
           }
         }

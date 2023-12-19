@@ -20,7 +20,6 @@ const Navbar = () => {
         try {
           const session = await supabase.auth.getSession();
           if (session) {
-            console.log(session)
             setUserEmail(session.data.session?.user.email || '')
             Cookies.set('userEmail', session.data.session?.user.email || '');
           }
@@ -62,13 +61,11 @@ const Navbar = () => {
     const toggleMenuOn = () => {
       setNavState(navState => '');
       setNavState1(navState1 => 'hidden');
-      console.log(navState);
     }
 
     const toggleMenuOff = () => {
       setNavState(navState => 'hidden');
       setNavState1(navState1 => '');
-      console.log(navState);
     }
 
     const handleGoogleSignIn = async () => {
