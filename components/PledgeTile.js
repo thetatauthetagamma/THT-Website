@@ -315,7 +315,7 @@ const PledgeTile = ({ pledge }) => {
 
   return (
     <div className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
-      <div className='flex flex-col items-center w-3/12'>
+      <div className='flex flex-col items-center md:w-3/12'>
         <div className='mb-2 w-40 h-40'>
           {imageUrl ? (
             <img
