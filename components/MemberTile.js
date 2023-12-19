@@ -32,26 +32,28 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
   return (
     <div className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
       <div className='flex flex-col items-center w-3/12'>
-        <div className='mb-2 w-40 h-40'>
           {imageUrl ? (
+            <div className='mb-2 w-40 h-40'>
             <img
               src={imageUrl}
               alt='Pledge'
               className='rounded-full w-full h-full object-cover'
             />
+            </div>
           ) : (
+            <div className='mb-2 w-32 h-34'>
             <Image
               src={thtlogo}
               alt='logo'
               className='rounded-full w-full h-full object-cover'
             />
+            </div>
           )}
-        </div>
       </div>
     <div className='flex flex-col items-center w-9/12'>
       <div className='flex flex-col items-center justify-evenly w-full pb-2'> 
-            <div className='flex flex-row items-center mb-4'>
-                <div className='text-2xl font-bold mr-8'>
+            <div className='flex flex-col md:flex-row items-center mb-4'>
+                <div className='text-2xl font-bold md:mr-8'>
                     {firstname} {lastname}
                 </div>
                 {
@@ -69,7 +71,7 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
                   )
                 }
             </div>
-            <div className='flex flex-row items-center justify-evenly w-full'>
+            <div className='flex flex-col md:flex-row items-center justify-evenly w-full'>
                 <div className='flex flex-col items-center p-2 '>
                 <p className='text-lg font-semibold mb-1'>Roll #:</p>
                 <p className='text-lg'>{roll}</p>
