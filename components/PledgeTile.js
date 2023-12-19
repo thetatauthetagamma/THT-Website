@@ -343,24 +343,24 @@ const PledgeTile = ({ pledge }) => {
       <div className='flex flex-col items-center w-9/12'>
       <div className='flex flex-col md:flex-row items-center justify-evenly w-full pb-2'>
         <div className='flex flex-col items-center p-2 '>
-          <p className='text-md font-semibold mb-1'># of Interviews</p>
-          <p className='text-md'>{interviews?.length}</p>
+          <p className='text-sm font-bold mb-1'># of Interviews</p>
+          <p className='text-sm'>{interviews?.length}</p>
         </div>
         <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
-          <p className='text-md font-semibold mb-1'># of PD Activities</p>
-          <p className='text-md'>{pd}</p>
+          <p className='text-sm text-center font-bold mb-1'># of PD Activities</p>
+          <p className='text-sm'>{pd}</p>
         </div>
         <div className='flex flex-col items-center p-2'>
-          <p className='text-md font-semibold mb-1'># of Committee Signoffs</p>
-          <p className='text-md'>{committeeSO}</p>
+          <p className='text-sm text-center font-bold mb-1'># of Committee Signoffs</p>
+          <p className='text-sm'>{committeeSO}</p>
         </div>
         <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
-          <p className='text-md font-semibold mb-1'># of Social Hours</p>
-          <p className='text-md'>{socialHours}</p>
+          <p className='text-sm text-center font-bold mb-1'># of Social Hours</p>
+          <p className='text-sm'>{socialHours}</p>
         </div>
         <div className='flex flex-col items-center p-2'>
-          <p className='text-md font-semibold mb-1'># of Academic Hours</p>
-          <p className='text-md'>{academicHours}</p>
+          <p className='text-sm text-center font-bold mb-1'># of Academic Hours</p>
+          <p className='text-sm'>{academicHours}</p>
         </div>
       </div>
         <div className='flex flex-col items-center w-full p-2'>
