@@ -2,7 +2,7 @@
 import { parse } from 'url';
 import { NextResponse } from 'next/server';
 import { isBrother } from './auth';
-
+import { isPledge } from './auth'
 export default async function middleware(req) {
 
   const url = parse(req.url || '', true);
