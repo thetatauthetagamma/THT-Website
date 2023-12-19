@@ -22,6 +22,6 @@
     "typeRoots": ["./node_modules/@types", "./@types"],
     "types": ["node"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/**/*", "middleware/**/*"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/**/*", "middleware/**/*", "components/BroNavBar.jsx"],
   "exclude": ["node_modules"]
 }

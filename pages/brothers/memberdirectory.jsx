@@ -6,6 +6,7 @@ import supabase from '../../supabase';
 export default function MemberDirectory() {
   const [brothers, setBrothers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedMajor, setSelectedMajor] = useState(''); // Add state for selected major
 
   useEffect(() => {
     const fetchBrothers = async () => {
@@ -38,21 +39,60 @@ export default function MemberDirectory() {
       )
     : brothers;
 
+    const majorFilteredBrothers = selectedMajor
+    ? filteredBrothers.filter((brother) => {
+        if (brother.major) {
+          const normalizedMajor = brother.major.toLowerCase();
+          const normalizedSelectedMajor = selectedMajor.toLowerCase();
+  
+          // Check for exact match for "CE" or "CEE"
+          if (normalizedSelectedMajor === 'ce' && normalizedMajor === 'ce') {
+            return true;
+          } else if (normalizedSelectedMajor === 'ce' && normalizedMajor === 'cee') {
+            return false;
+          }
+  
+          return normalizedMajor.includes(normalizedSelectedMajor);
+        }
+  
+        return false;
+      })
+    : filteredBrothers;
+
+  const majors = ['Mech E', 'CS', 'CE', 'EE' , 'CEE', 'Chem E', 'Aero', 'Math', 'IOE', 'NAME', 'MSE'];
+
   return (
     <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
       <BroNavBar />
       <div className="flex-grow">
         <div className="flex-grow h-full m-4">
           <h1 className="font-bold text-4xl pb-4">Our Brothers</h1>
-          <input
-            type="text"
-            placeholder="Search by brother first name"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-2 border border-gray-800 rounded w-full mb-4"
-          />
+          <div className='flex flex-row item-center justify-start'>
+            <input
+              type="text"
+              placeholder="Search by brother first name"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="p-2 border border-gray-800 rounded w-1/2 mb-4 mr-8"
+            />
+            <div className="mb-4 w-1/4">
+              <select
+                value={selectedMajor}
+                onChange={(e) => setSelectedMajor(e.target.value)}
+                className="p-4 border border-gray-800 rounded w-full"
+              >
+                <option value="">All Majors</option>
+                {majors.map((major) => (
+                  <option key={major} value={major}>
+                    {major}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {/* Display Brothers */}
           <div style={{ maxHeight: '550px', overflowY: 'auto' }}>
-            {filteredBrothers.map((brother) => (
+            {majorFilteredBrothers.map((brother) => (
               <div key={brother.userid}>
                 <MemberTile
                   userid={brother.userid}
