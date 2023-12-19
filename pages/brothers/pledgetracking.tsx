@@ -9,7 +9,10 @@ interface PledgeData {
   firstname: string;
 }
 
-const PledgeTracking: NextPage = () => {
+import React from 'react'
+
+export default function pledgetracking() {
+
   const [pledges, setPledges] = useState<PledgeData[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -67,47 +70,3 @@ const PledgeTracking: NextPage = () => {
       </div>
     );
 };
-
-const ProtectedDashboard: NextPage = () => {
-  const [isBrother, setIsBrother] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
-  
-  useEffect(() => {
-    const fetchSession = async () => {
-      try {
-        const session = await supabase.auth.getSession();
-        if (session) {
-          console.log(session)
-          setUserEmail(session.data.session?.user.email || '')
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchSession();
-  }, []);
-
-  useEffect(() => {
-    const checkIfBrother = async () => {
-      if (userEmail) {
-        const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
-        if (data?.length === 1 && !error) {
-          setIsBrother(true);
-        }
-        console.log(data);
-      }
-    }
-  
-    checkIfBrother();
-  }, [userEmail]);
-  
-
-  return (
-    <>
-      <PledgeTracking />
-    </>
-  );
-};
-
-export default ProtectedDashboard;
