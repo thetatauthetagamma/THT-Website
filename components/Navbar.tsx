@@ -148,7 +148,7 @@ const Navbar = () => {
                 (
                   <div className="flex flex-row">
                         <li className="mx-1">
-                          <Link legacyBehavior href="/pledgecalendar">
+                          <Link legacyBehavior href="/pledges/pledgecalendar">
                             <a className="text-black hover:text-gray-400 transition-colors duration-300 px-4 py-2 rounded-md font-bold text-lg"> Pledges </a>
                           </Link>
                         </li>
