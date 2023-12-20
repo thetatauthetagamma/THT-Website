@@ -55,11 +55,6 @@ const Navbar = () => {
         setIsBrother(true);
       }
     }
-
-    checkIfBrother();
-  }, [userEmail]);
-
-  useEffect(() => {
     const checkIfPledge = async () => {
 
       const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
@@ -68,7 +63,9 @@ const Navbar = () => {
       }
     }
 
+    checkIfBrother();
     checkIfPledge();
+
   }, [userEmail]);
 
 

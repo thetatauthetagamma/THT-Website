@@ -44,6 +44,14 @@ export default function BroNavBar({isPledge}) {
       }
     }
 
+    const isPledge = async () => {
+        const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
+        if(data?.length == 1 && !error) {
+          setFirstname(data[0].firstname)
+        }
+    }
+
+    isPledge();
     checkIfBrother();
   }, [userEmail]);
 
