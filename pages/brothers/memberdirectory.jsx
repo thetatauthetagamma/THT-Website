@@ -2,17 +2,14 @@ import React, { useEffect, useState } from 'react';
 import BroNavBar from '@/components/BroNavBar';
 import MemberTile from '@/components/MemberTile';
 import supabase from '../../supabase';
-
-
-
-
-
+import Cookies from 'js-cookie';
 
 export default function MemberDirectory() {
   const [brothers, setBrothers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMajor, setSelectedMajor] = useState(''); // Add state for selected major
-
+  const [userEmail, setUserEmail] = useState('');
+  const [isPledge, setIsPledge] = useState('');
   useEffect(() => {
     const fetchBrothers = async () => {
       try {
@@ -34,6 +31,19 @@ export default function MemberDirectory() {
 
     fetchBrothers();
   }, []);
+
+  useEffect(() => {
+    setUserEmail(Cookies.get('userEmail'))
+    const checkIfPledge = async () => {
+
+      const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(true);
+      }
+    }
+
+    checkIfPledge();
+  }, [userEmail]);
 
   const filteredBrothers = searchQuery
     ? brothers.filter(
@@ -68,8 +78,8 @@ export default function MemberDirectory() {
 
   return (
     <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
-    
-      <BroNavBar />
+      
+      { isPledge ? (<BroNavBar isPledge={true}/>) : (<BroNavBar isPledge={false}/>)}
       <div className="flex-grow">
         <div className="flex-grow h-full m-4">
           <h1 className="font-bold text-4xl xs:max-sm:text-center pb-4">Our Brothers</h1>

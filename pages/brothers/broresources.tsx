@@ -8,13 +8,10 @@ import PledgeTile from '../../components/PledgeTile'
 import BroNavBar from "@/components/BroNavBar";
 const BroResources: NextPage = () => {
 
-
-  
-
   return (
     <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
     
-    <BroNavBar/>
+    <BroNavBar isPledge={false}/>
     
     <ul className="space-y-2 font-bold flex-grow text-lg xs:max-sm:flex xs:max-sm:flex-col xs:max-sm:items-center pl-8">
       <h1 className="font-bold text-4xl py-4">Resources</h1>
