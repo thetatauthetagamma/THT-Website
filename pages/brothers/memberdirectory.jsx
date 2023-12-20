@@ -3,6 +3,11 @@ import BroNavBar from '@/components/BroNavBar';
 import MemberTile from '@/components/MemberTile';
 import supabase from '../../supabase';
 
+
+
+
+
+
 export default function MemberDirectory() {
   const [brothers, setBrothers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,6 +45,7 @@ export default function MemberDirectory() {
 
   return (
     <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
+    
       <BroNavBar />
       <div className="flex-grow">
         <div className="flex-grow h-full m-4">
