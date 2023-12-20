@@ -16,9 +16,9 @@ const BroResources: NextPage = () => {
     
     <BroNavBar/>
     
-    <ul className="space-y-2 font-bold w-full text-lg pl-8">
-    <h1 className="font-bold text-4xl py-4">Resources</h1>
-    <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow ">
+    <ul className="space-y-2 font-bold flex-grow text-lg xs:max-sm:flex xs:max-sm:flex-col xs:max-sm:items-center pl-8">
+      <h1 className="font-bold text-4xl py-4">Resources</h1>
+          <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow ">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSeyJg3VlVoX7AR3f-EfA4vJX8MHbtOJ85uHEtqIcsbgwioADQ/viewform?usp=sf_link" target="_blank" className="block p-2 rounded">📋 Attendance Form</a>
           </li>
           <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
@@ -34,12 +34,12 @@ const BroResources: NextPage = () => {
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSf0r2ESFIBakxZSL_dCAV9CrAQjwo0KUrG-Ac_lBvRHZyzc_w/viewform" target="_blank" className="block p-2 rounded">👶 Pledge Feedback Form</a>
           </li>
           <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfBGJTqwIAoKUeJt81nheVrPapZNrJUBBFC3wyxrbhrKGLVTA/viewform" target="_blank" className="block p-2 rounded">🚑 Brother of Concern/General Risk Form</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfBGJTqwIAoKUeJt81nheVrPapZNrJUBBFC3wyxrbhrKGLVTA/viewform" target="_blank" className="block p-2 rounded">🚑 Brother of Concer (Risk) Form</a>
           </li>
           <li className="hover:bg-gray-200 transition-colors duration-300 rounded flex-grow">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSds1eiHaU_qxOcZpDUExtrCbg2dIBpXpxeC-H6VhKwYgzKwng/viewform" target="_blank" className="block p-2 rounded">💰 Reimbursement Form</a>
           </li>
-          </ul>
+    </ul>
 </div>
   )
 }

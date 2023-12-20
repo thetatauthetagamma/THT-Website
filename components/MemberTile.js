@@ -50,7 +50,7 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
     <div className='flex flex-col items-center w-9/12'>
       <div className='flex flex-col items-center justify-evenly w-full pb-2'> 
             <div className='flex flex-col md:flex-row items-center mb-4'>
-                <div className='text-2xl font-bold md:mr-8'>
+                <div className='text-2xl font-bold text-center md:mr-8'>
                     {firstname} {lastname}
                 </div>
                 {
