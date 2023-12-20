@@ -18,7 +18,6 @@ export const isPledge = async (userEmail) => {
   try {
     if (userEmail) {
       const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail.value);
-      console.log(data)
       return data?.length === 1 && !error;
     }
     return false;

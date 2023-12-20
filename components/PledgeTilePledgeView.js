@@ -316,7 +316,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
         </div>
         <ProgressBar
           className='w-full py-2'
-          completed={Math.round((academicHours+socialHours * 100) / 40)}
+          completed={Math.round(((academicHours+socialHours) * 100) / 40)}
           bgColor='#22c55e'
           height='40px'
         />
