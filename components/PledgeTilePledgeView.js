@@ -3,7 +3,7 @@ import ProgressBar from '@ramonak/react-progress-bar'
 import thtlogo from '../public/tht-logo.png'
 import Image from 'next/image'
 import supabase from '../supabase'
-
+import moment from 'moment-timezone';
 const PledgeTilePledgeView = ({ pledge }) => {
   const [interviews, setInterviews] = useState(pledge.interviews)
   const [interviewedBrothers, setInterviewedBrothers] = useState([])
@@ -65,20 +65,16 @@ const PledgeTilePledgeView = ({ pledge }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const now = new Date()
-      const eventDate = new Date('2024-04-20')
-
-      const currentTime = now.getTime()
-      const eventTime = eventDate.getTime()
-
-      const remainingTime = eventTime - currentTime
-
-      const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24))
-
-      setCountdown(days)
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
+      const now = moment().tz('America/Detroit').startOf('day');
+      const eventDate = moment.tz('2024-04-20', 'YYYY-MM-DD', 'America/Detroit').startOf('day');
+      
+      const remainingTime = eventDate.diff(now, 'days'); // diff in days
+  
+      setCountdown(remainingTime);
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     fetchPledgeDetails()
