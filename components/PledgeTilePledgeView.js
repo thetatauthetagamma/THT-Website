@@ -261,7 +261,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
 
       <ProgressBar
         className='w-full py-2'
-        completed={committeeProgress}
+        completed={Math.round((committeeSO * 100) / 8)}
         bgColor='#22c55e'
         height='40px'
       />
@@ -291,7 +291,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
         </div>
         <ProgressBar
           className='w-full py-2'
-          completed={pdProgress}
+          completed={Math.round((pd * 100) / 6)}
           bgColor='#22c55e'
           height='40px'
         />
