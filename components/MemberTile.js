@@ -4,10 +4,11 @@ import Image from 'next/image'
 import { useEffect, useState } from "react";
 import supabase from '../supabase';
 import linkdenLogo from '../public/linked-in.svg'
+import { Router , useRouter} from 'next/router';
 
 
 export default function MemberTile({userid, firstname, lastname, year, major, roll, phone, email, linkedin, bio}) {
-
+    const router = useRouter();
     const [imageUrl, setImageUrl] = useState("")
 
     useEffect(() => {
@@ -26,9 +27,14 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
         fetchPledgeImage()
     }, [])
 
+    function handleClick()
+    {
+      router.push(`/brothers/${userid}`);
+    }
+
   return (
-    <div className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
-      <div className='flex flex-col items-center w-3/12'>
+    <div onClick={handleClick} className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
+      <div  className='flex flex-col items-center w-3/12'>
           {imageUrl ? (
             <div className='mb-2 w-40 h-40'>
             <img

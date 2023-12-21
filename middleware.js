@@ -1,4 +1,3 @@
-// middleware/auth.ts
 import { parse } from 'url';
 import { NextResponse } from 'next/server';
 import { isBrother, isPledge } from './auth';
@@ -9,8 +8,19 @@ export default async function middleware(req) {
 
   // Exclude the error page from the list of protected routes
   const errorPage = '/404';
-  const brotherRoutes = [`/brothers`, `/brothers/broresources`, `/brothers/memberdirectory`, `/brothers/pledgetracking`];
-  const pledgeRoutes = [`/pledges/pledgecalendar`, `/pledges/progress`, `/brothers/memberdirectory`];
+
+  // Include every route that starts with /brothers
+  const brotherRoutes = [
+    '/brothers',
+    '/brothers/*',  // Match any route starting with /brothers/
+  ];
+
+  // Additional pledge routes if needed
+  const pledgeRoutes = [
+    '/pledges/pledgecalendar',
+    '/pledges/progress',
+    '/brothers/memberdirectory',
+  ];
 
   if (path.startsWith('/_next')) {
     return NextResponse.next();
@@ -25,17 +35,15 @@ export default async function middleware(req) {
   const isUserBrother = await isBrother(userEmail);
   const isUserPledge = await isPledge(userEmail);
 
-  if (!isUserBrother && brotherRoutes.includes(path) && path !== errorPage) {
+  if (!isUserBrother && brotherRoutes.some(route => path.startsWith(route)) && path !== errorPage) {
     const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
     return NextResponse.redirect(httpsRedirectUrl);
   }
 
-  if (!isUserPledge && pledgeRoutes.includes(path) && path !== errorPage) {
-    if(isUserBrother && path === '/brothers/memberdirectory')
-    {
+  if (!isUserPledge && pledgeRoutes.some(route => path.startsWith(route)) && path !== errorPage) {
+    if (isUserBrother && path === '/brothers/memberdirectory') {
       return NextResponse.next();
-    }
-    else{
+    } else {
       const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
       return NextResponse.redirect(httpsRedirectUrl);
     }
