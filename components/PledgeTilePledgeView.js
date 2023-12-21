@@ -181,7 +181,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
     }
 
     fetchCommitteeSignoffs()
-  }, [])
+  }, [userID])
 
   useEffect(() => {
     const fetchPDSignoffs = async () => {
@@ -189,7 +189,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
         .from('PDSignOffs')
         .select('*')
         .eq('pledge', pledge)
-
+      console.log(data)
       if (data && data.length > 0) {
         const pdSignOffCount = Object.values(data[0]).filter(
           value => value == true
@@ -203,7 +203,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
       }
     }
     fetchPDSignoffs()
-  }, [])
+  }, [userID])
 
   return (
     <div className=' bg-gray-100 p-2 rounded-2xl mb-4 px-4 flex flex-col items-start flex-start'>
