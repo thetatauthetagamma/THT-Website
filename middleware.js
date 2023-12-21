@@ -25,14 +25,20 @@ export default async function middleware(req) {
   const isUserBrother = await isBrother(userEmail);
   const isUserPledge = await isPledge(userEmail);
 
-  if (isUserBrother && !brotherRoutes.includes(path) && path !== errorPage) {
+  if (!isUserBrother && brotherRoutes.includes(path) && path !== errorPage) {
     const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
     return NextResponse.redirect(httpsRedirectUrl);
   }
 
-  if (isUserPledge && !pledgeRoutes.includes(path) && path !== errorPage) {
-    const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
-    return NextResponse.redirect(httpsRedirectUrl);
+  if (!isUserPledge && pledgeRoutes.includes(path) && path !== errorPage) {
+    if(isUserBrother && path === '/brothers/memberdirectory')
+    {
+      return NextResponse.next();
+    }
+    else{
+      const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
+      return NextResponse.redirect(httpsRedirectUrl);
+    }
   }
 
   return NextResponse.next();
