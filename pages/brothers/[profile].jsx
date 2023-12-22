@@ -4,6 +4,7 @@ import thtlogo from '../../public/tht-logo.png';
 import Image from 'next/image';
 import BroNavBar from '@/components/BroNavBar';
 import { useRouter } from 'next/router';
+import { isNull } from 'util';
 
 export default function Profile() {
   const router = useRouter();
@@ -19,6 +20,9 @@ export default function Profile() {
   const [linkedin, setLinkedin] = useState('');
   const [userid, setUserid] = useState('');
   const [isEditable , setIsEditable] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageUrl, setProfileImageUrl] = useState(null);
+
 
   const [editableFields, setEditableFields] = useState({
     firstname: false,
@@ -28,6 +32,7 @@ export default function Profile() {
     roll: false,
     phone: false,
     linkedin: false,
+    imageUrl: false
   });
 
   useEffect(() => {
@@ -77,19 +82,19 @@ export default function Profile() {
 
 
   useEffect(() => {
-    const fetchPledgeImage = async () => {
+    const fetchBrotherImage = async () => {
       if (userid) {
         const { data: ImageData, error } = await supabase.storage
           .from('brothers')
           .download(`${userid}.jpeg`);
-
+        
         if (!error) {
-          setImageUrl(URL.createObjectURL(ImageData));
+          setImageUrl(URL.createObjectURL(new Blob([ImageData])));
         }
       }
     };
-
-    fetchPledgeImage();
+  
+    fetchBrotherImage();
   }, [userid]);
 
   useEffect(() => {
@@ -116,6 +121,7 @@ export default function Profile() {
       major: !prevFields.major,
       phone: !prevFields.phone,
       linkedin: !prevFields.linkedin,
+      imageUrl: !prevFields.imageUrl
     }));
   };
   
@@ -139,6 +145,7 @@ export default function Profile() {
   
       if (!error) {
         console.log('Profile updated successfully');
+  
         // Optionally reset editableFields state to hide input fields
         setEditableFields({
           firstname: false,
@@ -147,13 +154,51 @@ export default function Profile() {
           major: false,
           phone: false,
           linkedin: false,
+          imageUrl: false
         });
-      } else {
+  
+        // Upload the new profile photo if a file is selected
+        if (profileImage) {
+          const fileName = `${userid}.jpeg`;
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('brothers')
+            .upload(fileName, profileImage, {
+              cacheControl: '3600',
+              contentType: 'image/jpeg', 
+              upsert: true,
+            }
+          );
+  
+          if (!uploadError) {
+            console.log('Profile photo uploaded successfully');
+            setImageUrl(URL.createObjectURL(profileImage));
+            setProfileImage(null); // Reset profileImage after successful upload
+          } else {
+            console.error('Error uploading profile photo:', uploadError.message);
+          }
+        }
+      } 
+     
+      else {
         console.error('Error updating profile:', error.message);
       }
     } catch (error) {
       console.error('Error updating profile:', error.message);
     }
+  };
+  
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+  // Check if the file is of type image/jpeg
+  if (file && file.type === 'image/jpeg') {
+    const image = URL.createObjectURL(file);
+    setProfileImage(file);
+    setProfileImageUrl(image);
+  } else {
+    console.error('Invalid file format. Please select a JPEG image.');
+  }
   };
 
   return (
@@ -162,27 +207,47 @@ export default function Profile() {
     <div className='flex-grow'>
       <div className='flex flex-col items-center bg-gray-100 p-2 mb-4 h-full'>
         <div className='flex flex-col items-center w-full'>
-          {imageUrl ? (
-            <div className='mb-2 w-40 h-40'>
-              <img
-                src={imageUrl}
-                alt='Pledge'
-                className='rounded-full w-full h-full object-cover'
-              />
-            </div>
-          ) : (
-            <div className='mb-2 w-32 h-34'>
-              <Image
-                src={thtlogo}
-                alt='logo'
-                className='rounded-full w-full h-full object-cover'
-              />
-            </div>
-          )}
+          {profileImage ? (
+              <div className='mb-2 w-40 h-40'>
+                <img
+                  src={profileImageUrl}
+                  alt='ProfileImage'
+                  className='rounded-full w-full h-full object-cover'
+                />
+              </div>
+            ) : (
+              // If no temporary image, check for imageUrl
+              imageUrl ? (
+                <div className='mb-2 w-40 h-40'>
+                  <img
+                    src={imageUrl}
+                    alt='ProfileBroken'
+                    className='rounded-full w-full h-full object-cover'
+                  />
+                </div>
+              ) : (
+                // If no imageUrl, display the default logo
+                <div className='mb-2 w-32 h-34'>
+                  <Image
+                    src={thtlogo}
+                    alt='logo'
+                    className='rounded-full w-full h-full object-cover'
+                  />
+                </div>
+              )
+            )}
+          {editableFields.imageUrl && isEditable && (
+              <div>
+                <label className="cursor-pointer bg-[#8b000070] text-white rounded-md mb-4 p-2">
+                  Upload new photo (JPEG only)
+                  <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                </label>
+              </div>
+            )}
         </div>
         <div className='flex flex-col items-center w-full'>
           <div className='flex flex-col items-center justify-evenly w-full pb-2'>
-            <div className='flex flex-col md:flex-row items-center mb-4'>
+            <div className='flex flex-col md:flex-row items-center my-4'>
               <div className='text-2xl font-bold text-center md:mr-2'>
                 {editableFields.firstname && isEditable ? (
                   <input
@@ -221,10 +286,10 @@ export default function Profile() {
                             placeholder={`${year}`}
                             value={year}
                             onChange={(e) => setYear(e.target.value)}
-                            className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
+                            className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070] mr-2'
                           />
                         ) : (
-                          `${year}`
+                          <p className='text-center'>{year}</p>
                         )}
                       </div>
                     ) : (
@@ -242,7 +307,9 @@ export default function Profile() {
                             className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
                           />
                         ) : (
-                          `${major}`
+                          <p className='text-center'>
+                            {major}
+                          </p>
                         )}
                       </div>
                     ) : (
@@ -292,15 +359,15 @@ export default function Profile() {
             {isEditable && (
               <div className='flex flex-col md:flex-row items-center justify-evenly w-full'>
                 {!Object.values(editableFields).some((field) => field) ? (
-                  <button className='font-bold m-2 text-md bg-[#8b000070] p-2 rounded-md text-center mb-4' onClick={handleFieldEdit}>
+                  <button className='font-bold m-2 text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleFieldEdit}>
                     Edit Profile
                   </button>
                 ) : (
                   <div className='flex flex-row m-2 items-center'>
-                    <button className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center mb-4' onClick={handleFieldEdit}>
+                    <button className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleFieldEdit}>
                       Cancel
                     </button>
-                    <button className='font-bold text-md bg-[#8b000070] p-2 rounded-md text-center mb-4' onClick={handleSave}>
+                    <button className='font-bold text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleSave}>
                       Save Profile
                     </button>
                   </div>
