@@ -4,7 +4,6 @@ import thtlogo from '../../public/tht-logo.png';
 import Image from 'next/image';
 import BroNavBar from '@/components/BroNavBar';
 import { useRouter } from 'next/router';
-import { isNull } from 'util';
 
 export default function Profile() {
   const router = useRouter();
