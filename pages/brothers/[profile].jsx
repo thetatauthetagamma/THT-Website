@@ -306,7 +306,7 @@ export default function Profile() {
                         placeholder={year || ''}
                         value={year}
                         onChange={(e) => setYear(e.target.value)}
-                        className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070] mr-2'
+                        className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070] md:mr-2'
                       />
                     ) : (
                       <p className='text-center'>{year || 'year'}</p>
