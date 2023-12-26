@@ -6,20 +6,18 @@ export default async function middleware(req) {
   const url = parse(req.url || '', true);
   const path = url.pathname || '';
 
-  // Exclude the error page from the list of protected routes
   const errorPage = '/404';
 
-  // Include every route that starts with /brothers
   const brotherRoutes = [
     '/brothers',
-    '/brothers/*',  // Match any route starting with /brothers/
+    '/brothers/*',
   ];
 
-  // Additional pledge routes if needed
   const pledgeRoutes = [
     '/pledges/pledgecalendar',
     '/pledges/progress',
     '/brothers/memberdirectory',
+    '/brothers/studybuddysearch'
   ];
 
   if (path.startsWith('/_next')) {
@@ -41,7 +39,7 @@ export default async function middleware(req) {
   }
 
   if (!isUserPledge && pledgeRoutes.some(route => path.startsWith(route)) && path !== errorPage) {
-    if (isUserBrother && path === '/brothers/memberdirectory') {
+    if (isUserBrother && (path === '/brothers/memberdirectory' || path === '/brothers/studybuddysearch')) {
       return NextResponse.next();
     } else {
       const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
