@@ -21,6 +21,7 @@ export default function Profile() {
   const [isEditable , setIsEditable] = useState('');
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageUrl, setProfileImageUrl] = useState(null);
+  const [currentClasses, setCurrentClasses] = useState([])
 
 
   const [editableFields, setEditableFields] = useState({
@@ -31,7 +32,8 @@ export default function Profile() {
     roll: false,
     phone: false,
     linkedin: false,
-    imageUrl: false
+    imageUrl: false,
+    currentClasses: false
   });
 
   useEffect(() => {
@@ -63,6 +65,7 @@ export default function Profile() {
         .eq('userid', userid);
 
       if (data?.length === 1 && !error) {
+        console.log(data)
         setUserid(data[0].userid);
         setFirstname(data[0].firstname);
         setLastname(data[0].lastname);
@@ -71,7 +74,8 @@ export default function Profile() {
         setRoll(data[0].roll);
         setPhone(data[0].phone);
         setLinkedin(data[0].linkedin);
-        setEmail(data[0].email)
+        setEmail(data[0].email);
+        setCurrentClasses(data[0].classes);
       }
     };
 
@@ -120,7 +124,8 @@ export default function Profile() {
       major: !prevFields.major,
       phone: !prevFields.phone,
       linkedin: !prevFields.linkedin,
-      imageUrl: !prevFields.imageUrl
+      imageUrl: !prevFields.imageUrl,
+      currentClasses: !prevFields.currentClasses
     }));
   };
   
@@ -138,6 +143,7 @@ export default function Profile() {
             major,
             phone,
             linkedin: linkedin,
+            classes: currentClasses
           },
         ])
         .eq('email', email);
@@ -153,7 +159,8 @@ export default function Profile() {
           major: false,
           phone: false,
           linkedin: false,
-          imageUrl: false
+          imageUrl: false,
+          currentClasses: false
         });
   
         // Upload the new profile photo if a file is selected
@@ -198,6 +205,23 @@ export default function Profile() {
   } else {
     console.error('Invalid file format. Please select a JPEG image.');
   }
+  };
+
+  const handleCurrentClassChange = (index, value) => {
+    const updatedClasses = [...currentClasses];
+    updatedClasses[index] = value;
+    setCurrentClasses(updatedClasses);
+  };
+  
+  const handleDeleteClass = (index) => {
+    const updatedClasses = [...currentClasses];
+    updatedClasses.splice(index, 1);
+    setCurrentClasses(updatedClasses);
+  };
+  
+  const handleAddClass = () => {
+    const updatedClasses = [...currentClasses, '']; // Add an empty string for a new class
+    setCurrentClasses(updatedClasses);
   };
 
   return (
@@ -266,7 +290,7 @@ export default function Profile() {
                     type='text'
                     placeholder={lastname}
                     value={lastname}
-                    onChange={(e) => setlastname(e.target.value)}
+                    onChange={(e) => setLastname(e.target.value)}
                     className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
                   />
                 ) : (
@@ -276,44 +300,36 @@ export default function Profile() {
             </div>
             <div className='flex flex-col items-center justify-evenly w-full'>
               <div className='flex flex-row items-center justify-evenly w-1/3'>
-                {year ? (
-                      <div className='text-xl'>
-                        <p className='text-lg font-semibold mb-1 whitespace-nowrap text-center '>Year</p>
-                        {editableFields.year && isEditable ? (
-                          <input
-                            type='text'
-                            placeholder={`${year}`}
-                            value={year}
-                            onChange={(e) => setYear(e.target.value)}
-                            className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070] mr-2'
-                          />
-                        ) : (
-                          <p className='text-center'>{year}</p>
-                        )}
-                      </div>
+              <div className='flex flex-row items-center justify-evenly w-1/3'>
+                  <div className='text-xl'>
+                    <p className='text-lg font-semibold mb-1 whitespace-nowrap text-center'>Year</p>
+                    {editableFields.year && isEditable ? (
+                      <input
+                        type='text'
+                        placeholder={year || ''}
+                        value={year}
+                        onChange={(e) => setYear(e.target.value)}
+                        className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070] mr-2'
+                      />
                     ) : (
-                      <div className='text-xl'>year</div>
+                      <p className='text-center'>{year || 'year'}</p>
                     )}
-                    {major ? (
-                      <div className='text-xl'>
-                        <p className='text-lg font-semibold mb-1 whitespace-nowrap text-center '>Major</p>
-                        {editableFields.major && isEditable ? (
-                          <input
-                            type='text'
-                            placeholder={`${major}`}
-                            value={year}
-                            onChange={(e) => setMajor(e.target.value)}
-                            className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
-                          />
-                        ) : (
-                          <p className='text-center'>
-                            {major}
-                          </p>
-                        )}
-                      </div>
+                  </div>
+                  <div className='text-xl'>
+                    <p className='text-lg font-semibold mb-1 whitespace-nowrap text-center'>Major</p>
+                    {editableFields.major && isEditable ? (
+                      <input
+                        type='text'
+                        placeholder={major || ''}
+                        value={major}
+                        onChange={(e) => setMajor(e.target.value)}
+                        className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
+                      />
                     ) : (
-                      <div className='text-xl'>major</div>
+                      <p className='text-center'>{major || 'major'}</p>
                     )}
+                  </div>
+                </div>
               </div>
 
                 <div className='flex flex-col items-center p-2'>
@@ -339,7 +355,7 @@ export default function Profile() {
                   <p className='text-lg whitespace-nowrap'>{phone || '(xxx)-xxx-xxxx'}</p>
                 )}
               </div>
-            <div className='flex flex-col items-center p-2 w-full'>
+              <div className='flex flex-col items-center p-2 w-full'>
                 <p className='text-lg font-semibold mb-1'>LinkedIn URL</p>
                 {editableFields.linkedin && isEditable ? (
                   <input
@@ -353,8 +369,46 @@ export default function Profile() {
                   <p className='text-lg text-center whitespace-nowrap'>{linkedin}</p>
                 )}
               </div>
+              <div className='flex flex-col items-center p-2 w-full'>
+                  <p className='text-lg font-semibold'>Current Classes</p>
+                  {editableFields.currentClasses && isEditable ? (
 
+                    <div className='flex flex-col'>
+                      <p className='text-center mb-2 text-red-500'>Please add class name in this format (EECS 482, MECHENG 211, AEROSP 200) </p>
+                      <div className='grid grid-cols-3 gap-4'>
+                        {currentClasses.map((className, index) => (
+                          <div key={index} className='flex flex-row items-center'>
+                            <button
+                              onClick={() => handleDeleteClass(index)}
+                              className='text-red-500 hover:text-red-700 font-semibold mr-2'
+                            >
+                              X
+                            </button>
+                            <input
+                              type='text'
+                              placeholder={`Class ${index + 1}`}
+                              value={className}
+                              onChange={(e) => handleCurrentClassChange(index, e.target.value)}
+                              className='whitespace-nowrap w-full border-2 border-[#8b000070] text-center'
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <button onClick={handleAddClass} className='text-green-500 hover:text-green-700 font-semibold mt-4'>
+                        Add Class
+                      </button>
+                    </div>
+                  ) : (
+                    <div className='grid grid-cols-3 gap-4'>
+
+                      {currentClasses && currentClasses.map((className, index) => (
+                        <p key={index} className='text-lg text-center whitespace-nowrap'>{className}</p>
+                      ))}
+                    </div>
+                  )}
+              </div>
             </div>
+            
             {isEditable && (
               <div className='flex flex-col md:flex-row items-center justify-evenly w-full'>
                 {!Object.values(editableFields).some((field) => field) ? (

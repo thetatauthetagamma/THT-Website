@@ -115,6 +115,11 @@ export default function BroNavBar({isPledge}) {
                   <a >Member Directory</a>
                 </Link>
               </li>
+              <li className="hover:bg-[#8b000070] transition-colors duration-300 rounded flex-grow py-4 pl-2">
+                <Link legacyBehavior href="/brothers/studybuddysearch" className="block p-2 rounded ">
+                  <a> Study Buddy 🔎</a>
+                </Link>
+              </li>
               </ul>
           )
         }
