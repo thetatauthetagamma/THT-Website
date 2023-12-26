@@ -4,7 +4,7 @@ export default function brothers() {
   
   return (
     <div className="flex md:flex-row flex-col flex-grow  border-b-2 border-[#a3000020]">
-      <BroNavBar isPledge={true}/>
+      <BroNavBar isPledge={false}/>
       <div className="flex-grow">
       
         <div className="flex-grow h-full m-4">
