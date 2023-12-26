@@ -68,7 +68,7 @@ export default function StudyBuddySearch() {
           <h1 className="font-bold text-4xl xs:max-sm:text-center pb-4">Find Study Buddies</h1>
           <input
             type="text"
-            placeholder="Search by Class Name or Number"
+            placeholder="Search by class name and number (EECS 482, MECHENG 211, AEROSP 200)"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="p-2 border border-gray-800 rounded w-full mb-4"
