@@ -46,7 +46,7 @@ export default function pledgetracking() {
 
     return (
       <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
-        <BroNavBar />
+        <BroNavBar isPledge={false}/>
         <div className="flex-grow">
           <div className="flex-grow h-full m-4">
             <h1 className="font-bold text-4xl xs:max-sm:text-center pb-4">Pledge Progress</h1>

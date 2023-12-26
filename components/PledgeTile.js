@@ -215,6 +215,30 @@ const PledgeTile = ({ pledge }) => {
       if (error) {
         console.error('Error updating committee sign-off:', error.message)
       } else {
+        
+        const { data: existingPledgeData, error: existingPledgeError } =
+        await supabase
+          .from('CommitteeSignOffs')
+          .select('brotherSO')
+          .eq('pledge', pledge)
+          .single()
+       
+      const currentCommitteeBros = existingPledgeData
+        ? existingPledgeData.brotherSO || []
+        : []
+        
+        const updatedCommitteeBros = [...currentCommitteeBros, userID]
+        
+        const { error } = await supabase.from('CommitteeSignOffs').upsert(
+          [
+            {
+              pledge,
+              brotherSO: updatedCommitteeBros
+            }
+          ],
+          { onConflict: ['pledge'] }
+        )
+        window.alert(`You have signed off ${pledge} for their ${committeeList[selectedCommittee]} successfully.`)
         setSelectedCommittee('');
         // Optionally, you can refetch the committee sign-offs data here
       }
@@ -241,12 +265,35 @@ const PledgeTile = ({ pledge }) => {
         ],
         { onConflict: ['pledge'] }
       )
+     
 
       if (error) {
         console.error('Error updating committee sign-off:', error.message)
       } else {
-        console.log(`Committee sign-off for ${pledge} updated successfully`)
-        window.alert(`You have signed off ${pledge} for ${selectedPDSO} successfully.`)
+        const { data: existingPledgeData, error: existingPledgeError } =
+        await supabase
+          .from('PDSignOffs')
+          .select('brotherSO')
+          .eq('pledge', pledge)
+          .single()
+       
+      const currentPDBrothers = existingPledgeData
+        ? existingPledgeData.brotherSO || []
+        : []
+   
+        const updatedPDBrothers = [...currentPDBrothers, userID]
+
+        const { error } = await supabase.from('PDSignOffs').upsert(
+          [
+            {
+              pledge,
+              brotherSO: updatedPDBrothers
+            }
+          ],
+          { onConflict: ['pledge'] }
+        )
+       
+        window.alert(`You have signed off ${pledge} for their ${pdRequirementList[selectedPDSO]} activity successfully.`)
         setselectedPDSO('');
        
         // Optionally, you can refetch the committee sign-offs data here

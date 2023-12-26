@@ -1,10 +1,28 @@
 // middleware/auth.ts
-import supabase  from './supabase';
+import supabase from './supabase';
 
 export const isBrother = async (userEmail) => {
-  if (userEmail) {
-    const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
-    return data?.length === 1 && !error;
+  try {
+    if (userEmail) {
+      const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail.value);
+      return data?.length === 1 && !error;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error checking brother status:', error);
+    return false;
   }
-  return false;
+};
+
+export const isPledge = async (userEmail) => {
+  try {
+    if (userEmail) {
+      const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail.value);
+      return data?.length === 1 && !error;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error checking pledge status:', error);
+    return false;
+  }
 };
