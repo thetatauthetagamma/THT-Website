@@ -297,7 +297,7 @@ export default function Profile() {
             </div>
             <div className='flex flex-col items-center justify-evenly w-full'>
               <div className='flex flex-row items-center justify-evenly w-1/3'>
-              <div className='flex flex-row items-center justify-evenly w-1/3'>
+                <div className='flex flex-col md:flex-row items-center justify-evenly w-1/3'>
                   <div className='text-xl'>
                     <p className='text-lg font-semibold mb-1 whitespace-nowrap text-center'>Year</p>
                     {editableFields.year && isEditable ? (
@@ -360,10 +360,10 @@ export default function Profile() {
                     placeholder={linkedin}
                     value={linkedin}
                     onChange={(e) => setLinkedin(e.target.value)}
-                    className='whitespace-nowrap w-4/12 border-2 border-[#8b000070]' 
+                    className='md:whitespace-nowrap w-4/12 border-2 border-[#8b000070]' 
                   />
                 ) : (
-                  <p className='text-lg text-center whitespace-nowrap'>{linkedin}</p>
+                  <p className='text-lg text-center md:whitespace-nowrap'>{linkedin}</p>
                 )}
               </div>
               <div className='flex flex-col items-center p-2 w-full'>
