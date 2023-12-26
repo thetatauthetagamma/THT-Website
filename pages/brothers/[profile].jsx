@@ -39,7 +39,6 @@ export default function Profile() {
   useEffect(() => {
     const fetchUnique = async () => {
       const queryParams = router.query;
-      console.log(queryParams.profile);
       setUserid(queryParams.profile);
     };
   
@@ -65,7 +64,6 @@ export default function Profile() {
         .eq('userid', userid);
 
       if (data?.length === 1 && !error) {
-        console.log(data)
         setUserid(data[0].userid);
         setFirstname(data[0].firstname);
         setLastname(data[0].lastname);
@@ -102,7 +100,6 @@ export default function Profile() {
 
   useEffect(() => {
     const isEditAble = async () => {
-        console.log(currentEmail)
         if(userid == currentEmail.slice(0, -10))
         {
           setIsEditable(true)

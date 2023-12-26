@@ -7,43 +7,43 @@ import Cookies from 'js-cookie';
 export default function MemberDirectory() {
   const [brothers, setBrothers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedMajor, setSelectedMajor] = useState(''); // Add state for selected major
+  const [selectedMajor, setSelectedMajor] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [isPledge, setIsPledge] = useState('');
+  const [isPledge, setIsPledge] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const fetchBrothers = async () => {
+    setUserEmail(Cookies.get('userEmail'));
+  
+    const fetchData = async () => {
       try {
-        const { data, error } = await supabase.from('Brothers').select('*');
-
-        if (error) {
-          throw error;
+        const [pledgeData, brothersData] = await Promise.all([
+          supabase.from('Pledges').select('*').eq('email', userEmail),
+          supabase.from('Brothers').select('*')
+        ]);
+  
+        if (pledgeData.data?.length === 1 && !pledgeData.error) {
+          setIsPledge(true);
         }
-
-        if (data) {
-          // Assuming 'roll' is a number field in your database
-          const sortedData = data.sort((a, b) => b.roll - a.roll);
+  
+        if (brothersData.error) {
+          throw brothersData.error;
+        }
+  
+        if (brothersData.data) {
+          const sortedData = brothersData.data.sort((a, b) => b.roll - a.roll);
           setBrothers(sortedData);
         }
       } catch (error) {
-        console.error('Error fetching brothers:', error);
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
-
-    fetchBrothers();
-  }, []);
-
-  useEffect(() => {
-    setUserEmail(Cookies.get('userEmail'))
-    const checkIfPledge = async () => {
-
-      const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
-      if (data?.length == 1 && !error) {
-        setIsPledge(true);
-      }
-    }
-
-    checkIfPledge();
+  
+    fetchData();
   }, [userEmail]);
+  
 
   const filteredBrothers = searchQuery
     ? brothers.filter(
@@ -71,15 +71,20 @@ export default function MemberDirectory() {
         }
   
         return false;
-      })
+      }) 
     : filteredBrothers;
 
   const majors = ['Mech E', 'CS', 'CE', 'EE' , 'CEE', 'Chem E', 'Aero', 'Math', 'IOE', 'NAME', 'MSE'];
 
+  if (loading) {
+    return null; // Return nothing or a loading indicator
+  }
+
+
   return (
     <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
-      
-      { isPledge ? (<BroNavBar isPledge={true}/>) : (<BroNavBar isPledge={false}/>)}
+
+      {isPledge ? <BroNavBar isPledge={true} /> : <BroNavBar isPledge={false} />  }
       <div className="flex-grow">
         <div className="flex-grow h-full m-4">
           <h1 className="font-bold text-4xl xs:max-sm:text-center pb-4">Our Brothers</h1>

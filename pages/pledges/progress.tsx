@@ -15,9 +15,6 @@ export default function progress() {
         const session = await supabase.auth.getSession();
         if (session) {
           setUserEmail(session.data.session?.user.email || '')
-          console.log(userEmail)
-        
-        console.log(pledgeUniqname)
         }
       } catch (error) {
         console.log(error);

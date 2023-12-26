@@ -21,7 +21,6 @@ const Navbar = () => {
       try {
         const session = await supabase.auth.getSession();
         if (session) {
-          console.log(session)
           setUserEmail(session.data.session?.user.email || '')
           Cookies.set('userEmail', session.data.session?.user.email || '');
         }

@@ -4,47 +4,45 @@ import Cookies from 'js-cookie';
 import supabase from '@/supabase';
 import ClassMemberTile from '@/components/ClassMemberTile';
 
-
 export default function StudyBuddySearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [isPledge, setIsPledge] = useState('');
+  const [isPledge, setIsPledge] = useState(false);
   const [brothers, setBrothers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setUserEmail(Cookies.get('userEmail'));
 
-    const checkIfPledge = async () => {
-      const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
-      if (data?.length === 1 && !error) {
-        setIsPledge(true);
-      }
-    };
-
-    checkIfPledge();
-  }, [userEmail]);
-
-  useEffect(() => {
-    const fetchBrothers = async () => {
+    const fetchData = async () => {
       try {
-        const { data, error } = await supabase.from('Brothers').select('*');
+        const [pledgeData, brothersData] = await Promise.all([
+          supabase.from('Pledges').select('*').eq('email', userEmail),
+          supabase.from('Brothers').select('*')
+        ]);
 
-        if (error) {
-          throw error;
+        if (pledgeData.data?.length === 1 && !pledgeData.error) {
+          setIsPledge(true);
         }
 
-        if (data) {
+        if (brothersData.error) {
+          throw brothersData.error;
+        }
+
+        if (brothersData.data) {
           // Assuming 'roll' is a number field in your database
-          const sortedData = data.sort((a, b) => b.roll - a.roll);
+          const sortedData = brothersData.data.sort((a, b) => b.roll - a.roll);
           setBrothers(sortedData);
         }
       } catch (error) {
-        console.error('Error fetching brothers:', error);
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchBrothers();
-  }, []);
+    fetchData();
+  }, [userEmail]);
 
   const filteredBrothers = brothers.filter((brother) => {
     if (brother.classes && brother.major) {
@@ -58,10 +56,13 @@ export default function StudyBuddySearch() {
     return false;
   });
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
       {isPledge ? <BroNavBar isPledge={true} /> : <BroNavBar isPledge={false} />}
-
       <div className="flex-grow">
         <div className="flex-grow h-full m-4">
           <h1 className="font-bold text-4xl xs:max-sm:text-center pb-4">Find Study Buddies</h1>
@@ -90,3 +91,4 @@ export default function StudyBuddySearch() {
     </div>
   );
 }
+

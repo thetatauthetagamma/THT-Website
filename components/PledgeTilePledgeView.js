@@ -129,11 +129,9 @@ const PledgeTilePledgeView = ({ pledge }) => {
           .from('pledges')
           .download(`${pledge}.jpeg`)
 
-        console.log(`${pledge}.jpeg`)
 
         if (!error) {
           setImageUrl(URL.createObjectURL(ImageData))
-          console.log(URL.createObjectURL(ImageData))
         }
       }
     }
@@ -166,8 +164,6 @@ const PledgeTilePledgeView = ({ pledge }) => {
         .select('*')
         .eq('pledge', pledge)
       SetCommitteeSignOffs(data)
-      console.log(data)
-      console.log(committeeSignOffs)
       if (data && data.length > 0) {
         const committeeSignOffCount = Object.values(data[0]).filter(
           value => value == true
@@ -189,13 +185,11 @@ const PledgeTilePledgeView = ({ pledge }) => {
         .from('PDSignOffs')
         .select('*')
         .eq('pledge', pledge)
-      console.log(data)
       if (data && data.length > 0) {
         const pdSignOffCount = Object.values(data[0]).filter(
           value => value == true
         ).length
         setpdSOs(data)
-        console.log(pdSignOffCount)
         setPD(pdSignOffCount)
         setpdProgress(Math.round((pd * 100) / 6))
       } else {
