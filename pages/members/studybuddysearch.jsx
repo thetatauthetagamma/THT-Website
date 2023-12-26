@@ -73,7 +73,7 @@ export default function StudyBuddySearch() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="p-2 border border-gray-800 rounded w-full mb-4"
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full" style={{ maxHeight: '550px', overflowY: 'auto' }}>
             {filteredBrothers.map((brother) => (
               <div key={brother.userid}>
                 <ClassMemberTile
