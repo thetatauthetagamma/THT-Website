@@ -163,12 +163,12 @@ const PledgeTilePledgeView = ({ pledge }) => {
         .from('CommitteeSignOffs')
         .select('*')
         .eq('pledge', pledge)
-      SetCommitteeSignOffs(data)
+      
       if (data && data.length > 0) {
         const committeeSignOffCount = Object.values(data[0]).filter(
           value => value == true
         ).length
-
+        SetCommitteeSignOffs(data)
         setCommitteeSO(committeeSignOffCount)
         setCommitteeProgress(Math.round((committeeSO * 100) / 8))
       } else {
