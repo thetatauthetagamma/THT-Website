@@ -79,7 +79,7 @@ export default function Profile() {
 
     fetchBrotherData();
     fetchSession();
-  }, [userid, currentEmail]);
+  }, [userid, currentEmail, editableFields]);
 
 
   useEffect(() => {
