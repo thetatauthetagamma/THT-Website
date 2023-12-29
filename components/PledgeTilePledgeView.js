@@ -115,8 +115,8 @@ const PledgeTilePledgeView = ({ pledge }) => {
         setPronouns(data[0].pronouns)
         setYear(data[0].year)
         setInterviews(data[0].interviews)
-        setAcademicHours(data[0].AcademicHours)
-        setSocialHours(data[0].SocialHours)
+        setAcademicHours(data[0].academicHours)
+        setSocialHours(data[0].socialHours)
       } else {
       }
     } catch (error) {}

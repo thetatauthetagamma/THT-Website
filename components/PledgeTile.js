@@ -26,9 +26,6 @@ const PledgeTile = ({ pledge }) => {
   const [pronouns, setPronouns] = useState('')
   const [year, setYear] = useState('')
 
-  const [accessToken, setAccessToken] = useState('')
-  const [events, setEvents] = useState([])
-  const [pledgeName, setPledgeName] = useState('')
   const [userID, setUserID] = useState('')
 
   const [socialHours, setSocialHours] = useState(0);
@@ -37,6 +34,16 @@ const PledgeTile = ({ pledge }) => {
   //used for committee sign off button:
   const [selectedCommittee, setSelectedCommittee] = useState('');
   const [selectedPDSO, setselectedPDSO] = useState('');
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [editableFields, setEditableFields] = useState({
+    academicHours: false,
+    socialHours: false,
+  });
+
+
   //key = supabase column, value = display value
   const pdRequirementList = {
     "resume": "Resume and Cover Letter",
@@ -75,6 +82,29 @@ const PledgeTile = ({ pledge }) => {
     checkBrotherInPledge()
   }, [userID])
 
+
+  useEffect(() => {
+    const fetchAdminRole = async () => {
+      try {
+        const { data, error } = await supabase
+        .from('Brothers')
+        .select('adminrole')
+        .eq('email', userID)
+
+      if (error) {
+        throw error
+      }
+      if (data) {  
+        if(data[0].adminrole == 'parent'){
+          setIsAdmin(true);
+        }
+    }
+  } catch (error) {}
+    }
+    fetchAdminRole()
+  }, [userID])
+
+
   async function fetchPledgeDetails () {
     try {
       const { data, error } = await supabase
@@ -93,8 +123,8 @@ const PledgeTile = ({ pledge }) => {
         setPronouns(data[0].pronouns)
         setYear(data[0].year)
         setInterviews(data[0].interviews)
-        setAcademicHours(data[0].AcademicHours)
-        setSocialHours(data[0].SocialHours)
+        setAcademicHours(data[0].academicHours)
+        setSocialHours(data[0].socialHours)
       } else {
       }
     } catch (error) {}
@@ -360,6 +390,53 @@ const PledgeTile = ({ pledge }) => {
     }
   }
 
+
+  const handleSave = async () => {
+    try {
+      // Update the user's profile in Supabase with the new values
+      const { data, error } = await supabase
+        .from('Pledges')
+        .update([
+          {
+            academicHours,
+            socialHours,
+          },
+        ])
+        .eq('uniqname', pledge);
+  
+      if (!error) {
+        console.log('Pledge hours updated successfully');
+        // Optionally reset editableFields state to hide input fields
+        setEditableFields({
+          academicHours: false,
+          socialHours: false
+        });
+  
+
+      } 
+     
+      else {
+        console.error('Error updating profile:', error.message);
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error.message);
+    }
+  };
+
+  const handleFieldEdit = () => {
+    
+    setEditableFields((prevFields) => ({
+      ...prevFields,
+      academicHours: !prevFields.academicHours,
+      socialHours: !prevFields.socialHours,
+      
+    }));
+  };
+
+
+
+
+  
   return (
     <div className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
       <div className='flex flex-col items-center md:w-3/12'>
@@ -385,6 +462,25 @@ const PledgeTile = ({ pledge }) => {
           <p>
             {year} | {pronouns} | {major}
           </p>
+          {isAdmin && (
+              <div className='flex flex-col md:flex-row items-center justify-evenly w-full'>
+                {!Object.values(editableFields).some((field) => field) ? (
+                  <button className='font-bold m-2 text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleFieldEdit}>
+                    Edit 
+                  </button>
+                ) : (
+                  <div className='flex flex-row m-2 items-center'>
+                    <button className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleFieldEdit}>
+                      Cancel
+                    </button>
+                    <button className='font-bold text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleSave}>
+                      Save 
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
         </div>
       </div>
       <div className='flex flex-col items-center w-9/12'>
@@ -403,11 +499,35 @@ const PledgeTile = ({ pledge }) => {
         </div>
         <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
           <p className='text-sm text-center font-bold mb-1'># of Social Hours</p>
-          <p className='text-sm'>{socialHours}</p>
+          <p className='text-sm'>
+          {editableFields.socialHours && isAdmin ? (
+                  <input
+                    type='text'
+                    placeholder={socialHours}
+                    value={socialHours}
+                    onChange={(e) => setSocialHours(e.target.value)}
+                    className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
+                  />
+                ) : (
+                  `${socialHours}`
+                )}
+          </p>
         </div>
         <div className='flex flex-col items-center p-2'>
           <p className='text-sm text-center font-bold mb-1'># of Academic Hours</p>
-          <p className='text-sm'>{academicHours}</p>
+          <p className='text-sm'>      <p className='text-sm'>
+          {editableFields.academicHours && isAdmin ? (
+                  <input
+                    type='text'
+                    placeholder={academicHours}
+                    value={academicHours}
+                    onChange={(e) => setAcademicHours(e.target.value)}
+                    className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
+                  />
+                ) : (
+                  `${academicHours}`
+                )}
+          </p></p>
         </div>
       </div>
         <div className='flex flex-col items-center w-full p-2'>
