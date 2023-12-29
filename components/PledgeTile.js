@@ -544,7 +544,7 @@ const PledgeTile = ({ pledge }) => {
             onClick={handleInterviewClick}
             className={`flex-start ${
               hasInterviewed ? 'bg-green-500' : 'bg-red-500'
-            } text-white py-2 px-4 rounded-md flex flex-col items-center m-2 justify-center md:w-1/4 hover:scale-105`}
+            } text-white py-2 px-2 rounded-md flex flex-col items-center m-2 justify-center md:w-1/4 hover:scale-105`}
           >
             <span>
               {hasInterviewed
