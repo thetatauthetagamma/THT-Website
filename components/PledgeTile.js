@@ -80,7 +80,7 @@ const PledgeTile = ({ pledge }) => {
   useEffect(() => {
     fetchPledgeDetails()
     checkBrotherInPledge()
-  }, [userID])
+  }, [userID, editableFields])
 
 
   useEffect(() => {
@@ -431,6 +431,13 @@ const PledgeTile = ({ pledge }) => {
       socialHours: !prevFields.socialHours,
       
     }));
+    if (!editableFields.academicHours) {
+      setAcademicHours(academicHours); // Use the initial state or fetch it from the server
+    }
+  
+    if (!editableFields.socialHours) {
+      setSocialHours(socialHours); // Use the initial state or fetch it from the server
+    }
   };
 
 
