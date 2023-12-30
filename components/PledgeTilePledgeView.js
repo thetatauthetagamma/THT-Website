@@ -221,7 +221,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
             </>
           ) : (
             <>
-              You have completed 30 interviews. You have 0 interviews remaining.
+              You have completed {interviews?.length} interviews. You have 0 interviews remaining.
             </>
           )}
         </div>

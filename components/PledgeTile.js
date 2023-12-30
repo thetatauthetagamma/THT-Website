@@ -175,8 +175,12 @@ const PledgeTile = ({ pledge }) => {
 
   useEffect(() => {
     const calculateProgress = async () => {
+      let interviewNum = interviews?.length
+      if(interviewNum >= 30){
+        interviewNum = 30
+      }
       setCompleted(
-        Math.round(((interviews?.length + pd + committeeSO + socialHours + academicHours) * 100) / 74)
+        Math.round(((interviewNum + pd + committeeSO + socialHours + academicHours) * 100) / 74)
       )
     }
 
