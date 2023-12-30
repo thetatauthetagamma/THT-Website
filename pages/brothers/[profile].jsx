@@ -217,10 +217,11 @@ export default function Profile() {
   };
   
   const handleAddClass = () => {
-    const updatedClasses = [...currentClasses, '']; // Add an empty string for a new class
+    const classesArray = currentClasses || []; // Use empty array if currentClasses is null
+    const updatedClasses = [...classesArray, '']; // Add an empty string for a new class
     setCurrentClasses(updatedClasses);
   };
-
+  
   return (
     <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
     <BroNavBar isPledge={false} />
@@ -373,23 +374,23 @@ export default function Profile() {
                     <div className='flex flex-col'>
                       <p className='text-center mb-2 text-red-500'>Please add class name in this format (EECS 482, MECHENG 211, AEROSP 200) </p>
                       <div className='grid grid-cols-3 gap-4'>
-                        {currentClasses.map((className, index) => (
-                          <div key={index} className='flex flex-row items-center'>
-                            <button
-                              onClick={() => handleDeleteClass(index)}
-                              className='text-red-500 hover:text-red-700 font-semibold mr-2'
-                            >
-                              X
-                            </button>
-                            <input
-                              type='text'
-                              placeholder={`Class ${index + 1}`}
-                              value={className}
-                              onChange={(e) => handleCurrentClassChange(index, e.target.value)}
-                              className='whitespace-nowrap w-full border-2 border-[#8b000070] text-center'
-                            />
-                          </div>
-                        ))}
+                      {currentClasses && currentClasses.map((className, index) => (
+    <div key={index} className='flex flex-row items-center'>
+      <button
+        onClick={() => handleDeleteClass(index)}
+        className='text-red-500 hover:text-red-700 font-semibold mr-2'
+      >
+        X
+      </button>
+      <input
+        type='text'
+        placeholder={`Class ${index + 1}`}
+        value={className}
+        onChange={(e) => handleCurrentClassChange(index, e.target.value)}
+        className='whitespace-nowrap w-full border-2 border-[#8b000070] text-center'
+      />
+    </div>
+  ))}
                       </div>
                       <button onClick={handleAddClass} className='text-green-500 hover:text-green-700 font-semibold mt-4'>
                         Add Class
@@ -399,7 +400,7 @@ export default function Profile() {
                     <div className='grid grid-cols-3 gap-4'>
 
                       {currentClasses && currentClasses.map((className, index) => (
-                        <p key={index} className='text-lg text-center whitespace-nowrap'>{className}</p>
+                        <div key={index} className='text-lg text-center whitespace-nowrap'>{className}</div>
                       ))}
                     </div>
                   )}
