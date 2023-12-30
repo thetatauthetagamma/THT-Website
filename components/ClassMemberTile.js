@@ -55,9 +55,12 @@ export default function ClassMemberTile({userid, firstname, lastname, phone, ema
       </div>
     <div className='flex flex-col items-center w-9/12'>
       <div className='flex flex-col items-center justify-evenly w-full pb-2'> 
-            <div className='flex flex-col md:flex-row items-center mb-4'>
+            <div className='flex flex-col items-center mb-4'>
                 <div className='text-2xl font-bold text-center'>
-                    {firstname} {lastname}
+                    {firstname}
+                </div>
+                <div className='text-2xl font-bold text-center'>
+                    {lastname}
                 </div>
             </div>
             <div className='flex flex-col items-center justify-evenly w-full'>
