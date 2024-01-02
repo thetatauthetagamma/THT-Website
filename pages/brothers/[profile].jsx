@@ -397,7 +397,7 @@ export default function Profile() {
                       </button>
                     </div>
                   ) : (
-                    <div className='grid grid-cols-3 gap-4'>
+                    <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
 
                       {currentClasses && currentClasses.map((className, index) => (
                         <div key={index} className='text-lg text-center whitespace-nowrap'>{className}</div>
