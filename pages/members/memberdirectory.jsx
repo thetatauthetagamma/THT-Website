@@ -66,7 +66,12 @@ export default function MemberDirectory() {
           } else if (normalizedSelectedMajor === 'ce' && normalizedMajor === 'cee') {
             return false;
           }
-  
+          if(normalizedSelectedMajor === 'ee' && normalizedMajor === 'ee'){
+            return true;
+          }
+          else if(normalizedSelectedMajor === 'ee' && normalizedMajor === 'cee'){
+            return false;
+          }
           return normalizedMajor.includes(normalizedSelectedMajor);
         }
   
