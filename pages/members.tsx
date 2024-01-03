@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import gear from '../public/theta-tau-gear.png'
-import React from 'react';
+import supabase from '../supabase'
+import React, { useEffect, useState } from 'react';
 import HorizontalMarquee from '../components/HorizontalMarquee';
 import KatieBailey from '../public/eboard/KatieBailey.jpeg';
 import SarahDouglas from '../public/eboard/SarahDouglas.jpg';
@@ -28,9 +29,87 @@ import image18 from '../public/companies/18.jpg';
 import image19 from '../public/companies/19.jpg';
 import image20 from '../public/companies/20.jpg';
 
+
 const firstrow = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10 , image11, image12, image13, image14, image15, image16, image17, image18, image19, image20];
 
 export default function members() {
+  const [regentFirst, setRegentFirst] = useState('');
+  const [regentLast, setRegentLast] = useState('');
+  const [regentImg, setRegentImg] = useState('');
+  const [viceFirst, setViceFirst] = useState('');
+  const [viceLast, setViceLast] = useState('');
+  const [viceImg, setViceImg] = useState('');
+  const [scribeFirst, setScribeFirst] = useState('');
+  const [scribeLast, setScribeLast] = useState('');
+  const [scribeImg, setScribeImg] = useState('');
+  const [treasurerFirst, setTreasurerFirst] = useState('');
+  const [treasurerLast, setTreasurerLast] = useState('');
+  const [treasurerImg, setTreasurerImg] = useState('');
+  const [corsecFirst, setCorsecFirst] = useState('');
+  const [corsecLast, setCorsecLast] = useState('');
+  const [corsecImg, setCorsecImg] = useState('');
+
+
+  useEffect(() => {
+    const fetchEBoard = async () => {
+      try {
+        const { data, error } = await supabase
+        .from('Brothers')
+        .select('*')
+        .eq('adminrole', 'regent')
+
+      if (error) {
+        throw error
+      }
+      if (data) {  
+      
+       setRegentFirst(data[0].firstname);
+       setRegentLast(data[0].lastname);
+    }
+  } catch (error) {}
+  try {
+    const { data, error } = await supabase
+    .from('Brothers')
+    .select('*')
+    .eq('adminrole', 'vice')
+
+  if (error) {
+    throw error
+  }
+  if (data) {  
+   
+   setViceFirst(data[0].firstname);
+   setViceLast(data[0].lastname);
+}
+} catch (error) {}
+try {
+  const { data, error } = await supabase
+  .from('Brothers')
+  .select('*')
+  .eq('adminrole', 'scribe')
+
+if (error) {
+  throw error
+}
+if (data) {  
+ 
+ setScribeFirst(data[0].firstname);
+ setScribeLast(data[0].lastname);
+}
+} catch (error) {}
+
+
+    }
+
+
+
+
+    
+    fetchEBoard()
+  },)
+
+
+
     return (
       <div className='flex-grow flex-col'>
         <div className="bg-gray-50 flex flex-grow flex-col pr-6 pl-6 md:pr-40 md:pl-40 md:pt-8 md:pb-8 pt-4 pb-4 border-b-2 border-[#8b000050]">
@@ -43,7 +122,7 @@ export default function members() {
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold text-lg pt-4" >Kirsten Knowles</h1>
+              <h1 className="font-semibold text-lg pt-4" >{regentFirst} {regentLast}</h1>
               <h1 className="md:text-lg text-md" >Regent</h1>
             </div>
 
@@ -53,7 +132,7 @@ export default function members() {
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold md:text-lg text-md pt-4" >Sarah Douglas</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >{viceFirst} {viceLast}</h1>
               <h1 className=" md:text-lg sm:text-sm text-md" >Vice Regent</h1>
             </div>
 
