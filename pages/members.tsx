@@ -28,6 +28,7 @@ import image17 from '../public/companies/17.jpg';
 import image18 from '../public/companies/18.jpg';
 import image19 from '../public/companies/19.jpg';
 import image20 from '../public/companies/20.jpg';
+type SetStateFunction = (value: string) => void;
 
 
 const firstrow = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10 , image11, image12, image13, image14, image15, image16, image17, image18, image19, image20];
@@ -51,62 +52,36 @@ export default function members() {
 
 
   useEffect(() => {
-    const fetchEBoard = async () => {
+    const fetchEBoard = async (
+      adminRole: string,
+      setFirstName: SetStateFunction,
+      setLastName: SetStateFunction
+    ) => {
       try {
         const { data, error } = await supabase
-        .from('Brothers')
-        .select('*')
-        .eq('adminrole', 'regent')
+          .from('Brothers')
+          .select('*')
+          .eq('adminrole', adminRole);
 
-      if (error) {
-        throw error
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          setFirstName(data[0].firstname);
+          setLastName(data[0].lastname);
+        }
+      } catch (error) {
+        // Handle errors if needed
       }
-      if (data) {  
-      
-       setRegentFirst(data[0].firstname);
-       setRegentLast(data[0].lastname);
-    }
-  } catch (error) {}
-  try {
-    const { data, error } = await supabase
-    .from('Brothers')
-    .select('*')
-    .eq('adminrole', 'vice')
+    };
 
-  if (error) {
-    throw error
-  }
-  if (data) {  
-   
-   setViceFirst(data[0].firstname);
-   setViceLast(data[0].lastname);
-}
-} catch (error) {}
-try {
-  const { data, error } = await supabase
-  .from('Brothers')
-  .select('*')
-  .eq('adminrole', 'scribe')
-
-if (error) {
-  throw error
-}
-if (data) {  
- 
- setScribeFirst(data[0].firstname);
- setScribeLast(data[0].lastname);
-}
-} catch (error) {}
-
-
-    }
-
-
-
-
-    
-    fetchEBoard()
-  },)
+    fetchEBoard('regent', setRegentFirst, setRegentLast);
+    fetchEBoard('vice', setViceFirst, setViceLast);
+    fetchEBoard('scribe', setScribeFirst, setScribeLast);
+    fetchEBoard('corsec', setCorsecFirst,setCorsecLast);
+    fetchEBoard('treasurer', setTreasurerFirst,setTreasurerLast)
+  }, []);
 
 
 
@@ -152,7 +127,7 @@ if (data) {
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold md:text-lg text-md pt-4" >Casey Kousoulas</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >{treasurerFirst} {treasurerLast}</h1>
               <h1 className="md:text-lg text-md" >Treasurer</h1>
             </div>
 
@@ -162,7 +137,7 @@ if (data) {
                   alt="Gear icon"
                   className='w-full h-full rounded-full'
                 />
-                <h1 className="font-semibold md:text-lg text-md pt-4" >Katie Bailey</h1>
+                <h1 className="font-semibold md:text-lg text-md pt-4" >{corsecFirst} {corsecLast}</h1>
                 <h1 className="md:text-lg text-md" >Corresponding Secretary</h1>
               </div>
 
