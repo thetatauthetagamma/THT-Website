@@ -16,7 +16,7 @@ export default function rush() {
           <div className=" flex-row text-lg sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center md:py-4 font-semibold z-3 mt-2">
             <p>
               Please fill out our&nbsp;
-              <a target="blank" href="https://docs.google.com/forms/d/e/1FAIpQLSd3c6jPUBBd24J1Fxcvg2tdMN5k8_qV7iditqSQlzmzCDVtzw/viewform?usp=sf_link" className="text-blue-500 hover:text-blue-300 ">
+              <a target="blank" href="https://docs.google.com/forms/d/1pid5B9IB1TUuvZyxRD7yFYrmFwZWRc3TKTQDV2e9kqE/edit" className="text-blue-500 hover:text-blue-300 ">
                   interest form.
               </a>
             </p>
