@@ -18,34 +18,32 @@ export default function pledgetracking() {
 
   const [pledges, setPledges] = useState<PledgeData[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [newPledgeUniqname, setNewPledgeUniqname] = useState<string>('');
-  const [newPledgeFirst, setNewPledgeFirst] = useState<string>('');
-  const [newPledgeLast, setNewPledgeLast] = useState<string>('');
-  const [newPledgePronouns, setNewPledgePronouns] = useState<string>('');
-  const [editMode, setEditMode] = useState<boolean>(false);
+
 
   const [userID, setUserID] = useState('')
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchPledges = async () => {
-      try {
-        const { data, error } = await supabase.from('Pledges').select('uniqname, firstname');
-
-        if (error) {
-          throw error;
-        }
-
-        if (data) {
-          setPledges(data as PledgeData[]);
-        }
-      } catch (error) {
-        console.error('Error fetching pledges:', error);
-      }
-    };
-
+    
     fetchPledges();
-  }, [newPledgeUniqname]);
+  }, []);
+
+  const fetchPledges = async () => {
+    try {
+      const { data, error } = await supabase.from('Pledges').select('uniqname, firstname');
+
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
+        setPledges(data as PledgeData[]);
+      }
+    } catch (error) {
+      console.error('Error fetching pledges:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -58,6 +56,8 @@ export default function pledgetracking() {
 
     fetchSession()
   }, [])
+  
+
   useEffect(() => {
     const fetchAdminRole = async () => {
       try {
@@ -110,7 +110,7 @@ export default function pledgetracking() {
               </div>
             ))}
           {isAdmin && (
-            <NewPledgeTile></NewPledgeTile>
+            <NewPledgeTile fetchPledges={fetchPledges}></NewPledgeTile>
           )}
           </div>
 

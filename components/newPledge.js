@@ -12,7 +12,7 @@ import {
   DropdownItem
 } from '@nextui-org/react'
 
-const NewPledgeTile = () => {
+const NewPledgeTile = ({fetchPledges}) => {
   const [imageUrl, setImageUrl] = useState('')
 
   const [pd, setPD] = useState(0)
@@ -32,7 +32,6 @@ const NewPledgeTile = () => {
   const [academicHours, setAcademicHours] = useState(0)
 
   const [isAdmin, setIsAdmin] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [editableFields, setEditableFields] = useState({
     uniqname: false,
@@ -70,6 +69,7 @@ const NewPledgeTile = () => {
           pronouns: pronouns,
           year: year,
           major: major,
+          email: uniqname + '@umich.edu'
         }
       ])
 
@@ -78,16 +78,50 @@ const NewPledgeTile = () => {
         setPledges([...pledges, { uniqname: newPledgeUniqname, firstname: '' }])
 
       // Reset the newPledgeUniqname state
-      setUniqname('')
-      setFirstname('')
-      setLastname('')
-      setPronouns('')
-      setMajor('')
-      setYear('')
+
     } catch (error) {
       console.error(error)
       // Handle errors if needed
     }
+    
+    try{
+      const { data, error } = await supabase.from('PDSignOffs').insert([
+        {
+          pledge: uniqname,
+        }
+      ])
+    }catch (error) {
+      console.error(error)
+      // Handle errors if needed
+    }
+   
+    try{
+      const { data, error } = await supabase.from('CommitteeSignOffs').insert([
+        {
+          pledge: uniqname,
+        }
+      ])
+    }catch (error) {
+      console.error(error)
+      // Handle errors if needed
+    }
+    setEditMode(false);
+    setUniqname('')
+    setFirstname('')
+    setLastname('')
+    setPronouns('')
+    setMajor('')
+    setYear('')
+    fetchPledges()
+    setEditableFields({
+      uniqname: false,
+      firstname: false,
+      lastname: false,
+      year: false,
+      pronouns: false,
+      major: false,
+      imageUrl: false
+    })
   }
 
   useEffect(() => {
