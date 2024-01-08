@@ -13,7 +13,8 @@ import {
 } from '@nextui-org/react'
 
 const NewPledgeTile = ({fetchPledges}) => {
-  const [imageUrl, setImageUrl] = useState('')
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageUrl, setProfileImageUrl] = useState(null);
 
   const [pd, setPD] = useState(0)
   const [committeeSO, setCommitteeSO] = useState(0)
@@ -105,6 +106,25 @@ const NewPledgeTile = ({fetchPledges}) => {
       console.error(error)
       // Handle errors if needed
     }
+    if (profileImage) {
+      const fileName = `${uniqname}.jpeg`;
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('pledges')
+        .upload(fileName, profileImage, {
+          cacheControl: '3600',
+          contentType: 'image/jpeg', 
+          upsert: true,
+        }
+      );
+
+      if (!uploadError) {
+        console.log('Profile photo uploaded successfully');
+        setProfileImageUrl(null)
+        setProfileImage(null); // Reset profileImage after successful upload
+      } else {
+        console.error('Error uploading profile photo:', uploadError.message);
+      }
+    }
     setEditMode(false);
     setUniqname('')
     setFirstname('')
@@ -123,6 +143,18 @@ const NewPledgeTile = ({fetchPledges}) => {
       imageUrl: false
     })
   }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+  // Check if the file is of type image/jpeg
+  if (file && file.type === 'image/jpeg') {
+    const image = URL.createObjectURL(file);
+    setProfileImage(file);
+    setProfileImageUrl(image);
+  } else {
+    console.error('Invalid file format. Please select a JPEG image.');
+  }
+  };
 
   useEffect(() => {
     const fetchAdminRole = async () => {
@@ -201,9 +233,9 @@ const NewPledgeTile = ({fetchPledges}) => {
         <div className='w-full flex flex-col md:flex-row items-center'>
           <div className='flex flex-col items-center md:w-3/12'>
             <div className='mb-2 w-40 h-40'>
-              {imageUrl ? (
+              {profileImageUrl ? (
                 <img
-                  src={imageUrl}
+                  src={profileImageUrl}
                   alt='Pledge'
                   className='rounded-full w-full h-full object-cover'
                 />
@@ -215,7 +247,20 @@ const NewPledgeTile = ({fetchPledges}) => {
                 />
               )}
             </div>
-            <div className='text-center w-full'>
+            {editableFields.imageUrl && (
+              <div className="w-full flex justify-center">
+                <label className="cursor-pointer bg-[#8b000070] text-white rounded-md mb-2 p-2 text-center">
+                  Upload new photo (JPEG only)
+                  <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                </label>
+              </div>
+            )}
+
+          </div>
+          <div className='flex flex-col w-9/12'>
+            
+            
+          <div className='text-center md:w-1/2'>
               <div className='text-md  text-center py-1 '>
                 {editableFields.uniqname ? (
                   <input
@@ -312,60 +357,6 @@ const NewPledgeTile = ({fetchPledges}) => {
                     Create Pledge
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className='flex flex-col items-center w-9/12'>
-            <div className='flex flex-col md:flex-row items-center justify-evenly w-full pb-2'>
-              <div className='flex flex-col items-center p-2 '>
-                <p className='text-sm font-bold mb-1'># of Interviews</p>
-                <p className='text-sm'>{0}</p>
-              </div>
-              <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
-                <p className='text-sm text-center font-bold mb-1'>
-                  # of PD Activities
-                </p>
-                <p className='text-sm'>{0}</p>
-              </div>
-              <div className='flex flex-col items-center p-2'>
-                <p className='text-sm text-center font-bold mb-1'>
-                  # of Committee Signoffs
-                </p>
-                <p className='text-sm'>{0}</p>
-              </div>
-              <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
-                <p className='text-sm text-center font-bold mb-1'>
-                  # of Social Hours
-                </p>
-                <p className='text-sm'>0</p>
-              </div>
-              <div className='flex flex-col items-center p-2'>
-                <p className='text-sm text-center font-bold mb-1'>
-                  # of Academic Hours
-                </p>
-                <p className='text-sm'>
-                  {' '}
-                  <p className='text-sm'>0</p>
-                </p>
-              </div>
-            </div>
-            <div className='flex flex-col items-center w-full p-2'>
-              <ProgressBar
-                className='w-full'
-                completed={0}
-                bgColor='#22c55e'
-                height='40px'
-              />
-            </div>
-            <div className='flex flex-col md:flex-row items-center m-4 w-full justify-evenly'>
-              {/* Interview Button (to the left) */}
-
-              <div className='flex items-center justify-center  m-2 md:w-1/3'></div>
-
-              <div className='flex items-center justify-center m-2 md:w-1/3'>
-                {/* Committee Dropdown */}
-
-                {/* Submit Button */}
               </div>
             </div>
           </div>
