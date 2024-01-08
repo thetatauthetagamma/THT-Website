@@ -498,7 +498,7 @@ const PledgeTile = ({ pledge }) => {
       <div className='flex flex-col md:flex-row items-center justify-evenly w-full pb-2'>
         <div className='flex flex-col items-center p-2 '>
           <p className='text-sm font-bold mb-1'># of Interviews</p>
-          <p className='text-sm'>{interviews?.length}</p>
+          <p className='text-sm'>{interviews?.length | 0}</p>
         </div>
         <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
           <p className='text-sm text-center font-bold mb-1'># of PD Activities</p>
