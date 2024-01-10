@@ -132,6 +132,7 @@ const NewPledgeTile = ({fetchPledges}) => {
     setPronouns('')
     setMajor('')
     setYear('')
+    setProfileImageUrl(null)
     fetchPledges()
     setEditableFields({
       uniqname: false,
@@ -217,6 +218,14 @@ const NewPledgeTile = ({fetchPledges}) => {
       imageUrl: !prevFields.imageUrl,
       currentClasses: !prevFields.currentClasses
     }))
+    setEditMode(false);
+    setUniqname('')
+    setFirstname('')
+    setLastname('')
+    setPronouns('')
+    setMajor('')
+    setYear('')
+    setProfileImageUrl(null)
     if (!editableFields.academicHours) {
       setAcademicHours(academicHours) // Use the initial state or fetch it from the server
     }
@@ -250,7 +259,7 @@ const NewPledgeTile = ({fetchPledges}) => {
             {editableFields.imageUrl && (
               <div className="w-full flex justify-center">
                 <label className="cursor-pointer bg-[#8b000070] text-white rounded-md mb-2 p-2 text-center">
-                  Upload new photo (JPEG only)
+                  Upload photo (JPEG only)
                   <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
                 </label>
               </div>
@@ -261,7 +270,7 @@ const NewPledgeTile = ({fetchPledges}) => {
             
             
           <div className='text-center md:w-1/2'>
-              <div className='text-md  text-center py-1 '>
+              <div className='text-md  text-center py-1 md:w-full'>
                 {editableFields.uniqname ? (
                   <input
                     type='text'
@@ -380,54 +389,3 @@ const NewPledgeTile = ({fetchPledges}) => {
 
 export default NewPledgeTile
 
-/*          {isAdmin && (
-            <div>
-              
-              <div className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
-              {editMode ? (
-                  // Render form fields in edit mode
-                  <div>
-                    <label>New Pledge Uniqname:</label>
-                    <input
-                      type="text"
-                      value={newPledgeUniqname}
-                      onChange={(e) => setNewPledgeUniqname(e.target.value)}
-                    />
-               
-                    <label>New Pledge First Name:</label>
-                    <input
-                      type="text"
-                      value={newPledgeFirst}
-                      onChange={(e) => setNewPledgeFirst(e.target.value)}
-                    />
-                    <label>New Pledge Last Name:</label>
-                    <input
-                      type="text"
-                      value={newPledgeLast}
-                      onChange={(e) => setNewPledgeLast(e.target.value)}
-                    />
-                    <label>New Pledge Pronouns:</label>
-                    <input
-                      type="text"
-                      value={newPledgePronouns}
-                      onChange={(e) => setNewPledgePronouns(e.target.value)}
-                    />
-                    <button onClick={handleCreatePledge}>Create Pledge</button>
-                  </div>
-                ) : (
-                  // Render the plus sign image to toggle edit mode
-                  <div
-                    onClick={() => setEditMode(true)}
-                    className="cursor-pointer"
-                  >
-                    <Image
-                      src={plus}
-                      alt='logo'
-                      className='rounded-full w-16 h-16 object-cover'
-                    />
-                  </div>
-                )}
-              
-              </div>
-            </div>
-            )} */
