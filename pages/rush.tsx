@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import rush24 from '../public/rush2024.jpeg'
 import Faq from '@/components/Faq'
+import w24rush from '../public/w24rush.jpg'
 export default function rush() {
     return (
       <div className="bg-gray-50 flex-grow">
@@ -23,7 +24,7 @@ export default function rush() {
           </div>
 
           <div className='flex justify-center items-center pb-0 md:pb-20 pt-4 border-b-2 border-[#8b000050]'>
-            <Image src={rush24} alt="rush23" className='w-auto h-auto'></Image>
+            <Image src={w24rush} alt="rush23" className='w-auto h-auto'></Image>
           </div>
 
           <div className='flex flex-grow flex-col pb-8 pt-8 bg-white border-b-2 border-[#8b000050]'>
