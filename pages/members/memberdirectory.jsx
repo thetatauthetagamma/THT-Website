@@ -9,7 +9,7 @@ export default function MemberDirectory() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMajor, setSelectedMajor] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [isPledge, setIsPledge] = useState(false);
+  const [isPledge, setIsPledge] = useState(true);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,6 +42,27 @@ export default function MemberDirectory() {
     };
   
     fetchData();
+  }, [userEmail]);
+
+  useEffect(() => {
+    const checkIfBrother = async () => {
+
+      const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(false);
+      }
+    }
+    const checkIfPledge = async () => {
+
+      const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(true);
+      }
+    }
+
+    checkIfBrother();
+    checkIfPledge();
+
   }, [userEmail]);
   
 

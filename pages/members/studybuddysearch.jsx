@@ -7,7 +7,7 @@ import ClassMemberTile from '@/components/ClassMemberTile';
 export default function StudyBuddySearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [isPledge, setIsPledge] = useState(false);
+  const [isPledge, setIsPledge] = useState(true);
   const [brothers, setBrothers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pledges, setPledges] = useState([]);
@@ -17,14 +17,16 @@ export default function StudyBuddySearch() {
     const fetchData = async () => {
       try {
         const [pledgeData, brothersData] = await Promise.all([
-          supabase.from('Pledges').select('*').eq('email', userEmail),
+          supabase.from('Pledges').select('*'),
           supabase.from('Brothers').select('*')
         ]);
-
-        if (pledgeData.data?.length === 1 && !pledgeData.error) {
-          setIsPledge(true);
+         
+          
+        if (!(pledgeData.data?.length === 0) && !pledgeData.error) {
+          
           const sortedPledges = pledgeData.data.sort((a,b) => b.lastname - a.lastname)
           setPledges(sortedPledges)
+        
         }
 
         if (brothersData.error) {
@@ -34,7 +36,6 @@ export default function StudyBuddySearch() {
         if (brothersData.data) {
           // Assuming 'roll' is a number field in your database
           const sortedData = brothersData.data.sort((a, b) => b.roll - a.roll);
-  
           setBrothers(sortedData);
         }
       } catch (error) {
@@ -46,6 +47,29 @@ export default function StudyBuddySearch() {
 
     fetchData();
   }, [userEmail]);
+
+
+  useEffect(() => {
+    const checkIfBrother = async () => {
+
+      const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(false);
+      }
+    }
+    const checkIfPledge = async () => {
+
+      const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(true);
+      }
+    }
+
+    checkIfBrother();
+    checkIfPledge();
+
+  }, [userEmail]);
+
 
 
   const filteredPledges = pledges.filter((pledge) => {
@@ -107,7 +131,7 @@ export default function StudyBuddySearch() {
             {filteredPledges.map((pledge) => (
               <div key={pledge.uniqname}>
                 <ClassMemberTile
-                  userid={pledge.userid}
+                  userid={pledge.uniqname}
                   firstname={pledge.firstname}
                   lastname={pledge.lastname}
                   email={pledge.email}

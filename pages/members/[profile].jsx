@@ -201,10 +201,10 @@ export default function Profile () {
             console.error('Error uploading profile photo:', uploadError.message)
           }
         } else {
-          console.error('Error updating profile:', error.message)
+          console.error('Error updating brother profile:', error.message)
         }
       } catch (error) {
-        console.error('Error updating profile:', error.message)
+        console.error('Error updating brother profile:', error.message)
       }
     }
     if (isPledge) {
@@ -259,10 +259,10 @@ export default function Profile () {
             console.error('Error uploading profile photo:', uploadError.message)
           }
         } else {
-          console.error('Error updating profile:', error.message)
+          console.error('Error updating pledge profile:', error.message)
         }
       } catch (error) {
-        console.error('Error updating profile:', error.message)
+        console.error('Error updating pledge profile:', error.message)
       }
     }
   }
