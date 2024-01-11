@@ -29,7 +29,7 @@ export default function ClassMemberTile({userid, firstname, lastname, phone, ema
 
     function handleClick()
     {
-      router.push(`/brothers/${userid}`);
+      router.push(`/members/${userid}`);
     }
 
   return (
@@ -44,7 +44,7 @@ export default function ClassMemberTile({userid, firstname, lastname, phone, ema
             />
             </div>
           ) : (
-            <div className='mb-2 w-32 h-34'>
+            <div className='mb-2 w-30 h-40'>
             <Image
               src={thtlogo}
               alt='logo'

@@ -7,22 +7,26 @@ import ClassMemberTile from '@/components/ClassMemberTile';
 export default function StudyBuddySearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [isPledge, setIsPledge] = useState(false);
+  const [isPledge, setIsPledge] = useState(true);
   const [brothers, setBrothers] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [pledges, setPledges] = useState([]);
   useEffect(() => {
     setUserEmail(Cookies.get('userEmail'));
 
     const fetchData = async () => {
       try {
         const [pledgeData, brothersData] = await Promise.all([
-          supabase.from('Pledges').select('*').eq('email', userEmail),
+          supabase.from('Pledges').select('*'),
           supabase.from('Brothers').select('*')
         ]);
-
-        if (pledgeData.data?.length === 1 && !pledgeData.error) {
-          setIsPledge(true);
+         
+          
+        if (!(pledgeData.data?.length === 0) && !pledgeData.error) {
+          
+          const sortedPledges = pledgeData.data.sort((a,b) => b.lastname - a.lastname)
+          setPledges(sortedPledges)
+        
         }
 
         if (brothersData.error) {
@@ -44,6 +48,44 @@ export default function StudyBuddySearch() {
     fetchData();
   }, [userEmail]);
 
+
+  useEffect(() => {
+    const checkIfBrother = async () => {
+
+      const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(false);
+      }
+    }
+    const checkIfPledge = async () => {
+
+      const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(true);
+      }
+    }
+
+    checkIfBrother();
+    checkIfPledge();
+
+  }, [userEmail]);
+
+
+
+  const filteredPledges = pledges.filter((pledge) => {
+    if (pledge.classes && pledge.major) {
+      return (
+        pledge.classes.some((className) =>
+          className.toLowerCase().includes(searchQuery.toLowerCase())
+        ) ||
+        pledge.major.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    return false;
+  });
+  
+
+
   const filteredBrothers = brothers.filter((brother) => {
     if (brother.classes && brother.major) {
       return (
@@ -55,6 +97,7 @@ export default function StudyBuddySearch() {
     }
     return false;
   });
+  
 
   if (loading) {
     return null;
@@ -82,6 +125,17 @@ export default function StudyBuddySearch() {
                   lastname={brother.lastname}
                   email={brother.email}
                   phone={brother.phone}
+                />
+              </div>
+            ))}
+            {filteredPledges.map((pledge) => (
+              <div key={pledge.uniqname}>
+                <ClassMemberTile
+                  userid={pledge.uniqname}
+                  firstname={pledge.firstname}
+                  lastname={pledge.lastname}
+                  email={pledge.email}
+                  phone={pledge.phone}
                 />
               </div>
             ))}
