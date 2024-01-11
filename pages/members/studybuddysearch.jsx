@@ -10,7 +10,7 @@ export default function StudyBuddySearch() {
   const [isPledge, setIsPledge] = useState(false);
   const [brothers, setBrothers] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [pledges, setPledges] = useState([]);
   useEffect(() => {
     setUserEmail(Cookies.get('userEmail'));
 
@@ -23,6 +23,8 @@ export default function StudyBuddySearch() {
 
         if (pledgeData.data?.length === 1 && !pledgeData.error) {
           setIsPledge(true);
+          const sortedPledges = pledgeData.data.sort((a,b) => b.lastname - a.lastname)
+          setPledges(sortedPledges)
         }
 
         if (brothersData.error) {
@@ -32,6 +34,7 @@ export default function StudyBuddySearch() {
         if (brothersData.data) {
           // Assuming 'roll' is a number field in your database
           const sortedData = brothersData.data.sort((a, b) => b.roll - a.roll);
+  
           setBrothers(sortedData);
         }
       } catch (error) {
@@ -44,6 +47,21 @@ export default function StudyBuddySearch() {
     fetchData();
   }, [userEmail]);
 
+
+  const filteredPledges = pledges.filter((pledge) => {
+    if (pledge.classes && pledge.major) {
+      return (
+        pledge.classes.some((className) =>
+          className.toLowerCase().includes(searchQuery.toLowerCase())
+        ) ||
+        pledge.major.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    return false;
+  });
+  
+
+
   const filteredBrothers = brothers.filter((brother) => {
     if (brother.classes && brother.major) {
       return (
@@ -55,6 +73,7 @@ export default function StudyBuddySearch() {
     }
     return false;
   });
+  
 
   if (loading) {
     return null;
@@ -82,6 +101,17 @@ export default function StudyBuddySearch() {
                   lastname={brother.lastname}
                   email={brother.email}
                   phone={brother.phone}
+                />
+              </div>
+            ))}
+            {filteredPledges.map((pledge) => (
+              <div key={pledge.uniqname}>
+                <ClassMemberTile
+                  userid={pledge.userid}
+                  firstname={pledge.firstname}
+                  lastname={pledge.lastname}
+                  email={pledge.email}
+                  phone={pledge.phone}
                 />
               </div>
             ))}

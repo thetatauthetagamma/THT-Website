@@ -55,6 +55,7 @@ export default function BroNavBar({isPledge}) {
         .eq('email', userEmail);
       if (data?.length === 1 && !error) {
         setFirstname(data[0].firstname);
+        setuserid(userEmail.slice(0, -10));
       }
     };
 
@@ -81,6 +82,11 @@ export default function BroNavBar({isPledge}) {
                 </Link>
               </li>
               <li className="hover:bg-[#8b000070] transition-colors duration-300 rounded flex-grow py-4 pl-2">
+                <Link legacyBehavior href={`/members/${userid}`} className="block p-2 rounded ">
+                  <a >Your Profile</a>
+                </Link>
+              </li>
+              <li className="hover:bg-[#8b000070] transition-colors duration-300 rounded flex-grow py-4 pl-2">
                 <Link legacyBehavior href="/members/memberdirectory" className="block p-2 rounded ">
                   <a >Member Directory</a>
                 </Link>
@@ -101,7 +107,7 @@ export default function BroNavBar({isPledge}) {
                 </Link>
               </li>
               <li className="hover:bg-[#8b000070] transition-colors duration-300 rounded flex-grow py-4 pl-2">
-                <Link legacyBehavior href={`/brothers/${userid}`} className="block p-2 rounded">
+                <Link legacyBehavior href={`/members/${userid}`} className="block p-2 rounded">
                     <a>My Profile</a>
                 </Link>
               </li>
