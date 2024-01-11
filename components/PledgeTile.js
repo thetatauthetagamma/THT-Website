@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import ProgressBar from '@ramonak/react-progress-bar'
 import thtlogo from '../public/tht-logo.png'
+import trash from '../public/trash-can.png'
 import Image from 'next/image'
 import supabase from '../supabase'
+
 import {
   Dropdown,
   DropdownTrigger,
@@ -11,7 +13,7 @@ import {
   DropdownItem
 } from '@nextui-org/react'
 
-const PledgeTile = ({ pledge }) => {
+const PledgeTile = ({ pledge, fetchPledges}) => {
   const [interviews, setInterviews] = useState(pledge.interviews)
   const [hasInterviewed, sethasInterviewed] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
@@ -445,12 +447,56 @@ const PledgeTile = ({ pledge }) => {
   };
 
 
+  const handleDeletePledge = async () => {
+    // Show a confirmation dialog
+    const isConfirmed = window.confirm('Are you sure you want to delete this pledge? All of their data will be deleted.');
 
+    // If the user confirms, proceed with deletion
+    if (isConfirmed) {
+      // Perform the Supabase deletion operation
+      const { data, error } = await supabase
+        .from('Pledges')
+        .delete()
+        .eq('uniqname', pledge);
+
+      // Handle any errors or update UI accordingly
+      if (error) {
+        console.error('Error deleting pledge:', error.message);
+      } else {
+        fetchPledges();
+      }
+      const { data1, error1 } = await supabase
+        .from('PDSignOffs')
+        .delete()
+        .eq('pledge', pledge);
+
+      // Handle any errors or update UI accordingly
+      if (error) {
+        console.error('Error deleting pledge:', error1.message);
+      } else {
+       
+      }
+      const { data2, error2 } = await supabase
+      .from('CommitteeSignOffs')
+      .delete()
+      .eq('pledge', pledge);
+
+    // Handle any errors or update UI accordingly
+    if (error) {
+      console.error('Error deleting pledge:', error2.message);
+    } else {
+     
+    }
+
+    }
+  };
 
   
   return (
     <div className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
       <div className='flex flex-col items-center md:w-3/12'>
+
+       
         <div className='mb-2 w-40 h-40'>
           {imageUrl ? (
             <img
@@ -465,7 +511,8 @@ const PledgeTile = ({ pledge }) => {
               className='rounded-full w-full h-full object-cover'
             />
           )}
-        </div>
+          </div>
+        
         <div className='text-center'>
           <p className='font-bold'>
             {firstname} {lastname}
@@ -481,6 +528,13 @@ const PledgeTile = ({ pledge }) => {
                   </button>
                 ) : (
                   <div className='flex flex-row m-2 items-center'>
+                     <button className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center h-10' onClick={handleDeletePledge}>
+        <Image
+              src={trash}
+              alt='logo'
+              className='rounded-full w-full h-full object-cover' 
+            />
+        </button>
                     <button className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleFieldEdit}>
                       Cancel
                     </button>

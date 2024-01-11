@@ -106,7 +106,7 @@ export default function pledgetracking() {
           <div style={{ maxHeight: '550px', overflowY: 'auto' }} >
             {filteredPledges.map((pledge) => (
               <div key={pledge.uniqname}>
-                <PledgeTile pledge={pledge.uniqname} />
+                <PledgeTile pledge={pledge.uniqname} fetchPledges={fetchPledges}/>
               </div>
             ))}
           {isAdmin && (
