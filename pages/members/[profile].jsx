@@ -39,11 +39,35 @@ export default function Profile () {
   useEffect(() => {
     const fetchUnique = async () => {
       const queryParams = router.query
+     
       setUserid(queryParams.profile)
     }
 
     fetchUnique()
   }, [router.query.profile])
+
+  useEffect(() => {
+    const checkIfBrother = async () => {
+
+      const { data, error } = await supabase.from('Brothers').select('*').eq('email', currentEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(false);
+      }
+    }
+    const checkIfPledge = async () => {
+
+      const { data, error } = await supabase.from('Pledges').select('*').eq('email', currentEmail);
+      if (data?.length == 1 && !error) {
+        setIsPledge(true);
+      }
+    }
+
+    checkIfBrother();
+    checkIfPledge();
+
+  }, [currentEmail]);
+
+
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -59,12 +83,14 @@ export default function Profile () {
 
     const fetchBrotherData = async () => {
       console.log('fetching data')
-
+      console.log(userid)
       const { data, error } = await supabase
         .from('Brothers')
         .select('*')
         .eq('userid', userid);
-
+      
+      console.log(data)
+      console.log(error)
       if (data?.length === 1 && !error) {
         setUserid(data[0].userid);
         setFirstname(data[0].firstname);
