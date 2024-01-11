@@ -104,6 +104,7 @@ export default function Profile () {
         setLinkedin(data[0].linkedin);
         setEmail(data[0].email);
         setCurrentClasses(data[0].classes);
+        setPronouns(data[0].pronouns);
         
       }
       else {
@@ -189,7 +190,8 @@ export default function Profile () {
               major,
               phone,
               linkedin: linkedin,
-              classes: currentClasses
+              classes: currentClasses,
+              pronouns:pronouns
             }
           ])
           .eq('email', email)
@@ -207,7 +209,8 @@ export default function Profile () {
           phone: false,
           linkedin: false,
           imageUrl: false,
-          currentClasses: false
+          currentClasses: false,
+          pronouns: false,
         })
 
         // Upload the new profile photo if a file is selected
@@ -378,7 +381,7 @@ export default function Profile () {
           </div>
           <div className='flex flex-col items-center w-full'>
             <div className='flex flex-col items-center justify-evenly w-full pb-2'>
-              <div className='flex flex-col md:flex-row items-center my-4'>
+              <div className='flex flex-col md:flex-row items-center mt-4'>
                 <div className='text-2xl font-bold text-center md:mr-2'>
                   {editableFields.firstname && isEditable ? (
                     <input
@@ -406,6 +409,22 @@ export default function Profile () {
                   )}
                 </div>
               </div>
+                         <div className='flex flex-col items-center p-2 w-full'>
+                  
+                  {editableFields.pronouns && isEditable ? (
+                    <input
+                      type='text'
+                      placeholder={pronouns || 'pronouns'}
+                      value={pronouns}
+                      onChange={e => setPronouns(e.target.value)}
+                      className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
+                    />
+                  ) : (
+                    <p className='text-lg whitespace-nowrap'>
+                      {pronouns? ('\('+ pronouns +')'): ('')}
+                    </p>
+                  )}
+                </div>
               <div className='flex flex-col items-center justify-evenly w-full'>
                 <div className='flex flex-row items-center justify-evenly w-1/3'>
                   <div className='flex flex-col md:flex-row items-center justify-evenly w-1/3'>
@@ -443,24 +462,7 @@ export default function Profile () {
                     </div>
                   </div>
                 </div>
-                {isPledge && (                 <div className='flex flex-col items-center p-2 w-full'>
-                  <p className='text-lg font-semibold mb-1 whitespace-nowrap '>
-                    Pronouns
-                  </p>
-                  {editableFields.pronouns && isEditable ? (
-                    <input
-                      type='text'
-                      placeholder={pronouns || '(xxx)-xxx-xxxx'}
-                      value={pronouns}
-                      onChange={e => setPronouns(e.target.value)}
-                      className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
-                    />
-                  ) : (
-                    <p className='text-lg whitespace-nowrap'>
-                      {pronouns || 'pronouns'}
-                    </p>
-                  )}
-                </div>)}
+                
                 {!isPledge && (
                   <div className='flex flex-col items-center p-2'>
                     <p className='text-lg font-semibold mb-1'>Roll</p>
