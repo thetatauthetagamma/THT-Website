@@ -13,13 +13,15 @@ import {
   DropdownItem
 } from '@nextui-org/react'
 
-const PledgeTile = ({ pledge, fetchPledges}) => {
+const PledgeTile = ({ pledge, fetchPledges }) => {
   const [interviews, setInterviews] = useState(pledge.interviews)
   const [hasInterviewed, sethasInterviewed] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
 
   const [pd, setPD] = useState(0)
-  const [committeeSO, setCommitteeSO] = useState(0)
+  const [pdSOs, setpdSOs] = useState([])
+  const [numCommitteeSOs, setnumCommitteeSOs] = useState(0)
+  const [committeeSignOffs, SetCommitteeSignOffs] = useState([])
   const [completed, setCompleted] = useState(0)
 
   const [firstname, setFirstname] = useState('')
@@ -30,42 +32,42 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
 
   const [userID, setUserID] = useState('')
 
-  const [socialHours, setSocialHours] = useState(0);
-  const [academicHours, setAcademicHours] = useState(0);
+  const [socialHours, setSocialHours] = useState(0)
+  const [academicHours, setAcademicHours] = useState(0)
 
   //used for committee sign off button:
-  const [selectedCommittee, setSelectedCommittee] = useState('');
-  const [selectedPDSO, setselectedPDSO] = useState('');
+  const [selectedCommittee, setSelectedCommittee] = useState('')
+  const [selectedPDSO, setselectedPDSO] = useState('')
 
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const [editableFields, setEditableFields] = useState({
     academicHours: false,
-    socialHours: false,
-  });
+    socialHours: false
+  })
+
 
 
   //key = supabase column, value = display value
   const pdRequirementList = {
-    "resume": "Resume and Cover Letter",
-    "interview": "Mock Interview",
-    "careerChat": "Career Coffee Chat",
-    "coResearch": "Company Research",
-    "4YrPlan": "Four Year Class Plan",
-    "jobApp": "Apply for a Job"
-  };
+    resume: 'Resume and Cover Letter',
+    interview: 'Mock Interview',
+    careerChat: 'Career Coffee Chat',
+    coResearch: 'Company Research',
+    '4YrPlan': 'Four Year Class Plan',
+    jobApp: 'Apply for a Job'
+  }
 
   const committeeList = {
-    "brohood": "Brotherhood",
-    "pd": "PD",
-    "philanthropy": "Philanthropy",
-    "recsports": "Rec Sports",
-    "social": "Social",
-    "diversity": "Diversity",
-    "historian": "Historian",
-    "corsec": "CorSec",
-  };
+    brohood: 'Brotherhood',
+    pd: 'PD',
+    philanthropy: 'Philanthropy',
+    recsports: 'Rec Sports',
+    social: 'Social',
+    diversity: 'Diversity',
+    historian: 'Historian',
+    corsec: 'CorSec'
+  }
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -84,28 +86,26 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
     checkBrotherInPledge()
   }, [userID, editableFields])
 
-
   useEffect(() => {
     const fetchAdminRole = async () => {
       try {
         const { data, error } = await supabase
-        .from('Brothers')
-        .select('adminrole')
-        .eq('email', userID)
+          .from('Brothers')
+          .select('adminrole')
+          .eq('email', userID)
 
-      if (error) {
-        throw error
-      }
-      if (data) {  
-        if(data[0].adminrole == 'parent'){
-          setIsAdmin(true);
+        if (error) {
+          throw error
         }
-    }
-  } catch (error) {}
+        if (data) {
+          if (data[0].adminrole == 'parent') {
+            setIsAdmin(true)
+          }
+        }
+      } catch (error) {}
     }
     fetchAdminRole()
   }, [userID])
-
 
   async function fetchPledgeDetails () {
     try {
@@ -165,7 +165,6 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
           .from('pledges')
           .download(`${pledge}.jpeg`)
 
-
         if (!error) {
           setImageUrl(URL.createObjectURL(ImageData))
         }
@@ -178,16 +177,20 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
   useEffect(() => {
     const calculateProgress = async () => {
       let interviewNum = interviews?.length
-      if(interviewNum >= 30){
+      if (interviewNum >= 30) {
         interviewNum = 30
       }
       setCompleted(
-        Math.round(((interviewNum + pd + committeeSO + socialHours + academicHours) * 100) / 74)
+        Math.round(
+          ((interviewNum + pd + numCommitteeSOs + socialHours + academicHours) *
+            100) /
+            74
+        )
       )
     }
 
     calculateProgress()
-  }, [interviews, pd, committeeSO])
+  }, [interviews, pd, numCommitteeSOs])
 
   useEffect(() => {
     const fetchCommitteeSignoffs = async () => {
@@ -195,13 +198,13 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
         .from('CommitteeSignOffs')
         .select('*')
         .eq('pledge', pledge)
-      
+
       if (data && data.length > 0) {
         const committeeSignOffCount = Object.values(data[0]).filter(
           value => value == true
         ).length
-     
-        setCommitteeSO(committeeSignOffCount)
+
+        setnumCommitteeSOs(committeeSignOffCount)
       } else {
         console.log('error fetching data:', error)
       }
@@ -215,12 +218,12 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
         .from('PDSignOffs')
         .select('*')
         .eq('pledge', pledge)
-     
+
       if (data && data.length > 0) {
         const pdSignOffCount = Object.values(data[0]).filter(
           value => value == true
         ).length
-     
+
         setPD(pdSignOffCount)
       } else {
         console.log('error fetching data:', error)
@@ -251,20 +254,19 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
       if (error) {
         console.error('Error updating committee sign-off:', error.message)
       } else {
-        
         const { data: existingPledgeData, error: existingPledgeError } =
-        await supabase
-          .from('CommitteeSignOffs')
-          .select('brotherSO')
-          .eq('pledge', pledge)
-          .single()
-       
-      const currentCommitteeBros = existingPledgeData
-        ? existingPledgeData.brotherSO || []
-        : []
-        
+          await supabase
+            .from('CommitteeSignOffs')
+            .select('brotherSO')
+            .eq('pledge', pledge)
+            .single()
+
+        const currentCommitteeBros = existingPledgeData
+          ? existingPledgeData.brotherSO || []
+          : []
+
         const updatedCommitteeBros = [...currentCommitteeBros, userID]
-        
+
         const { error } = await supabase.from('CommitteeSignOffs').upsert(
           [
             {
@@ -274,8 +276,10 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
           ],
           { onConflict: ['pledge'] }
         )
-        window.alert(`You have signed off ${pledge} for their ${committeeList[selectedCommittee]} successfully.`)
-        setSelectedCommittee('');
+        window.alert(
+          `You have signed off ${pledge} for their ${committeeList[selectedCommittee]} successfully.`
+        )
+        setSelectedCommittee('')
         // Optionally, you can refetch the committee sign-offs data here
       }
     } catch (error) {
@@ -301,22 +305,21 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
         ],
         { onConflict: ['pledge'] }
       )
-     
 
       if (error) {
         console.error('Error updating committee sign-off:', error.message)
       } else {
         const { data: existingPledgeData, error: existingPledgeError } =
-        await supabase
-          .from('PDSignOffs')
-          .select('brotherSO')
-          .eq('pledge', pledge)
-          .single()
-       
-      const currentPDBrothers = existingPledgeData
-        ? existingPledgeData.brotherSO || []
-        : []
-   
+          await supabase
+            .from('PDSignOffs')
+            .select('brotherSO')
+            .eq('pledge', pledge)
+            .single()
+
+        const currentPDBrothers = existingPledgeData
+          ? existingPledgeData.brotherSO || []
+          : []
+
         const updatedPDBrothers = [...currentPDBrothers, userID]
 
         const { error } = await supabase.from('PDSignOffs').upsert(
@@ -328,18 +331,18 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
           ],
           { onConflict: ['pledge'] }
         )
-       
-        window.alert(`You have signed off ${pledge} for their ${pdRequirementList[selectedPDSO]} activity successfully.`)
-        setselectedPDSO('');
-       
+
+        window.alert(
+          `You have signed off ${pledge} for their ${pdRequirementList[selectedPDSO]} activity successfully.`
+        )
+        setselectedPDSO('')
+
         // Optionally, you can refetch the committee sign-offs data here
       }
     } catch (error) {
       console.error('Error updating committee sign-off:', error.message)
     }
   }
-
-
 
   const handleInterviewClick = async () => {
     const { data: existingPledgeData, error: existingPledgeError } =
@@ -396,7 +399,6 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
     }
   }
 
-
   const handleSave = async () => {
     try {
       // Update the user's profile in Supabase with the new values
@@ -405,51 +407,46 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
         .update([
           {
             academicHours,
-            socialHours,
-          },
+            socialHours
+          }
         ])
-        .eq('uniqname', pledge);
-  
+        .eq('uniqname', pledge)
+
       if (!error) {
-        console.log('Pledge hours updated successfully');
+        console.log('Pledge hours updated successfully')
         // Optionally reset editableFields state to hide input fields
         setEditableFields({
           academicHours: false,
           socialHours: false
-        });
-  
-
-      } 
-     
-      else {
-        console.error('Error updating profile:', error.message);
+        })
+      } else {
+        console.error('Error updating profile:', error.message)
       }
     } catch (error) {
-      console.error('Error updating profile:', error.message);
+      console.error('Error updating profile:', error.message)
     }
-  };
+  }
 
   const handleFieldEdit = () => {
-    
-    setEditableFields((prevFields) => ({
+    setEditableFields(prevFields => ({
       ...prevFields,
       academicHours: !prevFields.academicHours,
-      socialHours: !prevFields.socialHours,
-      
-    }));
+      socialHours: !prevFields.socialHours
+    }))
     if (!editableFields.academicHours) {
-      setAcademicHours(academicHours); // Use the initial state or fetch it from the server
+      setAcademicHours(academicHours) // Use the initial state or fetch it from the server
     }
-  
-    if (!editableFields.socialHours) {
-      setSocialHours(socialHours); // Use the initial state or fetch it from the server
-    }
-  };
 
+    if (!editableFields.socialHours) {
+      setSocialHours(socialHours) // Use the initial state or fetch it from the server
+    }
+  }
 
   const handleDeletePledge = async () => {
     // Show a confirmation dialog
-    const isConfirmed = window.confirm('Are you sure you want to delete this pledge? All of their data will be deleted.');
+    const isConfirmed = window.confirm(
+      'Are you sure you want to delete this pledge? All of their data will be deleted.'
+    )
 
     // If the user confirms, proceed with deletion
     if (isConfirmed) {
@@ -457,46 +454,40 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
       const { data, error } = await supabase
         .from('Pledges')
         .delete()
-        .eq('uniqname', pledge);
+        .eq('uniqname', pledge)
 
       // Handle any errors or update UI accordingly
       if (error) {
-        console.error('Error deleting pledge:', error.message);
+        console.error('Error deleting pledge:', error.message)
       } else {
-        fetchPledges();
+        fetchPledges()
       }
       const { data1, error1 } = await supabase
         .from('PDSignOffs')
         .delete()
-        .eq('pledge', pledge);
+        .eq('pledge', pledge)
 
       // Handle any errors or update UI accordingly
       if (error) {
-        console.error('Error deleting pledge:', error1.message);
+        console.error('Error deleting pledge:', error1.message)
       } else {
-       
       }
       const { data2, error2 } = await supabase
-      .from('CommitteeSignOffs')
-      .delete()
-      .eq('pledge', pledge);
+        .from('CommitteeSignOffs')
+        .delete()
+        .eq('pledge', pledge)
 
-    // Handle any errors or update UI accordingly
-    if (error) {
-      console.error('Error deleting pledge:', error2.message);
-    } else {
-     
+      // Handle any errors or update UI accordingly
+      if (error) {
+        console.error('Error deleting pledge:', error2.message)
+      } else {
+      }
     }
+  }
 
-    }
-  };
-
-  
   return (
     <div className='flex flex-col md:flex-row items-center bg-gray-100 p-2 rounded-2xl mb-4'>
       <div className='flex flex-col items-center md:w-3/12'>
-
-       
         <div className='mb-2 w-40 h-40'>
           {imageUrl ? (
             <img
@@ -511,8 +502,8 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
               className='rounded-full w-full h-full object-cover'
             />
           )}
-          </div>
-        
+        </div>
+
         <div className='text-center'>
           <p className='font-bold'>
             {firstname} {lastname}
@@ -521,80 +512,102 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
             {year} | {pronouns} | {major}
           </p>
           {isAdmin && (
-              <div className='flex flex-col md:flex-row items-center justify-evenly w-full'>
-                {!Object.values(editableFields).some((field) => field) ? (
-                  <button className='font-bold m-2 text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleFieldEdit}>
-                    Edit 
+            <div className='flex flex-col md:flex-row items-center justify-evenly w-full'>
+              {!Object.values(editableFields).some(field => field) ? (
+                <button
+                  className='font-bold m-2 text-md bg-[#8b000070] p-2 rounded-md text-center'
+                  onClick={handleFieldEdit}
+                >
+                  Edit
+                </button>
+              ) : (
+                <div className='flex flex-row m-2 items-center'>
+                  <button
+                    className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center h-10'
+                    onClick={handleDeletePledge}
+                  >
+                    <Image
+                      src={trash}
+                      alt='logo'
+                      className='rounded-full w-full h-full object-cover'
+                    />
                   </button>
-                ) : (
-                  <div className='flex flex-row m-2 items-center'>
-                     <button className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center h-10' onClick={handleDeletePledge}>
-        <Image
-              src={trash}
-              alt='logo'
-              className='rounded-full w-full h-full object-cover' 
-            />
-        </button>
-                    <button className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleFieldEdit}>
-                      Cancel
-                    </button>
-                    <button className='font-bold text-md bg-[#8b000070] p-2 rounded-md text-center' onClick={handleSave}>
-                      Save 
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-
+                  <button
+                    className='font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center'
+                    onClick={handleFieldEdit}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className='font-bold text-md bg-[#8b000070] p-2 rounded-md text-center'
+                    onClick={handleSave}
+                  >
+                    Save
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div className='flex flex-col items-center w-9/12'>
-      <div className='flex flex-col md:flex-row items-center justify-evenly w-full pb-2'>
-        <div className='flex flex-col items-center p-2 '>
-          <p className='text-sm font-bold mb-1'># of Interviews</p>
-          <p className='text-sm'>{interviews?.length | 0}</p>
-        </div>
-        <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
-          <p className='text-sm text-center font-bold mb-1'># of PD Activities</p>
-          <p className='text-sm'>{pd}</p>
-        </div>
-        <div className='flex flex-col items-center p-2'>
-          <p className='text-sm text-center font-bold mb-1'># of Committee Signoffs</p>
-          <p className='text-sm'>{committeeSO}</p>
-        </div>
-        <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
-          <p className='text-sm text-center font-bold mb-1'># of Social Hours</p>
-          <p className='text-sm'>
-          {editableFields.socialHours && isAdmin ? (
-                  <input
-                    type='text'
-                    placeholder={socialHours}
-                    value={socialHours}
-                    onChange={(e) => setSocialHours(e.target.value)}
-                    className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
-                  />
-                ) : (
-                  `${socialHours}`
-                )}
-          </p>
-        </div>
-        <div className='flex flex-col items-center p-2'>
-          <p className='text-sm text-center font-bold mb-1'># of Academic Hours</p>
-          <p className='text-sm'>      <p className='text-sm'>
-          {editableFields.academicHours && isAdmin ? (
+        <div className='flex flex-col md:flex-row items-center justify-evenly w-full pb-2'>
+          <div className='flex flex-col items-center p-2 '>
+            <p className='text-sm font-bold mb-1'># of Interviews</p>
+            <p className='text-sm'>{interviews?.length | 0}</p>
+          </div>
+          <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
+            <p className='text-sm text-center font-bold mb-1'>
+              # of PD Activities
+            </p>
+            <p className='text-sm'>{pd}</p>
+          </div>
+          <div className='flex flex-col items-center p-2'>
+            <p className='text-sm text-center font-bold mb-1'>
+              # of Committee Signoffs
+            </p>
+            <p className='text-sm'>{numCommitteeSOs}</p>
+          </div>
+          <div className='flex flex-col items-center md:border-x-2 border-black p-2'>
+            <p className='text-sm text-center font-bold mb-1'>
+              # of Social Hours
+            </p>
+            <p className='text-sm'>
+              {editableFields.socialHours && isAdmin ? (
+                <input
+                  type='text'
+                  placeholder={socialHours}
+                  value={socialHours}
+                  onChange={e => setSocialHours(e.target.value)}
+                  className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
+                />
+              ) : (
+                `${socialHours}`
+              )}
+            </p>
+          </div>
+          <div className='flex flex-col items-center p-2'>
+            <p className='text-sm text-center font-bold mb-1'>
+              # of Academic Hours
+            </p>
+            <p className='text-sm'>
+              {' '}
+              <p className='text-sm'>
+                {editableFields.academicHours && isAdmin ? (
                   <input
                     type='text'
                     placeholder={academicHours}
                     value={academicHours}
-                    onChange={(e) => setAcademicHours(e.target.value)}
+                    onChange={e => setAcademicHours(e.target.value)}
                     className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
                   />
                 ) : (
                   `${academicHours}`
                 )}
-          </p></p>
+              </p>
+            </p>
+          </div>
         </div>
-      </div>
         <div className='flex flex-col items-center w-full p-2'>
           <ProgressBar
             className='w-full'
@@ -627,29 +640,47 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
                   {pdRequirementList[selectedPDSO] || 'Select PD Activity ▼'}
                 </button>
               </DropdownTrigger>
-              <DropdownMenu className="bg-gray-200 rounded-md">
+              <DropdownMenu className='bg-gray-200 rounded-md'>
                 <DropdownSection>
-                <DropdownItem onClick={() => {
-                   setselectedPDSO('coResearch');
-                  }} className='hover:bg-gray-300 cursor-pointer'>
+                  <DropdownItem
+                    onClick={() => {
+                      setselectedPDSO('coResearch')
+                    }}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
                     Company Research
-                    </DropdownItem>
-                    <DropdownItem onClick={() => {
-                   setselectedPDSO('resume');
-                  }} className='hover:bg-gray-300 cursor-pointer'>
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      setselectedPDSO('resume')
+                    }}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
                     Resume and Cover Letter
-                    </DropdownItem>
-                  <DropdownItem onClick={() => setselectedPDSO('jobApp')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Apply for a Job
                   </DropdownItem>
-                  <DropdownItem onClick={() => setselectedPDSO('careerChat')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Career Coffee Chat
+                  <DropdownItem
+                    onClick={() => setselectedPDSO('jobApp')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Apply for a Job
                   </DropdownItem>
-                  <DropdownItem onClick={() => setselectedPDSO('interview')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Mock Interview
+                  <DropdownItem
+                    onClick={() => setselectedPDSO('careerChat')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Career Coffee Chat
                   </DropdownItem>
-                  <DropdownItem onClick={() => setselectedPDSO('4YrPlan')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Four-Year Class Plan
+                  <DropdownItem
+                    onClick={() => setselectedPDSO('interview')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Mock Interview
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => setselectedPDSO('4YrPlan')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Four-Year Class Plan
                   </DropdownItem>
                   {/* Add other committees as needed */}
                 </DropdownSection>
@@ -673,31 +704,55 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
                   {committeeList[selectedCommittee] || 'Select Committee ▼'}
                 </button>
               </DropdownTrigger>
-              <DropdownMenu className="bg-gray-200 rounded-md">
+              <DropdownMenu className='bg-gray-200 rounded-md'>
                 <DropdownSection>
-                  <DropdownItem onClick={() => setSelectedCommittee('brohood')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Brotherhood
+                  <DropdownItem
+                    onClick={() => setSelectedCommittee('brohood')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Brotherhood
                   </DropdownItem>
-                  <DropdownItem onClick={() => setSelectedCommittee('pd')}  className='hover:bg-gray-300 cursor-pointer'>
-                  PD
+                  <DropdownItem
+                    onClick={() => setSelectedCommittee('pd')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    PD
                   </DropdownItem>
-                  <DropdownItem onClick={() => setSelectedCommittee('philanthropy')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Philanthropy
+                  <DropdownItem
+                    onClick={() => setSelectedCommittee('philanthropy')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Philanthropy
                   </DropdownItem>
-                  <DropdownItem onClick={() => setSelectedCommittee('recsports')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Rec Sports
+                  <DropdownItem
+                    onClick={() => setSelectedCommittee('recsports')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Rec Sports
                   </DropdownItem>
-                  <DropdownItem onClick={() => setSelectedCommittee('social')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Social
+                  <DropdownItem
+                    onClick={() => setSelectedCommittee('social')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Social
                   </DropdownItem>
-                  <DropdownItem onClick={() => setSelectedCommittee('diversity')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Diversity
+                  <DropdownItem
+                    onClick={() => setSelectedCommittee('diversity')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Diversity
                   </DropdownItem>
-                  <DropdownItem onClick={() => setSelectedCommittee('historian')}  className='hover:bg-gray-300 cursor-pointer'>
-                  Historian
+                  <DropdownItem
+                    onClick={() => setSelectedCommittee('historian')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    Historian
                   </DropdownItem>
-                  <DropdownItem onClick={() => setSelectedCommittee('corsec')}  className='hover:bg-gray-300 cursor-pointer'>
-                  CorSec
+                  <DropdownItem
+                    onClick={() => setSelectedCommittee('corsec')}
+                    className='hover:bg-gray-300 cursor-pointer'
+                  >
+                    CorSec
                   </DropdownItem>
                   {/* Add other committees as needed */}
                 </DropdownSection>
@@ -712,8 +767,6 @@ const PledgeTile = ({ pledge, fetchPledges}) => {
               Submit
             </button>
           </div>
-
-
         </div>
       </div>
     </div>

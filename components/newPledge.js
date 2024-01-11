@@ -12,12 +12,12 @@ import {
   DropdownItem
 } from '@nextui-org/react'
 
-const NewPledgeTile = ({fetchPledges}) => {
-  const [profileImage, setProfileImage] = useState(null);
-  const [profileImageUrl, setProfileImageUrl] = useState(null);
+const NewPledgeTile = ({ fetchPledges }) => {
+  const [profileImage, setProfileImage] = useState(null)
+  const [profileImageUrl, setProfileImageUrl] = useState(null)
 
   const [pd, setPD] = useState(0)
-  const [committeeSO, setCommitteeSO] = useState(0)
+  const [numCommitteeSOs, setnumCommitteeSOs] = useState(0)
   const [completed, setCompleted] = useState(0)
 
   const [firstname, setFirstname] = useState('')
@@ -79,53 +79,51 @@ const NewPledgeTile = ({fetchPledges}) => {
         setPledges([...pledges, { uniqname: newPledgeUniqname, firstname: '' }])
 
       // Reset the newPledgeUniqname state
-
     } catch (error) {
       console.error(error)
       // Handle errors if needed
     }
-    
-    try{
+
+    try {
       const { data, error } = await supabase.from('PDSignOffs').insert([
         {
-          pledge: uniqname,
+          pledge: uniqname
         }
       ])
-    }catch (error) {
+    } catch (error) {
       console.error(error)
       // Handle errors if needed
     }
-   
-    try{
+
+    try {
       const { data, error } = await supabase.from('CommitteeSignOffs').insert([
         {
-          pledge: uniqname,
+          pledge: uniqname
         }
       ])
-    }catch (error) {
+    } catch (error) {
       console.error(error)
       // Handle errors if needed
     }
     if (profileImage) {
-      const fileName = `${uniqname}.jpeg`;
+      const fileName = `${uniqname}.jpeg`
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('pledges')
         .upload(fileName, profileImage, {
           cacheControl: '3600',
-          contentType: 'image/jpeg', 
-          upsert: true,
-        }
-      );
+          contentType: 'image/jpeg',
+          upsert: true
+        })
 
       if (!uploadError) {
-        console.log('Profile photo uploaded successfully');
+        console.log('Profile photo uploaded successfully')
         setProfileImageUrl(null)
-        setProfileImage(null); // Reset profileImage after successful upload
+        setProfileImage(null) // Reset profileImage after successful upload
       } else {
-        console.error('Error uploading profile photo:', uploadError.message);
+        console.error('Error uploading profile photo:', uploadError.message)
       }
     }
-    setEditMode(false);
+    setEditMode(false)
     setUniqname('')
     setFirstname('')
     setLastname('')
@@ -144,18 +142,18 @@ const NewPledgeTile = ({fetchPledges}) => {
       imageUrl: false
     })
   }
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  const handleImageChange = e => {
+    const file = e.target.files[0]
 
-  // Check if the file is of type image/jpeg
-  if (file && file.type === 'image/jpeg') {
-    const image = URL.createObjectURL(file);
-    setProfileImage(file);
-    setProfileImageUrl(image);
-  } else {
-    console.error('Invalid file format. Please select a JPEG image.');
+    // Check if the file is of type image/jpeg
+    if (file && file.type === 'image/jpeg') {
+      const image = URL.createObjectURL(file)
+      setProfileImage(file)
+      setProfileImageUrl(image)
+    } else {
+      console.error('Invalid file format. Please select a JPEG image.')
+    }
   }
-  };
 
   useEffect(() => {
     const fetchAdminRole = async () => {
@@ -218,7 +216,7 @@ const NewPledgeTile = ({fetchPledges}) => {
       imageUrl: !prevFields.imageUrl,
       currentClasses: !prevFields.currentClasses
     }))
-    setEditMode(false);
+    setEditMode(false)
     setUniqname('')
     setFirstname('')
     setLastname('')
@@ -257,19 +255,21 @@ const NewPledgeTile = ({fetchPledges}) => {
               )}
             </div>
             {editableFields.imageUrl && (
-              <div className="w-full flex justify-center">
-                <label className="cursor-pointer bg-[#8b000070] text-white rounded-md mb-2 p-2 text-center">
+              <div className='w-full flex justify-center'>
+                <label className='cursor-pointer bg-[#8b000070] text-white rounded-md mb-2 p-2 text-center'>
                   Upload photo (JPEG only)
-                  <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                  <input
+                    type='file'
+                    accept='image/*'
+                    onChange={handleImageChange}
+                    className='hidden'
+                  />
                 </label>
               </div>
             )}
-
           </div>
           <div className='flex flex-col w-9/12'>
-            
-            
-          <div className='text-center md:w-1/2'>
+            <div className='text-center md:w-1/2'>
               <div className='text-md  text-center py-1 md:w-full'>
                 {editableFields.uniqname ? (
                   <input
@@ -388,4 +388,3 @@ const NewPledgeTile = ({fetchPledges}) => {
 }
 
 export default NewPledgeTile
-
