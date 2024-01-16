@@ -21,7 +21,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
   const [pd, setPD] = useState(0)
   const [pdSOs, setpdSOs] = useState([])
   const [numCommitteeSOs, setnumCommitteeSOs] = useState(0)
-  const [committeeSignOffs, SetCommitteeSignOffs] = useState([])
+  const [committeeSignOffs, setCommitteeSignOffs] = useState([])
   const [completed, setCompleted] = useState(0)
 
   const [firstname, setFirstname] = useState('')
@@ -203,7 +203,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         const committeeSignOffCount = Object.values(data[0]).filter(
           value => value == true
         ).length
-
+        setCommitteeSignOffs(data)
         setnumCommitteeSOs(committeeSignOffCount)
       } else {
         console.log('error fetching data:', error)
@@ -223,7 +223,10 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         const pdSignOffCount = Object.values(data[0]).filter(
           value => value == true
         ).length
-
+        console.log("pd data")
+        console.log(data)
+        setpdSOs(data)
+        console.log(pdSOs)
         setPD(pdSignOffCount)
       } else {
         console.log('error fetching data:', error)
@@ -642,46 +645,20 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
               </DropdownTrigger>
               <DropdownMenu className='bg-gray-200 rounded-md'>
                 <DropdownSection>
-                  <DropdownItem
-                    onClick={() => {
-                      setselectedPDSO('coResearch')
-                    }}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Company Research
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      setselectedPDSO('resume')
-                    }}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Resume and Cover Letter
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setselectedPDSO('jobApp')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Apply for a Job
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setselectedPDSO('careerChat')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Career Coffee Chat
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setselectedPDSO('interview')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Mock Interview
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setselectedPDSO('4YrPlan')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Four-Year Class Plan
-                  </DropdownItem>
+                {Object.keys(pdRequirementList).map(key => (
+      pdSOs.length && !pdSOs[0][key] && (
+        <DropdownItem
+          key={key}
+          onClick={() => {
+            setselectedPDSO(key);
+          }}
+          className='hover:bg-gray-300 cursor-pointer'
+        >
+          {pdRequirementList[key]}
+        </DropdownItem>
+      )
+    ))}
+
                   {/* Add other committees as needed */}
                 </DropdownSection>
               </DropdownMenu>
@@ -706,54 +683,20 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
               </DropdownTrigger>
               <DropdownMenu className='bg-gray-200 rounded-md'>
                 <DropdownSection>
-                  <DropdownItem
-                    onClick={() => setSelectedCommittee('brohood')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Brotherhood
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setSelectedCommittee('pd')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    PD
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setSelectedCommittee('philanthropy')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Philanthropy
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setSelectedCommittee('recsports')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Rec Sports
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setSelectedCommittee('social')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Social
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setSelectedCommittee('diversity')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Diversity
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setSelectedCommittee('historian')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    Historian
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => setSelectedCommittee('corsec')}
-                    className='hover:bg-gray-300 cursor-pointer'
-                  >
-                    CorSec
-                  </DropdownItem>
+                {Object.keys(committeeList).map(key => (
+      committeeSignOffs.length && !committeeSignOffs[0][key] && (
+        <DropdownItem
+          key={key}
+          onClick={() => {
+            setSelectedCommittee(key);
+          }}
+          className='hover:bg-gray-300 cursor-pointer'
+        >
+          {committeeList[key]}
+        </DropdownItem>
+      )
+    ))}
+
                   {/* Add other committees as needed */}
                 </DropdownSection>
               </DropdownMenu>
