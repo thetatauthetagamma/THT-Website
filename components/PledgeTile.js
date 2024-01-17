@@ -50,21 +50,24 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
   const pdRequirementList = {
     resume: 'Resume and Cover Letter',
     interview: 'Mock Interview',
-    careerChat: 'Career Coffee Chat',
     coResearch: 'Company Research',
     '4YrPlan': 'Four Year Class Plan',
-    jobApp: 'Apply for a Job'
+    jobApp: 'Apply for a Job',
+    linkedin: 'LinkedIn',
+    alumPanel: 'Alumni Panel'
   }
 
   const committeeList = {
-    brohood: 'Brotherhood',
+    apparel: 'Apparel',
     pd: 'PD',
     philanthropy: 'Philanthropy',
     recsports: 'Rec Sports',
     social: 'Social',
     diversity: 'Diversity',
     historian: 'Historian',
-    corsec: 'CorSec'
+    web:'Web',
+    corsec: 'CorSec',
+    socialMedia:'Social Media'
   }
   useEffect(() => {
     const fetchSession = async () => {
@@ -182,7 +185,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         Math.round(
           ((interviewNum + pd + numCommitteeSOs + socialHours + academicHours) *
             100) /
-            74
+            87
         )
       )
     }
