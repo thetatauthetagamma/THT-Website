@@ -46,8 +46,6 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
     socialHours: false
   })
 
-
-
   //key = supabase column, value = display value
   const pdRequirementList = {
     resume: 'Resume and Cover Letter',
@@ -223,7 +221,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         const pdSignOffCount = Object.values(data[0]).filter(
           value => value == true
         ).length
-        console.log("pd data")
+        console.log('pd data')
         console.log(data)
         setpdSOs(data)
         console.log(pdSOs)
@@ -645,19 +643,21 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
               </DropdownTrigger>
               <DropdownMenu className='bg-gray-200 rounded-md'>
                 <DropdownSection>
-                {Object.keys(pdRequirementList).map(key => (
-      pdSOs.length && !pdSOs[0][key] && (
-        <DropdownItem
-          key={key}
-          onClick={() => {
-            setselectedPDSO(key);
-          }}
-          className='hover:bg-gray-300 cursor-pointer'
-        >
-          {pdRequirementList[key]}
-        </DropdownItem>
-      )
-    ))}
+                  {Object.keys(pdRequirementList).map(
+                    key =>
+                      pdSOs.length &&
+                      !pdSOs[0][key] && (
+                        <DropdownItem
+                          key={key}
+                          onClick={() => {
+                            setselectedPDSO(key)
+                          }}
+                          className='hover:bg-gray-300 cursor-pointer'
+                        >
+                          {pdRequirementList[key]}
+                        </DropdownItem>
+                      )
+                  )}
 
                   {/* Add other committees as needed */}
                 </DropdownSection>
@@ -683,19 +683,21 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
               </DropdownTrigger>
               <DropdownMenu className='bg-gray-200 rounded-md'>
                 <DropdownSection>
-                {Object.keys(committeeList).map(key => (
-      committeeSignOffs.length && !committeeSignOffs[0][key] && (
-        <DropdownItem
-          key={key}
-          onClick={() => {
-            setSelectedCommittee(key);
-          }}
-          className='hover:bg-gray-300 cursor-pointer'
-        >
-          {committeeList[key]}
-        </DropdownItem>
-      )
-    ))}
+                  {Object.keys(committeeList).map(
+                    key =>
+                      committeeSignOffs.length &&
+                      !committeeSignOffs[0][key] && (
+                        <DropdownItem
+                          key={key}
+                          onClick={() => {
+                            setSelectedCommittee(key)
+                          }}
+                          className='hover:bg-gray-300 cursor-pointer'
+                        >
+                          {committeeList[key]}
+                        </DropdownItem>
+                      )
+                  )}
 
                   {/* Add other committees as needed */}
                 </DropdownSection>
