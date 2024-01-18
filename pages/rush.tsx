@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import rush24 from '../public/rush2024.jpeg'
 import Faq from '@/components/Faq'
-import w24rush from '../public/rush24Events.jpg'
+import w24rush from '../public/rush24.jpg'
 export default function rush() {
     return (
       <div className="bg-gray-50 flex-grow">
