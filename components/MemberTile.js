@@ -29,7 +29,7 @@ export default function MemberTile({userid, firstname, lastname, year, major, ro
 
     function handleClick()
     {
-      router.push(`/brothers/${userid}`);
+      router.push(`/members/${userid}`);
     }
 
   return (
