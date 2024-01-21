@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import gear from '../public/theta-tau-gear.png'
-import React from 'react';
+import supabase from '../supabase'
+import React, { useEffect, useState } from 'react';
 import HorizontalMarquee from '../components/HorizontalMarquee';
-import KatieBailey from '../public/eboard/KatieBailey.jpeg';
-import SarahDouglas from '../public/eboard/SarahDouglas.jpg';
+import Leah from '../public/eboard/kidderl.jpeg';
+import Owen from '../public/eboard/owilloug.jpeg';
 import Casey from '../public/eboard/casey.jpg';
-import KateMcGraw from '../public/eboard/kateM.jpg';
-import Kirsten from '../public/eboard/kirsten.jpeg';
+import Rachel from '../public/eboard/nowakra.jpeg';
+import Shubh from '../public/eboard/shubhd.jpeg';
 import image1 from '../public/companies/1.jpg';
 import image2 from '../public/companies/2.jpg';
 import image3 from '../public/companies/3.jpg';
@@ -27,10 +28,73 @@ import image17 from '../public/companies/17.jpg';
 import image18 from '../public/companies/18.jpg';
 import image19 from '../public/companies/19.jpg';
 import image20 from '../public/companies/20.jpg';
+type SetStateFunction = (value: string) => void;
+
 
 const firstrow = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10 , image11, image12, image13, image14, image15, image16, image17, image18, image19, image20];
 
 export default function members() {
+  const [regentFirst, setRegentFirst] = useState('');
+  const [regentLast, setRegentLast] = useState('');
+  const [regentImg, setRegentImg] = useState('');
+  const [viceFirst, setViceFirst] = useState('');
+  const [viceLast, setViceLast] = useState('');
+  const [viceImg, setViceImg] = useState('');
+  const [scribeFirst, setScribeFirst] = useState('');
+  const [scribeLast, setScribeLast] = useState('');
+  const [scribeImg, setScribeImg] = useState('');
+  const [treasurerFirst, setTreasurerFirst] = useState('');
+  const [treasurerLast, setTreasurerLast] = useState('');
+  const [treasurerImg, setTreasurerImg] = useState('');
+  const [corsecFirst, setCorsecFirst] = useState('');
+  const [corsecLast, setCorsecLast] = useState('');
+  const [corsecImg, setCorsecImg] = useState('');
+
+
+  useEffect(() => {
+    const fetchEBoard = async (
+      adminRole: string,
+      setFirstName: SetStateFunction,
+      setLastName: SetStateFunction,
+      setImage: SetStateFunction
+    ) => {
+      try {
+        const { data, error } = await supabase
+          .from('Brothers')
+          .select('*')
+          .eq('adminrole', adminRole);
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          setFirstName(data[0].firstname);
+          setLastName(data[0].lastname);
+          const { userid } = data[0];
+          const { data: ImageData, error: imageError } = await supabase.storage
+          .from('brothers')
+          .download(`${userid}.jpeg`);
+
+        if (!imageError) {
+          setImage(URL.createObjectURL(ImageData));
+
+        }
+        }
+      } catch (error) {
+        // Handle errors if needed
+      }
+    };
+
+    fetchEBoard('regent', setRegentFirst, setRegentLast, setRegentImg);
+    fetchEBoard('vice', setViceFirst, setViceLast, setViceImg);
+    fetchEBoard('scribe', setScribeFirst, setScribeLast, setScribeImg);
+    fetchEBoard('corsec', setCorsecFirst,setCorsecLast, setCorsecImg);
+    fetchEBoard('treasurer', setTreasurerFirst,setTreasurerLast, setTreasurerImg)
+  }, []);
+
+
+
     return (
       <div className='flex-grow flex-col'>
         <div className="bg-gray-50 flex flex-grow flex-col pr-6 pl-6 md:pr-40 md:pl-40 md:pt-8 md:pb-8 pt-4 pb-4 border-b-2 border-[#8b000050]">
@@ -38,52 +102,54 @@ export default function members() {
            <div className="flex flex-col md:flex-row items-center justify-around md:text-md text-sm  md:pt-8 pt-4 pb-4  top-0">
             
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-1 pr-3 pl-3 md:self-start'>
+              <div className='w-full h-full'>
               <Image
-                src={Kirsten}
+                src={Casey}
                 alt="Gear icon"
-                className='w-full h-full rounded-full'
+                className='w-full h-full rounded-full object-cover'
               />
-              <h1 className="font-semibold text-lg pt-4" >Kirsten Knowles</h1>
+              </div>
+              <h1 className="font-semibold text-lg pt-4" >{regentFirst} {regentLast}</h1>
               <h1 className="md:text-lg text-md" >Regent</h1>
             </div>
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={SarahDouglas}
+                src={Rachel}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold md:text-lg text-md pt-4" >Sarah Douglas</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >{viceFirst} {viceLast}</h1>
               <h1 className=" md:text-lg sm:text-sm text-md" >Vice Regent</h1>
             </div>
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={KateMcGraw}
+                src={Owen}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold md:text-lg text-md pt-4" >Kate McGraw</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >{scribeFirst} {scribeLast}</h1>
               <h1 className="md:text-lg text-md" >Scribe</h1>
             </div>
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4  pr-3 pl-3 md:self-start'>
               <Image
-                src={Casey}
+                src={Shubh}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold md:text-lg text-md pt-4" >Casey Kousoulas</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >{treasurerFirst} {treasurerLast}</h1>
               <h1 className="md:text-lg text-md" >Treasurer</h1>
             </div>
 
             <div className='flex-col text-center md:w-1/5 w-3/4 pr-3 pl-3 md:self-start'>
                 <Image
-                  src={KatieBailey}
+                  src={Leah}
                   alt="Gear icon"
                   className='w-full h-full rounded-full'
                 />
-                <h1 className="font-semibold md:text-lg text-md pt-4" >Katie Bailey</h1>
+                <h1 className="font-semibold md:text-lg text-md pt-4" >{corsecFirst} {corsecLast}</h1>
                 <h1 className="md:text-lg text-md" >Corresponding Secretary</h1>
               </div>
 
