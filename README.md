@@ -1,4 +1,16 @@
-# New and Improved THT Website 
+# The Theta Tau - Theta Gamma Website
+
+## Table of Contents
+
+- [Team Behind This Project](#team-behind-this-project)
+- [Progress Report](#progress-report)
+    - [Features Accomplished](#features-accomplished)
+    - [Major Tasks - To Be Done](#major-tasks-to-be-done)
+    - [Minor Tasks - To Be Done](#minor-tasks-to-be-done)
+    - [Known Issues/Bugs](#known-issues/bugs)
+- [Domain Information](#domain-information)
+- [Development Setup](#development-setup)
+- [Contribution Guidelines](#contribution-guidelines)
 
 Welcome to the new THT Website, reconstructed with Next.js, Supabase, and Tailwind CSS!
 
