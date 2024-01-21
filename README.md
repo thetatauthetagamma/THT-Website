@@ -1,41 +1,79 @@
-# The New and Improved THT Website
-This is the new THT Website built with Next.js and Supabase!
+# New and Improved THT Website 
 
-## Authors
-Made by THT Web Committee
+Welcome to the new THT Website, reconstructed with Next.js, Supabase, and Tailwind CSS!
+
+## Team Behind This Project
+
+The THT Web Committee:
+
 1. Hariharan Chidambaram
 2. Kate McGraw
-3. Mihika Thakurta
-4. Geroge Gilfond
-5. Aryan Thomare
-6. Lily Collins
-7. Shu Adhya
-8. Owen Willouhby
+3. Lily Collins
+4. Owen Willoughby
+5. Luke Weaver
+6. Tomi Bruno
+7. Kirsten Knowles
+8. Ethan Schenk
 
-# Domain
-1. Currently deployed @ [https://melodic-smakager-952e84.netlify.app](https://main--melodic-smakager-952e84.netlify.app/)
-2. Used Netlify to connect my personal github (HariChidam) to to THT Organization and deploys through mine.
+## Progress Report
 
-# How to get set up
-1. First make sure you have Node.js installed. You can check by doing `node -v`. If you have an old version just update to the most modern version
-2. Next check to see if you have npm installed. You can check by doing `npm -v`. If you have an old version just update to the most modern version
-3. Next clone the repository onto your own machine. `git clone [url]`
-4. Next `cd` into the directory and install all the dependencies. You can do that by doing `npm install`
-5. Now you need to make sure you have been invited to Supabase Project. (Ask Hari for invite)
-6. Lastly for set up you need the `.env` file. This file is not of Github and is where we keep our API keys. Get this file from any of the Authors and place it into your root directory and name it `.env`
-7. Now if you try `npm run dev` you should be able to navigate to http://localhost:3000/ and see the webiste running on your local machine!
-8. If you see the site then you are ready to start deving!!
+### Features Accomplished
 
-# How to contribute
-To make changes please follow this process
-1. You will first start on the main branch. To check what branch you are on `git branch`.
-2. Then before you make any changes `git pull`
-3. Now to start making changes please create a new branch `git checkout -b [FEATURE_NAME]`
-4. When you finish a part of your feature and wish to push the changes to the remote repository:
-5. `git add [changed_files]` (replace changed_files with the actual file names you changed)
-6. `git commit -m "meaningful commit message goes here"`
-7. `git push --set-upstream origin [FEATURE_NAME]` (the next time you push to this branch you can just say `git push`).
-8. Once it is ready to be merged go to Github and open a Pull Request.
-9. Then tell Hari and he will check it and merge it to main
-10. Your feature branch is then deleted so follow this process and make a new branch again next time
-11. Anything merged to main is automatically built and deployed!
+- [x] Member Directory
+- [x] Pledge Tracking
+- [x] Sign On/Sign Out
+- [x] Study Buddies
+- [x] Protect Routes
+
+### Major Tasks - To Be Done
+
+- [ ] Action Required Bulletin Board
+- [ ] Complete Front-End Interaction (Admin feature that can initiate pledges, change roles if Regent, ...)
+- [ ] Family Tree
+- [ ] Class Archive
+- [ ] Rush Page Revamp
+- [ ] Google Calendar Integration for Custom Event Tiles on Brother Dashboard
+
+### Minor Tasks - To Be Done
+
+- [ ] Update Majors on Member Directory Page
+- [ ] Fix Formatting on Profile Tile When Majors Are Long
+- [ ] Update Pledge Requirement Due Date
+
+### Known Issues/Bugs
+
+- [ ] None at the moment!
+
+## Domain Information
+
+1. The website is currently deployed at https://thetatau-umich.org/
+2. Netlify has been used to link the personal Github of HariChidam to THT Organization for deployment. 
+
+## Development Setup
+
+Follow these steps to set up the development environment:
+
+1. Ensure Node.js (updated to the current version) is installed by checking `node -v`.
+2. Check if npm (updated to the current version) is installed by checking `npm -v`.
+3. Clone the repository onto the local machine: `git clone [url]`.
+4. Navigate into the directory (`cd [directory_name]`) and install all dependencies via `npm install`.
+5. Request an invitation to the Supabase Project from Hari/Kate.
+6. Get the `.env` file (containing API keys) from Hari/Kate and place in the root directory. NOTE: This file is NOT on Github.
+7. Launch the website locally using `npm run dev`. Verify setup by visiting http://localhost:3000/.
+
+## Contribution Guidelines
+
+Use the following process for making changes:
+
+1. Check the current branch using `git branch`.
+2. Keep branch up-to-date with `git pull`.
+3. To implement changes, create a new branch using `git checkout -b [FEATURE_NAME]`.
+4. Once changes are made:
+    - Stage files with `git add [changed_files]`.
+    - Create commit with `git commit -m "meaningful commit message"`.
+    - Push changes to the remote repository with `git push --set-upstream origin [FEATURE_NAME]`.
+5. If a branch is ready to be merged, open a Pull Request on Github.
+6. Notify Hari or Kate for the merge approval.
+7. Post-merge, the feature branch may be deleted. Repeat the process and generate a new branch for the next set of changes.
+
+NOTE: Any changes merged to the main branch will be automatically built, cloned onto Hari's personal repo (via Github Actions), and deployed.
