@@ -3,11 +3,11 @@ import gear from '../public/theta-tau-gear.png'
 import supabase from '../supabase'
 import React, { useEffect, useState } from 'react';
 import HorizontalMarquee from '../components/HorizontalMarquee';
-import KatieBailey from '../public/eboard/KatieBailey.jpeg';
-import SarahDouglas from '../public/eboard/SarahDouglas.jpg';
+import Leah from '../public/eboard/kidderl.jpeg';
+import Owen from '../public/eboard/owilloug.jpeg';
 import Casey from '../public/eboard/casey.jpg';
-import KateMcGraw from '../public/eboard/kateM.jpg';
-import Kirsten from '../public/eboard/kirsten.jpeg';
+import Rachel from '../public/eboard/nowakra.jpeg';
+import Shubh from '../public/eboard/shubhd.jpeg';
 import image1 from '../public/companies/1.jpg';
 import image2 from '../public/companies/2.jpg';
 import image3 from '../public/companies/3.jpg';
@@ -55,7 +55,8 @@ export default function members() {
     const fetchEBoard = async (
       adminRole: string,
       setFirstName: SetStateFunction,
-      setLastName: SetStateFunction
+      setLastName: SetStateFunction,
+      setImage: SetStateFunction
     ) => {
       try {
         const { data, error } = await supabase
@@ -70,17 +71,26 @@ export default function members() {
         if (data) {
           setFirstName(data[0].firstname);
           setLastName(data[0].lastname);
+          const { userid } = data[0];
+          const { data: ImageData, error: imageError } = await supabase.storage
+          .from('brothers')
+          .download(`${userid}.jpeg`);
+
+        if (!imageError) {
+          setImage(URL.createObjectURL(ImageData));
+
+        }
         }
       } catch (error) {
         // Handle errors if needed
       }
     };
 
-    fetchEBoard('regent', setRegentFirst, setRegentLast);
-    fetchEBoard('vice', setViceFirst, setViceLast);
-    fetchEBoard('scribe', setScribeFirst, setScribeLast);
-    fetchEBoard('corsec', setCorsecFirst,setCorsecLast);
-    fetchEBoard('treasurer', setTreasurerFirst,setTreasurerLast)
+    fetchEBoard('regent', setRegentFirst, setRegentLast, setRegentImg);
+    fetchEBoard('vice', setViceFirst, setViceLast, setViceImg);
+    fetchEBoard('scribe', setScribeFirst, setScribeLast, setScribeImg);
+    fetchEBoard('corsec', setCorsecFirst,setCorsecLast, setCorsecImg);
+    fetchEBoard('treasurer', setTreasurerFirst,setTreasurerLast, setTreasurerImg)
   }, []);
 
 
@@ -92,18 +102,20 @@ export default function members() {
            <div className="flex flex-col md:flex-row items-center justify-around md:text-md text-sm  md:pt-8 pt-4 pb-4  top-0">
             
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-1 pr-3 pl-3 md:self-start'>
+              <div className='w-full h-full'>
               <Image
-                src={Kirsten}
+                src={Casey}
                 alt="Gear icon"
-                className='w-full h-full rounded-full'
+                className='w-full h-full rounded-full object-cover'
               />
+              </div>
               <h1 className="font-semibold text-lg pt-4" >{regentFirst} {regentLast}</h1>
               <h1 className="md:text-lg text-md" >Regent</h1>
             </div>
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={SarahDouglas}
+                src={Rachel}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
@@ -113,17 +125,17 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={KateMcGraw}
+                src={Owen}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
-              <h1 className="font-semibold md:text-lg text-md pt-4" >Kate McGraw</h1>
+              <h1 className="font-semibold md:text-lg text-md pt-4" >{scribeFirst} {scribeLast}</h1>
               <h1 className="md:text-lg text-md" >Scribe</h1>
             </div>
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4  pr-3 pl-3 md:self-start'>
               <Image
-                src={Casey}
+                src={Shubh}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
@@ -133,7 +145,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 pr-3 pl-3 md:self-start'>
                 <Image
-                  src={KatieBailey}
+                  src={Leah}
                   alt="Gear icon"
                   className='w-full h-full rounded-full'
                 />
