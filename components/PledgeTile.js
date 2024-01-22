@@ -281,7 +281,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
           { onConflict: ['pledge'] }
         )
         window.alert(
-          `You have signed off ${pledge} for their ${committeeList[selectedCommittee]} successfully.`
+          `You have signed off ${pledge} for their ${committeeList[selectedCommittee]} committee sign off successfully.`
         )
         setSelectedCommittee('')
         // Optionally, you can refetch the committee sign-offs data here
