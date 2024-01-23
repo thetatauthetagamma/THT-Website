@@ -8,7 +8,7 @@ export default function BroNavBar({isPledge}) {
   const [userEmail, setUserEmail] = useState();
   const [userid, setuserid] = useState();
   const [firstname, setFirstname] = useState();
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const getGreeting = () => {
     const currentTime = new Date().getHours();
 
@@ -58,9 +58,27 @@ export default function BroNavBar({isPledge}) {
         setuserid(userEmail.slice(0, -10));
       }
     };
+    const fetchAdminRole = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('Brothers')
+          .select('adminrole')
+          .eq('email', userEmail)
+
+        if (error) {
+          throw error
+        }
+        if (data) {
+          if (data[0].adminrole && data[0].adminrole != '') {
+            setIsAdmin(true)
+          }
+        }
+      } catch (error) {}
+    }
 
     isPledge();
     checkIfBrother();
+    fetchAdminRole();
   }, [userEmail]);
 
   return (
@@ -131,6 +149,13 @@ export default function BroNavBar({isPledge}) {
                   <a> Study Buddy 🔎</a>
                 </Link>
               </li>
+              {isAdmin && (
+                <li className="hover:bg-[#8b000070] transition-colors duration-300 rounded flex-grow py-4 pl-2">
+                <Link legacyBehavior href="/brothers/admin" className="block p-2 rounded ">
+                  <a> Admin</a>
+                </Link>
+              </li>
+              )}
               </ul>
           )
         }
