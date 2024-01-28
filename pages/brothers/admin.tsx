@@ -62,6 +62,12 @@ export default function BroResources() {
             <h1> Update EBoard</h1>
           </div>
         )}
+        {(adminRole == 'academicHead' || adminRole == 'webHead') && (
+
+          <div>
+            <h1>Archive Classes</h1>
+          </div>
+        )}
       </div>
     </div>
   )
