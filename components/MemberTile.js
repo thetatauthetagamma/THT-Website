@@ -80,35 +80,35 @@ export default function MemberTile ({
             )}
           </div>
           <div className='flex flex-col md:flex-row items-center justify-between w-full'>
-  <div className='flex flex-col items-center p-2'>
-    <p className='text-lg font-semibold mb-1'>Roll #:</p>
-    <p className='text-lg'>{roll}</p>
-  </div>
-  
-  <div className='flex flex-col md:items-start items-center p-2'>
-    <p className='text-lg font-semibold mb-1'>Email:</p>
-    <p className='text-lg'>{email}</p>
-  </div>
-  <div className='flex flex-col md:items-start items-center p-2'>
-  {year > 2023 && (
-    <div className='flex flex-col md:items-start items-center p-2'>
-      <p className='text-lg font-semibold mb-1'>Phone Number:</p>
-      {phone ? (
-        <p className='text-lg'>{phone}</p>
-      ) : (
-        <p className='text-lg'>(xxx)-xxx-xxxx</p>
-      )}
-    </div>
-  )}
-</div>
-  <a href={linkedin} className='flex items-center p-2 md:mr-6'>
-    <Image
-      src={linkdenLogo}
-      alt='linkedin'
-      className='w-14 h-14 hover:scale-105'
-    />
-  </a>
-</div>
+            <div className='flex flex-col items-center p-2'>
+              <p className='text-lg font-semibold mb-1'>Roll #:</p>
+              <p className='text-lg'>{roll}</p>
+            </div>
+
+            <div className='flex flex-col md:items-start items-center p-2'>
+              <p className='text-lg font-semibold mb-1'>Email:</p>
+              <p className='text-lg'>{email}</p>
+            </div>
+            <div className='flex flex-col md:items-start items-center p-2'>
+              {year > 2023 && (
+                <div className='flex flex-col md:items-start items-center p-2'>
+                  <p className='text-lg font-semibold mb-1'>Phone Number:</p>
+                  {phone ? (
+                    <p className='text-lg'>{phone}</p>
+                  ) : (
+                    <p className='text-lg'>(xxx)-xxx-xxxx</p>
+                  )}
+                </div>
+              )}
+            </div>
+            <a href={linkedin} className='flex items-center p-2 md:mr-6'>
+              <Image
+                src={linkdenLogo}
+                alt='linkedin'
+                className='w-14 h-14 hover:scale-105'
+              />
+            </a>
+          </div>
         </div>
       </div>
     </div>
