@@ -84,14 +84,14 @@ export default function MemberTile ({
               <p className='text-lg font-semibold mb-1'>Roll #:</p>
               <p className='text-lg'>{roll}</p>
             </div>
-
+            
             <div className='flex flex-col md:items-start items-center p-2'>
               <p className='text-lg font-semibold mb-1'>Email:</p>
               <p className='text-lg'>{email}</p>
             </div>
-            <div className='flex flex-col md:items-start items-center p-2'>
+            <div className='flex flex-col md:items-start items-center p-2 md:w-48'>
               {year > 2023 && (
-                <div className='flex flex-col md:items-start items-center p-2'>
+                <div className='flex flex-col md:items-start items-center p-2 w-full'>
                   <p className='text-lg font-semibold mb-1'>Phone Number:</p>
                   {phone ? (
                     <p className='text-lg'>{phone}</p>
