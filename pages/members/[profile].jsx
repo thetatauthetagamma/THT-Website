@@ -35,13 +35,13 @@ export default function Profile () {
     linkedin: false,
     imageUrl: false,
     currentClasses: false,
-    pronouns:false
+    pronouns: false
   })
 
   useEffect(() => {
     const fetchUnique = async () => {
       const queryParams = router.query
-     
+
       setUserid(queryParams.profile)
     }
 
@@ -50,26 +50,27 @@ export default function Profile () {
 
   useEffect(() => {
     const checkIfBrother = async () => {
-
-      const { data, error } = await supabase.from('Brothers').select('*').eq('email', currentEmail);
+      const { data, error } = await supabase
+        .from('Brothers')
+        .select('*')
+        .eq('email', currentEmail)
       if (data?.length == 1 && !error) {
-        setIsPledge(false);
+        setIsPledge(false)
       }
     }
     const checkIfPledge = async () => {
-
-      const { data, error } = await supabase.from('Pledges').select('*').eq('email', currentEmail);
+      const { data, error } = await supabase
+        .from('Pledges')
+        .select('*')
+        .eq('email', currentEmail)
       if (data?.length == 1 && !error) {
-        setIsPledge(true);
+        setIsPledge(true)
       }
     }
 
-    checkIfBrother();
-    checkIfPledge();
-
-  }, [currentEmail]);
-
-
+    checkIfBrother()
+    checkIfPledge()
+  }, [currentEmail])
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -89,41 +90,39 @@ export default function Profile () {
       const { data, error } = await supabase
         .from('Brothers')
         .select('*')
-        .eq('userid', userid);
-      
+        .eq('userid', userid)
+
       console.log(data)
       console.log(error)
       if (data?.length === 1 && !error) {
-        setUserid(data[0].userid);
-        setFirstname(data[0].firstname);
-        setLastname(data[0].lastname);
-        setYear(data[0].year);
-        setMajor(data[0].major);
-        setRoll(data[0].roll);
-        setPhone(data[0].phone);
-        setLinkedin(data[0].linkedin);
-        setEmail(data[0].email);
-        setCurrentClasses(data[0].classes);
-        setPronouns(data[0].pronouns);
-        
-      }
-      else {
-      const { data, error } = await supabase
-        .from('Pledges')
-        .select('*')
-        .eq('uniqname', userid)
-      if (data?.length === 1 && !error) {
-        console.log(data)
-        setIsPledge(true)
+        setUserid(data[0].userid)
         setFirstname(data[0].firstname)
         setLastname(data[0].lastname)
         setYear(data[0].year)
         setMajor(data[0].major)
-        setPronouns(data[0].pronouns)
+        setRoll(data[0].roll)
         setPhone(data[0].phone)
         setLinkedin(data[0].linkedin)
         setEmail(data[0].email)
         setCurrentClasses(data[0].classes)
+        setPronouns(data[0].pronouns)
+      } else {
+        const { data, error } = await supabase
+          .from('Pledges')
+          .select('*')
+          .eq('uniqname', userid)
+        if (data?.length === 1 && !error) {
+          console.log(data)
+          setIsPledge(true)
+          setFirstname(data[0].firstname)
+          setLastname(data[0].lastname)
+          setYear(data[0].year)
+          setMajor(data[0].major)
+          setPronouns(data[0].pronouns)
+          setPhone(data[0].phone)
+          setLinkedin(data[0].linkedin)
+          setEmail(data[0].email)
+          setCurrentClasses(data[0].classes)
         }
       }
     }
@@ -191,7 +190,7 @@ export default function Profile () {
               phone,
               linkedin: linkedin,
               classes: currentClasses,
-              pronouns:pronouns
+              pronouns: pronouns
             }
           ])
           .eq('email', email)
@@ -210,7 +209,7 @@ export default function Profile () {
           linkedin: false,
           imageUrl: false,
           currentClasses: false,
-          pronouns: false,
+          pronouns: false
         })
 
         // Upload the new profile photo if a file is selected
@@ -270,7 +269,7 @@ export default function Profile () {
           linkedin: false,
           imageUrl: false,
           currentClasses: false,
-          pronouns: false,
+          pronouns: false
         })
 
         // Upload the new profile photo if a file is selected
@@ -334,7 +333,11 @@ export default function Profile () {
 
   return (
     <div className='flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]'>
-      {isPledge ? <BroNavBar isPledge={true} /> : <BroNavBar isPledge={false} />  }
+      {isPledge ? (
+        <BroNavBar isPledge={true} />
+      ) : (
+        <BroNavBar isPledge={false} />
+      )}
       <div className='flex-grow'>
         <div className='flex flex-col items-center bg-gray-100 p-2 mb-4 h-full'>
           <div className='flex flex-col items-center w-full'>
@@ -409,41 +412,42 @@ export default function Profile () {
                   )}
                 </div>
               </div>
-                         <div className='flex flex-col items-center p-2 w-full'>
-                  
-                  {editableFields.pronouns && isEditable ? (
-                    <input
-                      type='text'
-                      placeholder={pronouns || 'pronouns'}
-                      value={pronouns}
-                      onChange={e => setPronouns(e.target.value)}
-                      className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
-                    />
-                  ) : (
-                    <p className='text-lg whitespace-nowrap'>
-                      {pronouns? ('\('+ pronouns +')'): ('')}
-                    </p>
-                  )}
-                </div>
+              <div className='flex flex-col items-center p-2 w-full'>
+                {editableFields.pronouns && isEditable ? (
+                  <input
+                    type='text'
+                    placeholder={pronouns || 'pronouns'}
+                    value={pronouns}
+                    onChange={e => setPronouns(e.target.value)}
+                    className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070]'
+                  />
+                ) : (
+                  <p className='text-lg whitespace-nowrap'>
+                    {pronouns ? '(' + pronouns + ')' : ''}
+                  </p>
+                )}
+              </div>
               <div className='flex flex-col items-center justify-evenly w-full'>
-                <div className='flex flex-row items-center justify-evenly w-1/3'>
-                  <div className='flex flex-col md:flex-row items-center justify-evenly w-1/3'>
-                    <div className='text-xl'>
-                      <p className='text-lg font-semibold mb-1 whitespace-nowrap text-center'>
-                        Year
-                      </p>
-                      {editableFields.year && isEditable ? (
-                        <input
-                          type='text'
-                          placeholder={year || ''}
-                          value={year}
-                          onChange={e => setYear(e.target.value)}
-                          className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070] md:mr-2'
-                        />
-                      ) : (
-                        <p className='text-center'>{year || 'year'}</p>
-                      )}
-                    </div>
+                <div className='flex flex-row items-start justify-evenly w-1/3'>
+                  <div className='flex flex-col md:flex-row md:items-start items-center justify-evenly w-60'>
+                    {year > 2023 && (
+                      <div className='text-xl'>
+                        <p className='text-lg font-semibold mb-1 whitespace-nowrap text-center'>
+                          Year
+                        </p>
+                        {editableFields.year && isEditable ? (
+                          <input
+                            type='text'
+                            placeholder={year || ''}
+                            value={year}
+                            onChange={e => setYear(e.target.value)}
+                            className='whitespace-nowrap w-30 text-center border-2 border-[#8b000070] md:mr-2'
+                          />
+                        ) : (
+                          <p className='text-center'>{year || 'year'}</p>
+                        )}
+                      </div>
+                    )}
                     <div className='text-xl'>
                       <p className='text-lg font-semibold mb-1 whitespace-nowrap text-center'>
                         Major
@@ -462,7 +466,7 @@ export default function Profile () {
                     </div>
                   </div>
                 </div>
-                
+
                 {!isPledge && (
                   <div className='flex flex-col items-center p-2'>
                     <p className='text-lg font-semibold mb-1'>Roll</p>
