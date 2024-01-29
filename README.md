@@ -36,7 +36,8 @@ The THT Web Committee:
 - [x] Sign On/Sign Out
 - [x] Study Buddies
 - [x] Protect Routes
-
+- [x] Fix Formatting on Profile Tile When Majors Are Long
+      
 ### Major Tasks - To Be Done
 
 - [ ] Action Required Bulletin Board
@@ -49,7 +50,6 @@ The THT Web Committee:
 ### Minor Tasks - To Be Done
 
 - [ ] Update Majors on Member Directory Page
-- [ ] Fix Formatting on Profile Tile When Majors Are Long
 - [ ] Update Pledge Requirement Due Date
 
 ### Known Issues/Bugs
