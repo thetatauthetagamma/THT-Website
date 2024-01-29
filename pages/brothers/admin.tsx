@@ -1,11 +1,14 @@
 import BroNavBar from "@/components/BroNavBar";
 import { useState, useEffect } from 'react';
 import supabase from '@/supabase';
+interface RoleAssignments {
+  [key: string]: string;
+}
 
 export default function BroResources() {
   const [userID, setUserID] = useState('');
   const [adminRole, setAdminRole] = useState('');
-  const [roleAssignments, setRoleAssignments] = useState({});
+  const [roleAssignments, setRoleAssignments] = useState<RoleAssignments>({});
   const [pledges, setPledges] = useState<PledgeData[]>([]);
   const [editingMode, setEditingMode] = useState<boolean>(false);
 
@@ -39,6 +42,14 @@ export default function BroResources() {
     fetchPledges();
   }, []);
 
+  const handleRoleNumberChange = (uniqname: string, roleNumber: string) => {
+    setRoleAssignments((prevAssignments) => ({
+      ...prevAssignments,
+      [uniqname]: roleNumber,
+    }));
+  };
+
+
   const fetchPledges = async () => {
     try {
       const { data, error } = await supabase.from('Pledges').select('uniqname, firstname, lastname, major, year, pronouns, email, phone, linkedin');
@@ -65,22 +76,22 @@ export default function BroResources() {
 
   const handleSubmit = async () => {
     try {
-      const brothersData: BrotherData[] = pledges
-        .filter(pledge => pledge.roll) // Filter pledges with role numbers
-        .map(pledge => ({
-          userid: pledge.uniqname,
-          firstname: pledge.firstname,
-          lastname: pledge.lastname,
-          major: pledge.major,
-          year: pledge.year,
-          pronouns: pledge.pronouns,
-          email: pledge.email,
-          phone: pledge.phone,
-          linkedin: pledge.linkedin,
-          roll: '', // Assign role numbers here or retrieve from the input field
-        }));
+      const assignedPledges = pledges.filter((pledge) => roleAssignments[pledge.uniqname]);
 
-      const { data, error } = await supabase.from('Brothers').upsert(brothersData, { onConflict: ['userid'] });
+      const brothersData: BrotherData[] = assignedPledges.map((pledge) => ({
+        userid: pledge.uniqname,
+        firstname: pledge.firstname,
+        lastname: pledge.lastname,
+        major: pledge.major,
+        year: pledge.year,
+        pronouns: pledge.pronouns,
+        email: pledge.email,
+        phone: pledge.phone,
+        linkedin: pledge.linkedin,
+        roll: roleAssignments[pledge.uniqname], // Assign role numbers from state
+      }));
+
+      const { data, error } = await supabase.from('Brothers').upsert(brothersData);
 
       if (error) {
         throw error;
@@ -139,9 +150,10 @@ export default function BroResources() {
 
       <BroNavBar isPledge={false} />
       <div className="flex flex-col m-5">
-        <h1 className="flex flex-center text-lg">As {adminRole}, you can do the following things:</h1>
+        
         {adminRole == 'parent' && (
           <div>
+            <h1 className="flex flex-center text-lg">As {adminRole}, you can do the following things:</h1>
             <h1> Set PD Sign Offs</h1>
             <h1> Set Committee Sign Offs</h1>
             <h1> Set Required Number of Academic Hours</h1>
@@ -149,16 +161,20 @@ export default function BroResources() {
           </div>
         )}
         {(adminRole === 'regent' || adminRole === 'scribe') && (
-        <div>
+        <div className="flex flex-col">
+        <h1 className="flex flex-center text-4xl">Thank you for your service Brother {adminRole} 🫡</h1>
+        <h1 className="flex flex-center text-lg my-2">As {adminRole}, you can do the following things:</h1>
            {editingMode ? (
               <div>
+                <h1>Assign pledges role numbers:</h1>
                 {pledges.map(pledge => (
-                  <div key={pledge.uniqname} className="flex flex-row m-4">
+                  <div key={pledge.uniqname} className="flex flex-row m-4 w-full">
                     <p className="m-2">{`${pledge.firstname} ${pledge.lastname}`}</p>
                     <input
                       type="text"
                       placeholder="Assign Role Number"
-                      className ="whitespace-nowrap w-30 text-center border-2 border-[#8b000070]"
+                      className ="whitespace-nowrap w-30 text-center border-2 border-[#8b000070] flex-end"
+                      onChange={(e) => handleRoleNumberChange(pledge.uniqname, e.target.value)}
                     />
                   </div>
                 ))}
@@ -166,15 +182,15 @@ export default function BroResources() {
                 <button onClick={handleSubmit} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Submit</button>
               </div>
             ) : (
-              <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Initiate Pledges</button>
+              <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2">Initiate Pledges</button>
             )}
-          <h1> Update EBoard</h1>
+              <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2">Update EBoard</button>
         </div>
       )}
         {(adminRole == 'academic' || adminRole == 'webHead') && (
 
           <div>
-            <h1>Archive Classes</h1>
+              <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Archive Classes</button>
           </div>
         )}
       </div>
