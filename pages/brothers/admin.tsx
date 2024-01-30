@@ -34,11 +34,11 @@ export default function BroResources() {
     email: string;
     phone: string;
     linkedin: string;
-    roll: string; 
+    roll: string;
   }
-  
+
   useEffect(() => {
-    
+
     fetchPledges();
   }, []);
 
@@ -75,36 +75,69 @@ export default function BroResources() {
   };
 
   const handleSubmit = async () => {
-    try {
-      const assignedPledges = pledges.filter((pledge) => roleAssignments[pledge.uniqname]);
+    const isConfirmed = window.confirm(
+      'Are you sure you want to initiate these pledges? All of their pledging data will be deleted.'
+    )
 
-      const brothersData: BrotherData[] = assignedPledges.map((pledge) => ({
-        userid: pledge.uniqname,
-        firstname: pledge.firstname,
-        lastname: pledge.lastname,
-        major: pledge.major,
-        year: pledge.year,
-        pronouns: pledge.pronouns,
-        email: pledge.email,
-        phone: pledge.phone,
-        linkedin: pledge.linkedin,
-        roll: roleAssignments[pledge.uniqname], // Assign role numbers from state
-      }));
+    // If the user confirms, proceed with deletion
+    if (isConfirmed) {
+      try {
+        const assignedPledges = pledges.filter((pledge) => roleAssignments[pledge.uniqname]);
 
-      const { data, error } = await supabase.from('Brothers').upsert(brothersData);
+        const brothersData: BrotherData[] = assignedPledges.map((pledge) => ({
+          userid: pledge.uniqname,
+          firstname: pledge.firstname,
+          lastname: pledge.lastname,
+          major: pledge.major,
+          year: pledge.year,
+          pronouns: pledge.pronouns,
+          email: pledge.email,
+          phone: pledge.phone,
+          linkedin: pledge.linkedin,
+          roll: roleAssignments[pledge.uniqname], // Assign role numbers from state
+        }));
 
-      if (error) {
-        throw error;
+        const { data, error } = await supabase.from('Brothers').upsert(brothersData);
+
+        if (error) {
+          throw error;
+        }
+
+        console.log('Brothers added successfully:', data);
+        for (const pledge of assignedPledges) {
+          await handleDeletePledge(pledge.uniqname);
+        }
+      } catch (error) {
+        console.error('Error adding brothers:', error);
+      } finally {
+        setEditingMode(false);
       }
-
-      console.log('Brothers added successfully:', data);
-    } catch (error) {
-      console.error('Error adding brothers:', error);
-    } finally {
-      setEditingMode(false);
     }
   };
+  const handleDeletePledge = async (uniqname: string) => {
+    // Show a confirmation dialog
+    // Perform the Supabase deletion operation
+    const { data, error } = await supabase
+      .from('Pledges')
+      .delete()
+      .eq('uniqname', uniqname)
 
+    // Handle any errors or update UI accordingly
+    if (error) {
+      console.error('Error deleting pledge:', error.message)
+    } else {
+      fetchPledges()
+    }
+    await supabase
+      .from('PDSignOffs')
+      .delete()
+      .eq('pledge', uniqname)
+    await supabase
+      .from('CommitteeSignOffs')
+      .delete()
+      .eq('pledge', uniqname)
+
+  }
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -150,7 +183,7 @@ export default function BroResources() {
 
       <BroNavBar isPledge={false} />
       <div className="flex flex-col m-5">
-        
+
         {adminRole == 'parent' && (
           <div>
             <h1 className="flex flex-center text-lg">As {adminRole}, you can do the following things:</h1>
@@ -161,36 +194,38 @@ export default function BroResources() {
           </div>
         )}
         {(adminRole === 'regent' || adminRole === 'scribe') && (
-        <div className="flex flex-col">
-        <h1 className="flex flex-center text-4xl">Thank you for your service Brother {adminRole} 🫡</h1>
-        <h1 className="flex flex-center text-lg my-2">As {adminRole}, you can do the following things:</h1>
-           {editingMode ? (
+          <div className="flex flex-col">
+            <h1 className="flex flex-center text-4xl">Thank you for your service brother {adminRole} 🫡</h1>
+            <h1 className="flex flex-center text-lg my-2">As {adminRole}, you can do the following things:</h1>
+            {editingMode ? (
               <div>
-                <h1>Assign pledges role numbers:</h1>
+                <h1>Assign pledges roll numbers:</h1>
                 {pledges.map(pledge => (
-                  <div key={pledge.uniqname} className="flex flex-row m-4 w-full">
-                    <p className="m-2">{`${pledge.firstname} ${pledge.lastname}`}</p>
-                    <input
-                      type="text"
-                      placeholder="Assign Role Number"
-                      className ="whitespace-nowrap w-30 text-center border-2 border-[#8b000070] flex-end"
-                      onChange={(e) => handleRoleNumberChange(pledge.uniqname, e.target.value)}
-                    />
+                  <div key={pledge.uniqname} className="flex flex-col sm:flex-row m-4 w-1/2">
+                    <p className="m-2 sm:w-1/2">{`${pledge.firstname} ${pledge.lastname}`}</p>
+                    <div className="flex justify-end w-full">
+                      <input
+                        type="text"
+                        placeholder="Assign Roll Number"
+                        className="whitespace-nowrap text-center border-2 border-[#8b000070]"
+                        onChange={(e) => handleRoleNumberChange(pledge.uniqname, e.target.value)}
+                      />
+                    </div>
                   </div>
                 ))}
                 <button onClick={handleCancel} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Cancel</button>
                 <button onClick={handleSubmit} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Submit</button>
               </div>
             ) : (
-              <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2">Initiate Pledges</button>
+              <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Initiate Pledges</button>
             )}
-              <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2">Update EBoard</button>
-        </div>
-      )}
+            <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Update EBoard</button>
+          </div>
+        )}
         {(adminRole == 'academic' || adminRole == 'webHead') && (
 
           <div>
-              <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Archive Classes</button>
+            <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Archive Classes</button>
           </div>
         )}
       </div>
