@@ -10,7 +10,8 @@ export default function BroResources() {
   const [adminRole, setAdminRole] = useState('');
   const [roleAssignments, setRoleAssignments] = useState<RoleAssignments>({});
   const [pledges, setPledges] = useState<PledgeData[]>([]);
-  const [editingMode, setEditingMode] = useState<boolean>(false);
+  const [rollEditingMode, setRollEditingMode] = useState<boolean>(false);
+  const [eboardEditingMode, setEboardEditingMode] = useState<boolean>(false);
 
   interface PledgeData {
     uniqname: string;
@@ -67,12 +68,18 @@ export default function BroResources() {
   };
 
   const handleInitiatePledges = () => {
-    setEditingMode(true);
+    setRollEditingMode(true);
   };
 
   const handleCancel = () => {
-    setEditingMode(false);
+    setRollEditingMode(false);
   };
+  const handleCancelEBoard = () => {
+    setEboardEditingMode(false);
+  };
+  const handleUpdateEboard = () => {
+    setEboardEditingMode(true);
+  }
 
   const handleSubmit = async () => {
     const isConfirmed = window.confirm(
@@ -110,7 +117,7 @@ export default function BroResources() {
       } catch (error) {
         console.error('Error adding brothers:', error);
       } finally {
-        setEditingMode(false);
+        setRollEditingMode(false);
       }
     }
   };
@@ -197,7 +204,7 @@ export default function BroResources() {
           <div className="flex flex-col">
             <h1 className="flex flex-center text-4xl">Thank you for your service brother {adminRole} 🫡</h1>
             <h1 className="flex flex-center text-lg my-2">As {adminRole}, you can do the following things:</h1>
-            {editingMode ? (
+            {rollEditingMode ? (
               <div>
                 <h1>Assign pledges roll numbers:</h1>
                 {pledges.map(pledge => (
@@ -219,7 +226,23 @@ export default function BroResources() {
             ) : (
               <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Initiate Pledges</button>
             )}
-            <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Update EBoard</button>
+            {eboardEditingMode ? (
+              <div>
+                <h1>Update Eboard and Committee Heads (Update yourself last!):</h1>
+                <p>Current regent: </p>
+                <p>Current vice regent: </p>
+                <p>Current scribe: </p>
+                <p>Current treasurer: </p>
+                <p>Current corsec: </p>
+                <p>Current parents: </p>
+                <p>Current academic head: </p>
+                <button onClick={handleCancelEBoard} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Cancel</button>
+                
+              </div>
+            ) : (
+              <button onClick={handleUpdateEboard} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Update EBoard</button>
+            )}
+            
           </div>
         )}
         {(adminRole == 'academic' || adminRole == 'webHead') && (
@@ -236,11 +259,11 @@ export default function BroResources() {
         )}
         {(adminRole == 'corsec') && (
 
-          <h1 className="flex flex-center text-4xl">Thank you for being a fire CorSec </h1>
+          <h1 className="flex flex-center text-4xl">Thank you for being a fire Cor Sec </h1>
         )}
         {(adminRole == 'vice') && (
 
-          <h1 className="flex flex-center text-4xl">You're slaying be vice</h1>
+          <h1 className="flex flex-center text-4xl">You're slaying as vice</h1>
         )}
       </div>
     </div>
