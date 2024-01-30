@@ -12,6 +12,8 @@ export default function BroResources() {
   const [pledges, setPledges] = useState<PledgeData[]>([]);
   const [rollEditingMode, setRollEditingMode] = useState<boolean>(false);
   const [eboardEditingMode, setEboardEditingMode] = useState<boolean>(false);
+  const [eboardMembers, setEboardMembers] = useState<BrotherData[]>([]);
+  const [newRoleNames, setNewRoleNames] = useState<{ [key: string]: string }>({});
 
   interface PledgeData {
     uniqname: string;
@@ -36,12 +38,72 @@ export default function BroResources() {
     phone: string;
     linkedin: string;
     roll: string;
+    adminrole: string;
   }
+
+  const handleRoleNameChange = (role: string, newName: string) => {
+    setNewRoleNames((prevNames) => ({
+      ...prevNames,
+      [role]: newName,
+    }));
+    console.log(newRoleNames)
+  };
+
+  const fetchEboardMembers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('Brothers')
+        .select('userid, firstname, lastname, adminrole')
+        .in('adminrole', ['regent', 'vice', 'scribe', 'treasurer', 'corsec', 'parents', 'academic']);
+
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
+        setEboardMembers(data as BrotherData[]);
+        console.log(eboardMembers)
+      }
+    } catch (error) {
+      console.error('Error fetching EBoard members:', error);
+    }
+  };
+
+  const handleEboardSubmit = async (adminRole: string) => {
+    try {
+      // Task 1: Add the adminRole to the newuserID
+      const newMemberUpdate = { adminrole: adminRole };
+
+      await supabase
+        .from('Brothers')
+        .upsert([newMemberUpdate]) // Upsert to add or update based on userid
+        .eq('userid', newRoleNames[adminRole]);
+
+      // Task 2: Delete the adminRole from the current brother holding that role
+      /*
+      for (const member of eboardMembers) {
+        if (member.adminrole === adminRole) {
+          await supabase
+            .from('Brothers')
+            .update({ adminrole: null })
+            .eq('userid', member.userid);
+        }
+      }*/
+      fetchEboardMembers();
+
+      console.log('EBoard updated successfully');
+    } catch (error) {
+      console.error('Error updating EBoard:', error);
+    }
+  };
+
 
   useEffect(() => {
 
     fetchPledges();
+    fetchEboardMembers();
   }, []);
+
 
   const handleRoleNumberChange = (uniqname: string, roleNumber: string) => {
     setRoleAssignments((prevAssignments) => ({
@@ -101,7 +163,8 @@ export default function BroResources() {
           email: pledge.email,
           phone: pledge.phone,
           linkedin: pledge.linkedin,
-          roll: roleAssignments[pledge.uniqname], // Assign role numbers from state
+          roll: roleAssignments[pledge.uniqname],
+          adminrole: '', // Assign role numbers from state
         }));
 
         const { data, error } = await supabase.from('Brothers').upsert(brothersData);
@@ -183,7 +246,11 @@ export default function BroResources() {
   }, [userID])
 
 
-
+  const currentRegent = eboardMembers.find(member => member.adminrole === 'regent');
+  const currentVice = eboardMembers.find(member => member.adminrole === 'vice');
+  const currentScribe = eboardMembers.find(member => member.adminrole === 'scribe');
+  const currentTreasurer = eboardMembers.find(member => member.adminrole === 'treasurer');
+  const currentCorSec = eboardMembers.find(member => member.adminrole === 'corsec');
 
   return (
     <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
@@ -229,20 +296,38 @@ export default function BroResources() {
             {eboardEditingMode ? (
               <div>
                 <h1>Update Eboard and Committee Heads (Update yourself last!):</h1>
-                <p>Current regent: </p>
-                <p>Current vice regent: </p>
-                <p>Current scribe: </p>
-                <p>Current treasurer: </p>
-                <p>Current corsec: </p>
+                <p>Current regent: {currentRegent ? `${currentRegent.firstname} ${currentRegent.lastname}` : 'No regent found'}</p>
+                <div className="flex w-48">
+                  <input
+                    type="text"
+                    placeholder="Input new regents uniqname"
+                    className="whitespace-nowrap text-center border-2 border-[#8b000070]"
+                    onChange={(e) => handleRoleNameChange("regent", e.target.value)}
+                  />
+                </div>
+                <button onClick={() => handleEboardSubmit("regent")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Submit</button>
+                <p>Current vice regent: {currentVice?.firstname} {currentVice?.lastname}</p>
+                <div className="flex w-48">
+                  <input
+                    type="text"
+                    placeholder="Input new vice uniqname"
+                    className="whitespace-nowrap text-center border-2 border-[#8b000070]"
+                    onChange={(e) => handleRoleNameChange("vice", e.target.value)}
+                  />
+                </div>
+                <button onClick={() => handleEboardSubmit("vice")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Submit</button>
+                <p>Current scribe: {currentScribe?.firstname} {currentScribe?.lastname}</p>
+                <p>Current treasurer: {currentTreasurer?.firstname} {currentTreasurer?.lastname}</p>
+                <p>Current Corsec: {currentCorSec?.firstname} {currentCorSec?.lastname}</p>
                 <p>Current parents: </p>
                 <p>Current academic head: </p>
                 <button onClick={handleCancelEBoard} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Cancel</button>
-                
+
               </div>
             ) : (
               <button onClick={handleUpdateEboard} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Update EBoard</button>
             )}
-            
+
           </div>
         )}
         {(adminRole == 'academic' || adminRole == 'webHead') && (
