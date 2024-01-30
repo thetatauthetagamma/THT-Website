@@ -76,7 +76,7 @@ export default function BroResources() {
 
   const handleSubmit = async () => {
     const isConfirmed = window.confirm(
-      'Are you sure you want to initiate these pledges? All of their pledging data will be deleted.'
+      'Are you sure you want to initiate these pledges? All of their pledging data will be deleted and they will be added to the brother database.'
     )
 
     // If the user confirms, proceed with deletion
@@ -224,9 +224,23 @@ export default function BroResources() {
         )}
         {(adminRole == 'academic' || adminRole == 'webHead') && (
 
-          <div>
+          <div className='flex flex-col'>
+            <h1 className="flex flex-center text-4xl">Hi Kohl</h1>
+            <h1 className="flex flex-center text-lg my-2">As Academic Head, you can do the following things:</h1>
             <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Archive Classes</button>
           </div>
+        )}
+        {(adminRole == 'treasurer') && (
+
+          <h1 className="flex flex-center text-4xl">Thank you for handling our money</h1>
+        )}
+        {(adminRole == 'corsec') && (
+
+          <h1 className="flex flex-center text-4xl">Thank you for being a fire CorSec </h1>
+        )}
+        {(adminRole == 'vice') && (
+
+          <h1 className="flex flex-center text-4xl">You're slaying be vice</h1>
         )}
       </div>
     </div>
