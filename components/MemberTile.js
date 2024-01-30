@@ -101,13 +101,17 @@ export default function MemberTile ({
                 </div>
               )}
             </div>
-            <a href={linkedin} className='flex items-center p-2 md:mr-6'>
-              <Image
-                src={linkdenLogo}
-                alt='linkedin'
-                className='w-14 h-14 hover:scale-105'
-              />
-            </a>
+            {
+              linkedin ?
+              <a href={linkedin} className='flex items-center p-2 md:mr-6'>
+                <Image
+                  src={linkdenLogo}
+                  alt='linkedin'
+                  className='w-14 h-14 hover:scale-105'
+                />
+              </a> : <div className='w-14 h-14 md:mr-6'></div>
+            }
+            
           </div>
         </div>
       </div>
