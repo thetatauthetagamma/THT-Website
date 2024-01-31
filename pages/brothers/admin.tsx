@@ -73,22 +73,22 @@ export default function BroResources() {
     try {
       // Task 1: Add the adminRole to the newuserID
       const newMemberUpdate = { adminrole: adminRole };
-
+      console.log(newRoleNames[adminRole]);
       await supabase
         .from('Brothers')
-        .upsert([newMemberUpdate]) // Upsert to add or update based on userid
+        .update([newMemberUpdate]) // Upsert to add or update based on userid
         .eq('userid', newRoleNames[adminRole]);
 
       // Task 2: Delete the adminRole from the current brother holding that role
-      /*
+      
       for (const member of eboardMembers) {
-        if (member.adminrole === adminRole) {
+        if (member.adminrole === adminRole && (member.userid != newRoleNames[adminRole])) {
           await supabase
             .from('Brothers')
             .update({ adminrole: null })
             .eq('userid', member.userid);
         }
-      }*/
+      }
       fetchEboardMembers();
 
       console.log('EBoard updated successfully');
@@ -110,6 +110,7 @@ export default function BroResources() {
       ...prevAssignments,
       [uniqname]: roleNumber,
     }));
+    console.log(roleAssignments);
   };
 
 
@@ -269,11 +270,12 @@ export default function BroResources() {
         )}
         {(adminRole === 'regent' || adminRole === 'scribe') && (
           <div className="flex flex-col">
+            
             <h1 className="flex flex-center text-4xl">Thank you for your service brother {adminRole} 🫡</h1>
             <h1 className="flex flex-center text-lg my-2">As {adminRole}, you can do the following things:</h1>
             {rollEditingMode ? (
-              <div>
-                <h1>Assign pledges roll numbers:</h1>
+              <div className="bg-[#fff0f0] p-4 rounded-md flex flex-col m-2">
+                <h1 className='text-lg font-bold'>Assign pledges roll numbers:</h1>
                 {pledges.map(pledge => (
                   <div key={pledge.uniqname} className="flex flex-col sm:flex-row m-4 w-1/2">
                     <p className="m-2 sm:w-1/2">{`${pledge.firstname} ${pledge.lastname}`}</p>
@@ -287,41 +289,74 @@ export default function BroResources() {
                     </div>
                   </div>
                 ))}
-                <button onClick={handleCancel} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Cancel</button>
-                <button onClick={handleSubmit} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Submit</button>
+                <div className='flex flex-row'>
+                <button onClick={handleCancel} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center w-24 m-2">Cancel</button>
+                <button onClick={handleSubmit} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center w-24 m-2">Submit</button>
+                </div>
               </div>
+              
             ) : (
               <button onClick={handleInitiatePledges} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Initiate Pledges</button>
             )}
+       
             {eboardEditingMode ? (
-              <div>
-                <h1>Update Eboard and Committee Heads (Update yourself last!):</h1>
+              <div className='bg-[#fff0f0] p-4 rounded-md flex flex-col m-2'>
+                <div className=' flex flex-col md:flex-row items-start justify-start'> 
+                <h1 className='text-lg font-bold'>Update Eboard and Committee Heads (Update yourself last!):</h1>
+                <button onClick={handleCancelEBoard} className="font-bold mr-2 text-md bg-red-400 p-1 rounded-md text-center w-36 mx-2">Done Updating</button>
+                </div>
                 <p>Current regent: {currentRegent ? `${currentRegent.firstname} ${currentRegent.lastname}` : 'No regent found'}</p>
-                <div className="flex w-48">
+                <div className="flex w-64">
                   <input
                     type="text"
                     placeholder="Input new regents uniqname"
-                    className="whitespace-nowrap text-center border-2 border-[#8b000070]"
+                    className="whitespace-nowrap text-center border-2 border-[#8b000070] w-full my-2"
                     onChange={(e) => handleRoleNameChange("regent", e.target.value)}
                   />
                 </div>
-                <button onClick={() => handleEboardSubmit("regent")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Submit</button>
+                <button onClick={() => handleEboardSubmit("regent")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center w-24">Submit</button>
                 <p>Current vice regent: {currentVice?.firstname} {currentVice?.lastname}</p>
-                <div className="flex w-48">
+                <div className="flex w-64">
                   <input
                     type="text"
                     placeholder="Input new vice uniqname"
-                    className="whitespace-nowrap text-center border-2 border-[#8b000070]"
+                    className="whitespace-nowrap text-center border-2 border-[#8b000070] w-full my-2"
                     onChange={(e) => handleRoleNameChange("vice", e.target.value)}
                   />
                 </div>
-                <button onClick={() => handleEboardSubmit("vice")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Submit</button>
+                <button onClick={() => handleEboardSubmit("vice")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center w-24">Submit</button>
                 <p>Current scribe: {currentScribe?.firstname} {currentScribe?.lastname}</p>
+                <div className="flex w-64">
+                  <input
+                    type="text"
+                    placeholder="Input new scribe uniqname"
+                    className="whitespace-nowrap text-center border-2 border-[#8b000070] w-full my-2"
+                    onChange={(e) => handleRoleNameChange("scribe", e.target.value)}
+                  />
+                </div>
+                <button onClick={() => handleEboardSubmit("scribe")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center w-24">Submit</button>
                 <p>Current treasurer: {currentTreasurer?.firstname} {currentTreasurer?.lastname}</p>
+                <div className="flex w-64">
+                  <input
+                    type="text"
+                    placeholder="Input new treasurer uniqname"
+                    className="whitespace-nowrap text-center border-2 border-[#8b000070] w-full my-2"
+                    onChange={(e) => handleRoleNameChange("treasurer", e.target.value)}
+                  />
+                </div>
+                <button onClick={() => handleEboardSubmit("treasurer")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center w-24">Submit</button>
                 <p>Current Corsec: {currentCorSec?.firstname} {currentCorSec?.lastname}</p>
-                <p>Current parents: </p>
-                <p>Current academic head: </p>
-                <button onClick={handleCancelEBoard} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Cancel</button>
+                <div className="flex w-64">
+                  <input
+                    type="text"
+                    placeholder="Input new corsec uniqname"
+                    className="whitespace-nowrap text-center border-2 border-[#8b000070] w-full my-2"
+                    onChange={(e) => handleRoleNameChange("corsec", e.target.value)}
+                  />
+                </div>
+                <button onClick={() => handleEboardSubmit("corsec")} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center w-24">Submit</button>
+                
+                
 
               </div>
             ) : (
