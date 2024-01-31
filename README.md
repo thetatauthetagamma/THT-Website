@@ -36,8 +36,7 @@ The THT Web Committee:
 - [x] Sign On/Sign Out
 - [x] Study Buddies
 - [x] Protect Routes
-- [x] Fix Formatting on Profile Tile When Majors Are Long
-      
+
 ### Major Tasks - To Be Done
 
 - [ ] Action Required Bulletin Board
@@ -48,7 +47,7 @@ The THT Web Committee:
 - [ ] Google Calendar Integration for Custom Event Tiles on Brother Dashboard
 
 ### Minor Tasks - To Be Done
-
+- [x] Fix Formatting on Profile Tile When Majors Are Long
 - [ ] Update Majors on Member Directory Page
 - [ ] Update Pledge Requirement Due Date
 
