@@ -82,6 +82,7 @@ export default function BroResources() {
 
     // If the user confirms, proceed with deletion
     if (isConfirmed) {
+      /*
       try {
         // Fetch all brothers
         const { data: allBrothers, error } = await supabase
@@ -109,7 +110,7 @@ export default function BroResources() {
         console.log('Classes archived successfully');
       } catch (error) {
         console.error('Error archiving classes:', error);
-      }
+      }*/
     }
   };
 
