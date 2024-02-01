@@ -75,33 +75,41 @@ export default function BroResources() {
     }
   };
   const handleArchiveClasses = async () => {
-    try {
-      // Fetch all brothers
-      const { data: allBrothers, error } = await supabase
-        .from('Brothers')
-        .select('userid, classes, archivedclasses');
 
-      if (error) {
-        throw error;
-      }
+    const isConfirmed = window.confirm(
+      'Are you sure you want to archive all of the current classes? Please only do this at the end of a semester.'
+    )
 
-      // Filter brothers who have classes in the classes column
-      const brothersWithClasses = allBrothers.filter(brother => brother.classes && brother.classes.length > 0);
-
-      // Update the archivedclasses column for each brother
-      for (const brother of brothersWithClasses) {
-        const updatedClasses = [...(brother.archivedclasses || []), ...(brother.classes || [])];
-
-        // Update the archivedclasses column in the database
-        await supabase
+    // If the user confirms, proceed with deletion
+    if (isConfirmed) {
+      try {
+        // Fetch all brothers
+        const { data: allBrothers, error } = await supabase
           .from('Brothers')
-          .update({ archivedclasses: updatedClasses })
-          .eq('userid', brother.userid);
-      }
+          .select('userid, classes, archivedclasses');
 
-      console.log('Classes archived successfully');
-    } catch (error) {
-      console.error('Error archiving classes:', error);
+        if (error) {
+          throw error;
+        }
+
+        // Filter brothers who have classes in the classes column
+        const brothersWithClasses = allBrothers.filter(brother => brother.classes && brother.classes.length > 0);
+
+        // Update the archivedclasses column for each brother
+        for (const brother of brothersWithClasses) {
+          const updatedClasses = [...(brother.archivedclasses || []), ...(brother.classes || [])];
+
+          // Update the archivedclasses column in the database
+          await supabase
+            .from('Brothers')
+            .update({ archivedclasses: updatedClasses })
+            .eq('userid', brother.userid);
+        }
+
+        console.log('Classes archived successfully');
+      } catch (error) {
+        console.error('Error archiving classes:', error);
+      }
     }
   };
 
