@@ -219,7 +219,7 @@ export default function Profile () {
             await supabase.storage
               .from('brothers')
               .upload(fileName, profileImage, {
-                cacheControl: '3600',
+                cacheControl: '86400',
                 contentType: 'image/jpeg',
                 upsert: true
               })
@@ -279,7 +279,7 @@ export default function Profile () {
             await supabase.storage
               .from('brothers')
               .upload(fileName, profileImage, {
-                cacheControl: '3600',
+                cacheControl: '86400',
                 contentType: 'image/jpeg',
                 upsert: true
               })

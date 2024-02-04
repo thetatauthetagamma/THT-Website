@@ -110,7 +110,7 @@ const NewPledgeTile = ({ fetchPledges }) => {
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('pledges')
         .upload(fileName, profileImage, {
-          cacheControl: '3600',
+          cacheControl: '86400',
           contentType: 'image/jpeg',
           upsert: true
         })
