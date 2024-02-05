@@ -46,9 +46,9 @@ const PledgeTilePledgeView = ({ pledge }) => {
     social: 'Social',
     diversity: 'Diversity',
     historian: 'Historian',
-    web:'Web',
+    web: 'Web',
     corsec: 'CorSec',
-    socialMedia:'Social Media'
+    socialMedia: 'Social Media'
   }
   useEffect(() => {
     const fetchSession = async () => {
@@ -67,7 +67,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
     const interval = setInterval(() => {
       const now = moment().tz('America/Detroit').startOf('day')
       const eventDate = moment
-        .tz('2024-04-20', 'YYYY-MM-DD', 'America/Detroit')
+        .tz('2024-04-14', 'YYYY-MM-DD', 'America/Detroit')
         .startOf('day')
 
       const remainingTime = eventDate.diff(now, 'days') // diff in days
@@ -157,7 +157,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
 
     fetchCommitteeSignoffs()
   }, [userID])
-//gets the pd sign offs
+  //gets the pd sign offs
   useEffect(() => {
     const fetchPDSignoffs = async () => {
       const { data, error } = await supabase
