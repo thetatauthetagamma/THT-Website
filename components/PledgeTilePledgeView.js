@@ -9,6 +9,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
   const [interviews, setInterviews] = useState(pledge.interviews)
   //array of brother firstname lastname who pledge has interviewed:
   const [interviewedBrothers, setInterviewedBrothers] = useState([])
+  const [numInterviews, setNumInterviews] = useState(0)
   //number of pd requirements completed:
   const [pd, setPD] = useState(0)
   //array of pd sign offs key/val pairs where key corresponds to key of pdRequirementsList and value is bool:
@@ -26,7 +27,8 @@ const PledgeTilePledgeView = ({ pledge }) => {
   const [academicHours, setAcademicHours] = useState(0)
 
   const [countdown, setCountdown] = useState('')
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   //key = supabase column, value = display value
   const pdRequirementList = {
     resume: 'Resume and Cover Letter',
@@ -57,11 +59,15 @@ const PledgeTilePledgeView = ({ pledge }) => {
         if (session) {
           setUserID(session.data.session?.user.email || '')
         }
-      } catch (error) {}
+      } catch (error) {
+        setUserID('')
+      }
     }
 
     fetchSession()
-  }, [])
+  }, [userID])
+
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -78,10 +84,6 @@ const PledgeTilePledgeView = ({ pledge }) => {
     return () => clearInterval(interval)
   }, [])
 
-  useEffect(() => {
-    fetchPledgeDetails()
-  }, [userID])
-
   async function fetchInterviewedBrothers () {
     try {
       const { data, error } = await supabase
@@ -89,7 +91,11 @@ const PledgeTilePledgeView = ({ pledge }) => {
         .select('firstname, lastname')
         .in('email', interviews)
       if (error) throw error
-      if (data) setInterviewedBrothers(data)
+      if (data) {
+        setInterviewedBrothers(data)
+        setNumInterviews(data.length)
+      }
+
     } catch (error) {
       console.error('Error fetching interviewed brothers:', error)
     }
@@ -97,7 +103,11 @@ const PledgeTilePledgeView = ({ pledge }) => {
 
   useEffect(() => {
     fetchInterviewedBrothers()
-  }, [interviews])
+  }, [interviews, userID])
+
+  useEffect(() => {
+    fetchPledgeDetails()
+  }, [userID])
 
   async function fetchPledgeDetails () {
     try {
@@ -113,28 +123,15 @@ const PledgeTilePledgeView = ({ pledge }) => {
       if (data) {
         setFirstname(data[0].firstname)
         setInterviews(data[0].interviews)
+        if (interviews) {
+          setNumInterviews(data[0].interviews.length)
+        }
         setAcademicHours(data[0].academicHours)
         setSocialHours(data[0].socialHours)
       } else {
       }
     } catch (error) {}
   }
-
-  useEffect(() => {
-    const fetchPledgeImage = async () => {
-      if (pledge) {
-        const { data: ImageData, error } = await supabase.storage
-          .from('pledges')
-          .download(`${pledge}.jpeg`)
-
-        if (!error) {
-          setImageUrl(URL.createObjectURL(ImageData))
-        }
-      }
-    }
-
-    fetchPledgeImage()
-  }, [])
 
   //gets the committee sign offs
   useEffect(() => {
@@ -170,7 +167,6 @@ const PledgeTilePledgeView = ({ pledge }) => {
         ).length
         setpdSOs(data)
         setPD(pdSignOffCount)
-        setpdProgress(Math.round((pd * 100) / 6))
       } else {
         console.log('error fetching data:', error)
       }
@@ -193,10 +189,10 @@ const PledgeTilePledgeView = ({ pledge }) => {
 
       <div className='pb-6 w-full'>
         <div className='text-lg'>
-          {interviews?.length <= 30 ? (
+          {numInterviews == 0 || interviews.length <= 30 ? (
             <>
-              You have completed {interviews?.length} interviews. You have{' '}
-              {30 - interviews?.length} interviews remaining.
+              You have completed {numInterviews} interviews. You have{' '}
+              {30 - numInterviews} interviews remaining.
             </>
           ) : (
             <>
@@ -207,7 +203,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
         </div>
         <ProgressBar
           className='w-full py-2'
-          completed={Math.round((interviews?.length * 100) / 30)}
+          completed={Math.round(((numInterviews | 0) * 100) / 30)}
           bgColor='#22c55e'
           height='40px'
         />
