@@ -124,10 +124,10 @@ export default function StudyBuddySearch() {
           </div>
           <div className="flex justify-between mt-4">
             <button onClick={handlePrevPage} disabled={currentPage === 1}>
-              Previous Page
+            &larr; Previous Page
             </button>
             <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-              Next Page
+            &rarr; Next Page
             </button>
           </div>
         </div>
