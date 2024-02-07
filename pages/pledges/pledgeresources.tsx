@@ -26,6 +26,13 @@ export default function BroResources() {
                 <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
                     <a href="https://docs.google.com/presentation/d/1p51S16GOD4ASn8A_qYxx3eFeiMFzB6L5MJMkuqxNIoY/edit?usp=sharing" target="_blank" className="block p-2 rounded">Meeting #1 Slides</a>
                 </li>
+                <h1 className="font-bold text-4xl py-4">Action Required:</h1>
+                <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
+                    <a href="https://docs.google.com/presentation/d/19_qhWGOjUbRCjJ3mUxFlKl462oEfRdPwgsYFMlrGcZg/edit?usp=sharing" target="_blank" className="block p-2 rounded">Make your Little Slides</a>
+                </li>
+                <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
+                    <a href="https://forms.gle/jgKCo9PzdUu1ACrdA" target="_blank" className="block p-2 rounded">Fill out Get to Know You Form</a>
+                </li>
 
             </ul>
         </div>
