@@ -1,16 +1,18 @@
-import BroNavBar from '@/components/BroNavBar'
-import { useEffect, useState } from 'react'
-import Cookies from 'js-cookie';
-import supabase from '@/supabase';
+import React, { useEffect, useState } from 'react';
+import BroNavBar from '@/components/BroNavBar';
 import ClassMemberTile from '@/components/ClassMemberTile';
+import supabase from '../../supabase';
+import Cookies from 'js-cookie';
 
 export default function StudyBuddySearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [isPledge, setIsPledge] = useState(true);
-  const [brothers, setBrothers] = useState([]);
+  const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [pledges, setPledges] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const membersPerPage = 8;
+
   useEffect(() => {
     setUserEmail(Cookies.get('userEmail'));
 
@@ -20,13 +22,12 @@ export default function StudyBuddySearch() {
           supabase.from('Pledges').select('*'),
           supabase.from('Brothers').select('*')
         ]);
-         
-          
+
+        let combinedMembers = [];
+
         if (!(pledgeData.data?.length === 0) && !pledgeData.error) {
-          
-          const sortedPledges = pledgeData.data.sort((a,b) => b.lastname - a.lastname)
-          setPledges(sortedPledges)
-        
+          const sortedPledges = pledgeData.data.sort((a, b) => b.lastname - a.lastname)
+          combinedMembers.push(...sortedPledges);
         }
 
         if (brothersData.error) {
@@ -34,10 +35,11 @@ export default function StudyBuddySearch() {
         }
 
         if (brothersData.data) {
-          // Assuming 'roll' is a number field in your database
           const sortedData = brothersData.data.sort((a, b) => b.roll - a.roll);
-          setBrothers(sortedData);
+          combinedMembers.push(...sortedData);
         }
+
+        setMembers(combinedMembers);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -48,56 +50,47 @@ export default function StudyBuddySearch() {
     fetchData();
   }, [userEmail]);
 
-
   useEffect(() => {
     const checkIfBrother = async () => {
-
       const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
       if (data?.length == 1 && !error) {
         setIsPledge(false);
       }
-    }
-    const checkIfPledge = async () => {
+    };
 
+    const checkIfPledge = async () => {
       const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
       if (data?.length == 1 && !error) {
         setIsPledge(true);
       }
-    }
+    };
 
     checkIfBrother();
     checkIfPledge();
 
   }, [userEmail]);
 
-
-
-  const filteredPledges = pledges.filter((pledge) => {
-    if (pledge.classes && pledge.major) {
-      return (
-        pledge.classes.some((className) =>
-          className.toLowerCase().includes(searchQuery.toLowerCase())
-        ) ||
-        pledge.major.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+  const filteredMembers = members.filter((member) => {
+    if (member.classes && member.classes.length > 0) {
+      const normalizedQuery = searchQuery.toLowerCase();
+      return member.classes.some((className) => className.toLowerCase().includes(normalizedQuery));
     }
     return false;
   });
-  
 
+  const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
 
-  const filteredBrothers = brothers.filter((brother) => {
-    if (brother.classes && brother.major) {
-      return (
-        brother.classes.some((className) =>
-          className.toLowerCase().includes(searchQuery.toLowerCase())
-        ) ||
-        brother.major.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    return false;
-  });
-  
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const indexOfLastMember = currentPage * membersPerPage;
+  const indexOfFirstMember = indexOfLastMember - membersPerPage;
+  const currentMembers = filteredMembers.slice(indexOfFirstMember, indexOfLastMember);
 
   if (loading) {
     return null;
@@ -117,32 +110,28 @@ export default function StudyBuddySearch() {
             className="p-2 border border-gray-800 rounded w-full mb-4"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full" style={{ maxHeight: '550px', overflowY: 'auto' }}>
-            {filteredBrothers.map((brother) => (
-              <div key={brother.userid}>
+            {currentMembers.map((member) => (
+              <div key={member.userid}>
                 <ClassMemberTile
-                  userid={brother.userid}
-                  firstname={brother.firstname}
-                  lastname={brother.lastname}
-                  email={brother.email}
-                  phone={brother.phone}
+                  userid={member.userid}
+                  firstname={member.firstname}
+                  lastname={member.lastname}
+                  email={member.email}
+                  phone={member.phone}
                 />
               </div>
             ))}
-            {filteredPledges.map((pledge) => (
-              <div key={pledge.uniqname}>
-                <ClassMemberTile
-                  userid={pledge.uniqname}
-                  firstname={pledge.firstname}
-                  lastname={pledge.lastname}
-                  email={pledge.email}
-                  phone={pledge.phone}
-                />
-              </div>
-            ))}
+          </div>
+          <div className="flex justify-between mt-4">
+            <button onClick={handlePrevPage} disabled={currentPage === 1}>
+            &larr; Previous Page
+            </button>
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+            &rarr; Next Page
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 }
-

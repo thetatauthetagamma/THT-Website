@@ -24,7 +24,7 @@ export default function pledgetracking() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
-    
+
     fetchPledges();
   }, []);
 
@@ -56,7 +56,7 @@ export default function pledgetracking() {
 
     fetchSession()
   }, [])
-  
+
 
   useEffect(() => {
     const fetchAdminRole = async () => {
@@ -94,7 +94,10 @@ export default function pledgetracking() {
       <BroNavBar isPledge={false} />
       <div className="flex-grow">
         <div className="flex-grow h-full m-4">
-          <h1 className="font-bold text-4xl xs:max-sm:text-center pb-4">Pledge Progress</h1>
+          <h1 className="font-bold text-4xl xs:max-sm:text-center pb-2">Pledge Progress</h1>
+          <div className='hover:bg-gray-200 transition-colors duration-300 rounded flex-grow mb-2'>
+            <a href="https://forms.gle/WHV8KnQhjjPirD8y7" target="_blank" className="block p-2 rounded">👶 Pledge Feedback Form</a>
+          </div>
           {/* Search Bar */}
           <input
             type="text"
@@ -106,12 +109,12 @@ export default function pledgetracking() {
           <div style={{ maxHeight: '550px', overflowY: 'auto' }} >
             {filteredPledges.map((pledge) => (
               <div key={pledge.uniqname}>
-                <PledgeTile pledge={pledge.uniqname} fetchPledges={fetchPledges}/>
+                <PledgeTile pledge={pledge.uniqname} fetchPledges={fetchPledges} />
               </div>
             ))}
-          {isAdmin && (
-            <NewPledgeTile fetchPledges={fetchPledges}></NewPledgeTile>
-          )}
+            {isAdmin && (
+              <NewPledgeTile fetchPledges={fetchPledges}></NewPledgeTile>
+            )}
           </div>
 
         </div>
