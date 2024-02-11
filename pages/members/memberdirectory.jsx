@@ -113,7 +113,12 @@ export default function MemberDirectory () {
   const handlePrevPage = () => {
     setCurrentPage(prevPage => Math.max(prevPage - 1, 1))
   }
-
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchQuery])
+  useEffect(() => {
+    setCurrentPage(1);
+}, [searchQuery, selectedMajor])
   const indexOfLastBrother = currentPage * brothersPerPage
   const indexOfFirstBrother = indexOfLastBrother - brothersPerPage
   const currentBrothers = majorFilteredBrothers.slice(
@@ -132,7 +137,9 @@ export default function MemberDirectory () {
     'Math',
     'IOE',
     'NAME',
-    'MSE'
+    'MSE',
+    'NERS',
+    'Rob'
   ]
 
   if (loading) {
