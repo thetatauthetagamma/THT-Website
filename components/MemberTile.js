@@ -22,7 +22,7 @@ export default function MemberTile ({
   const [imageUrl, setImageUrl] = useState('')
 
   useEffect(() => {
-    const fetchPledgeImage = async () => {
+    const fetchBrotherImage = async () => {
       if (userid) {
         const { data: ImageData, error } = await supabase.storage
           .from('brothers')
@@ -34,9 +34,10 @@ export default function MemberTile ({
       }
     }
 
-    fetchPledgeImage()
+    fetchBrotherImage()
   }, [])
 
+  //if you click on them it takes you to the members page
   function handleClick () {
     router.push(`/members/${userid}`)
   }

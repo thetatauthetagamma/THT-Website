@@ -69,6 +69,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
     corsec: 'CorSec',
     socialMedia:'Social Media'
   }
+
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -87,6 +88,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
     checkBrotherInPledge()
   }, [userID, editableFields])
 
+  //Fetches the admin role so that if the admin is a parent they can edit
   useEffect(() => {
     const fetchAdminRole = async () => {
       try {
@@ -108,6 +110,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
     fetchAdminRole()
   }, [userID])
 
+  //Fetch the pledges details
   async function fetchPledgeDetails () {
     try {
       const { data, error } = await supabase
@@ -133,6 +136,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
     } catch (error) {}
   }
 
+ //Check if the logged in brother has already been interviewed by pledge
   async function checkBrotherInPledge () {
     try {
       if (pledge) {
@@ -145,7 +149,6 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         if (error) {
           throw error
         }
-
         if (data) {
           // Check if brotherID exists in the Interviews array
           const { uniqname, interviews } = data
@@ -158,6 +161,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
       }
     } catch (error) {}
   }
+
 
   useEffect(() => {
     const fetchPledgeImage = async () => {
@@ -189,10 +193,10 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         )
       )
     }
-
     calculateProgress()
   }, [interviews, pd, numCommitteeSOs])
 
+  //Fetches the current committee sign offs
   useEffect(() => {
     const fetchCommitteeSignoffs = async () => {
       const { data, error } = await supabase
@@ -213,6 +217,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
     fetchCommitteeSignoffs()
   }, [selectedCommittee])
 
+  //Fetches the current pd sign offs
   useEffect(() => {
     const fetchPDSignoffs = async () => {
       const { data, error } = await supabase
@@ -224,10 +229,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         const pdSignOffCount = Object.values(data[0]).filter(
           value => value == true
         ).length
-        console.log('pd data')
-        console.log(data)
         setpdSOs(data)
-        console.log(pdSOs)
         setPD(pdSignOffCount)
       } else {
         console.log('error fetching data:', error)
@@ -298,7 +300,6 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         console.error('Please select a committee')
         return
       }
-
       // Update the selected committee sign-off value to true in Supabase
       const { error } = await supabase.from('PDSignOffs').upsert(
         [
@@ -325,7 +326,6 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
           : []
 
         const updatedPDBrothers = [...currentPDBrothers, userID]
-
         const { error } = await supabase.from('PDSignOffs').upsert(
           [
             {
@@ -385,7 +385,6 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
       const updatedInterviews = currentInterviews.filter(
         item => item !== userID
       )
-
       // Update the "Interviews" array in the corresponding "Pledges" row
       const { data: updatedPledgeData, error: updatePledgeError } =
         await supabase.from('Pledges').upsert(
@@ -635,9 +634,8 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
             </span>
           </button>
 
-          {/* Centered Buttons (Committee Dropdown and Submit) */}
+        {/* TODO: make this dropdown a component */}
           <div className='flex items-center justify-center  m-2 md:w-1/3'>
-            {/* Committee Dropdown */}
             <Dropdown>
               <DropdownTrigger>
                 <button className='bg-gray-500 text-white p-2 rounded-md'>
@@ -661,8 +659,6 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
                         </DropdownItem>
                       )
                   )}
-
-                  {/* Add other committees as needed */}
                 </DropdownSection>
               </DropdownMenu>
             </Dropdown>
@@ -707,7 +703,6 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
               </DropdownMenu>
             </Dropdown>
 
-            {/* Submit Button */}
             <button
               onClick={handleCommitteeSignOffSubmit}
               className='ml-2 bg-green-500 text-white py-2 px-4 rounded-md hover:scale-105'

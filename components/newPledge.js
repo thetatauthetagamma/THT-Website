@@ -17,8 +17,7 @@ const NewPledgeTile = ({ fetchPledges }) => {
   const [profileImageUrl, setProfileImageUrl] = useState(null)
 
   const [pd, setPD] = useState(0)
-  const [numCommitteeSOs, setnumCommitteeSOs] = useState(0)
-  const [completed, setCompleted] = useState(0)
+
 
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
@@ -32,7 +31,6 @@ const NewPledgeTile = ({ fetchPledges }) => {
   const [socialHours, setSocialHours] = useState(0)
   const [academicHours, setAcademicHours] = useState(0)
 
-  const [isAdmin, setIsAdmin] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [editableFields, setEditableFields] = useState({
     uniqname: false,
@@ -75,6 +73,7 @@ const NewPledgeTile = ({ fetchPledges }) => {
       ])
 
       // If successful, update the state to include the new pledge
+      //TO DO: figure out why
       if (data)
         setPledges([...pledges, { uniqname: newPledgeUniqname, firstname: '' }])
 

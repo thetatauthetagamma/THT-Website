@@ -9,6 +9,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
   const [interviews, setInterviews] = useState(pledge.interviews)
   //array of brother firstname lastname who pledge has interviewed:
   const [interviewedBrothers, setInterviewedBrothers] = useState([])
+  //num intervieed Brothers
   const [numInterviews, setNumInterviews] = useState(0)
   //number of pd requirements completed:
   const [pd, setPD] = useState(0)
@@ -20,16 +21,15 @@ const PledgeTilePledgeView = ({ pledge }) => {
   const [committeeSignOffs, SetCommitteeSignOffs] = useState([])
 
   const [firstname, setFirstname] = useState('')
-
   const [userID, setUserID] = useState('')
 
   const [socialHours, setSocialHours] = useState(0)
   const [academicHours, setAcademicHours] = useState(0)
 
   const [countdown, setCountdown] = useState('')
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
   //key = supabase column, value = display value
+  //supabase table name is 'PDSignOffs'
   const pdRequirementList = {
     resume: 'Resume and Cover Letter',
     interview: 'Mock Interview',
@@ -39,7 +39,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
     linkedin: 'LinkedIn',
     alumPanel: 'Alumni Panel'
   }
-
+  //supabase table name is 'fetchCommitteeSignoffs'
   const committeeList = {
     apparel: 'Apparel',
     pd: 'PD',
@@ -52,6 +52,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
     corsec: 'CorSec',
     socialMedia: 'Social Media'
   }
+
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -67,59 +68,16 @@ const PledgeTilePledgeView = ({ pledge }) => {
     fetchSession()
   }, [userID])
 
-
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = moment().tz('America/Detroit').startOf('day')
-      const eventDate = moment
-        .tz('2024-04-14', 'YYYY-MM-DD', 'America/Detroit')
-        .startOf('day')
-
-      const remainingTime = eventDate.diff(now, 'days') // diff in days
-
-      setCountdown(remainingTime)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  async function fetchInterviewedBrothers () {
-    try {
-      const { data, error } = await supabase
-        .from('Brothers')
-        .select('firstname, lastname')
-        .in('email', interviews)
-      if (error) throw error
-      if (data) {
-        setInterviewedBrothers(data)
-        setNumInterviews(data.length)
-      }
-
-    } catch (error) {
-      console.error('Error fetching interviewed brothers:', error)
-    }
-  }
-
-  useEffect(() => {
-    fetchInterviewedBrothers()
-  }, [interviews, userID])
-
-  useEffect(() => {
-    fetchPledgeDetails()
-  }, [userID])
-
+  //Fetches the pledges details
   async function fetchPledgeDetails () {
     try {
       const { data, error } = await supabase
         .from('Pledges')
         .select('*')
         .eq('uniqname', pledge)
-
       if (error) {
         throw error
       }
-
       if (data) {
         setFirstname(data[0].firstname)
         setInterviews(data[0].interviews)
@@ -132,6 +90,30 @@ const PledgeTilePledgeView = ({ pledge }) => {
       }
     } catch (error) {}
   }
+
+  async function fetchInterviewedBrothers () {
+    try {
+      const { data, error } = await supabase
+        .from('Brothers')
+        .select('firstname, lastname')
+        .in('email', interviews)
+      if (error) throw error
+      if (data) {
+        setInterviewedBrothers(data)
+        setNumInterviews(data.length)
+      }
+    } catch (error) {
+      console.error('Error fetching interviewed brothers:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchInterviewedBrothers()
+  }, [interviews, userID])
+
+  useEffect(() => {
+    fetchPledgeDetails()
+  }, [userID])
 
   //gets the committee sign offs
   useEffect(() => {
@@ -154,6 +136,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
 
     fetchCommitteeSignoffs()
   }, [userID])
+ 
   //gets the pd sign offs
   useEffect(() => {
     const fetchPDSignoffs = async () => {
@@ -173,6 +156,23 @@ const PledgeTilePledgeView = ({ pledge }) => {
     }
     fetchPDSignoffs()
   }, [userID])
+
+  //Sets the countdown till pledge requirements are do
+  //TODO EACH SEMESTER: Set due date
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = moment().tz('America/Detroit').startOf('day')
+      const eventDate = moment
+        .tz('2024-04-14', 'YYYY-MM-DD', 'America/Detroit')
+        .startOf('day')
+
+      const remainingTime = eventDate.diff(now, 'days') // diff in days
+
+      setCountdown(remainingTime)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className=' bg-gray-100 p-2 rounded-2xl mb-4 px-4 flex flex-col items-start flex-start'>

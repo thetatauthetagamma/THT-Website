@@ -1,116 +1,140 @@
-import React, { useEffect, useState } from 'react';
-import BroNavBar from '@/components/BroNavBar';
-import ClassMemberTile from '@/components/ClassMemberTile';
-import supabase from '../../supabase';
-import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react'
+import BroNavBar from '@/components/BroNavBar'
+import ClassMemberTile from '@/components/ClassMemberTile'
+import supabase from '../../supabase'
+import Cookies from 'js-cookie'
 
-export default function StudyBuddySearch() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [isPledge, setIsPledge] = useState(true);
-  const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const membersPerPage = 8;
+export default function StudyBuddySearch () {
+  const [searchQuery, setSearchQuery] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [isPledge, setIsPledge] = useState(true)
+  const [members, setMembers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const membersPerPage = 8
 
   useEffect(() => {
-    setUserEmail(Cookies.get('userEmail'));
-
+    setUserEmail(Cookies.get('userEmail'))
     const fetchData = async () => {
       try {
         const [pledgeData, brothersData] = await Promise.all([
           supabase.from('Pledges').select('*'),
           supabase.from('Brothers').select('*')
-        ]);
+        ])
 
-        let combinedMembers = [];
+        let combinedMembers = []
 
         if (!(pledgeData.data?.length === 0) && !pledgeData.error) {
-          const sortedPledges = pledgeData.data.sort((a, b) => b.lastname - a.lastname)
-          combinedMembers.push(...sortedPledges);
+          const sortedPledges = pledgeData.data.sort(
+            (a, b) => b.lastname - a.lastname
+          )
+          combinedMembers.push(...sortedPledges)
         }
 
         if (brothersData.error) {
-          throw brothersData.error;
+          throw brothersData.error
         }
 
         if (brothersData.data) {
-          const sortedData = brothersData.data.sort((a, b) => b.roll - a.roll);
-          combinedMembers.push(...sortedData);
+          const sortedData = brothersData.data.sort((a, b) => b.roll - a.roll)
+          combinedMembers.push(...sortedData)
         }
 
-        setMembers(combinedMembers);
+        setMembers(combinedMembers)
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, [userEmail]);
+    fetchData()
+  }, [userEmail])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchQuery])
 
   useEffect(() => {
     const checkIfBrother = async () => {
-      const { data, error } = await supabase.from('Brothers').select('*').eq('email', userEmail);
+      const { data, error } = await supabase
+        .from('Brothers')
+        .select('*')
+        .eq('email', userEmail)
       if (data?.length == 1 && !error) {
-        setIsPledge(false);
+        setIsPledge(false)
       }
-    };
+    }
 
     const checkIfPledge = async () => {
-      const { data, error } = await supabase.from('Pledges').select('*').eq('email', userEmail);
+      const { data, error } = await supabase
+        .from('Pledges')
+        .select('*')
+        .eq('email', userEmail)
       if (data?.length == 1 && !error) {
-        setIsPledge(true);
+        setIsPledge(true)
       }
-    };
-
-    checkIfBrother();
-    checkIfPledge();
-
-  }, [userEmail]);
-
-  const filteredMembers = members.filter((member) => {
-    if (member.classes && member.classes.length > 0) {
-      const normalizedQuery = searchQuery.toLowerCase();
-      return member.classes.some((className) => className.toLowerCase().includes(normalizedQuery));
     }
-    return false;
-  });
 
-  const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
+    checkIfBrother()
+    checkIfPledge()
+  }, [userEmail])
+
+  const filteredMembers = members.filter(member => {
+    if (member.classes && member.classes.length > 0) {
+      const normalizedQuery = searchQuery.toLowerCase()
+      return member.classes.some(className =>
+        className.toLowerCase().includes(normalizedQuery)
+      )
+    }
+    return false
+  })
+
+  const totalPages = Math.ceil(filteredMembers.length / membersPerPage)
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+    setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages))
+  }
 
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+    setCurrentPage(prevPage => Math.max(prevPage - 1, 1))
+  }
 
-  const indexOfLastMember = currentPage * membersPerPage;
-  const indexOfFirstMember = indexOfLastMember - membersPerPage;
-  const currentMembers = filteredMembers.slice(indexOfFirstMember, indexOfLastMember);
+  const indexOfLastMember = currentPage * membersPerPage
+  const indexOfFirstMember = indexOfLastMember - membersPerPage
+  const currentMembers = filteredMembers.slice(
+    indexOfFirstMember,
+    indexOfLastMember
+  )
 
   if (loading) {
-    return null;
+    return null
   }
 
   return (
-    <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
-      {isPledge ? <BroNavBar isPledge={true} /> : <BroNavBar isPledge={false} />}
-      <div className="flex-grow">
-        <div className="flex-grow h-full m-4">
-          <h1 className="font-bold text-4xl xs:max-sm:text-center pb-4">Find Study Buddies</h1>
+    <div className='flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]'>
+      {isPledge ? (
+        <BroNavBar isPledge={true} />
+      ) : (
+        <BroNavBar isPledge={false} />
+      )}
+      <div className='flex-grow'>
+        <div className='flex-grow h-full m-4'>
+          <h1 className='font-bold text-4xl xs:max-sm:text-center pb-4'>
+            Find Study Buddies
+          </h1>
           <input
-            type="text"
-            placeholder="Search by class name and number (EECS 482, MECHENG 211, AEROSP 200)"
+            type='text'
+            placeholder='Search by class name and number (EECS 482, MECHENG 211, AEROSP 200)'
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-2 border border-gray-800 rounded w-full mb-4"
+            onChange={e => setSearchQuery(e.target.value)}
+            className='p-2 border border-gray-800 rounded w-full mb-4'
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full" style={{ maxHeight: '550px', overflowY: 'auto' }}>
-            {currentMembers.map((member) => (
+          <div
+            className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full'
+            style={{ maxHeight: '550px', overflowY: 'auto' }}
+          >
+            {currentMembers.map(member => (
               <div key={member.userid}>
                 <ClassMemberTile
                   userid={member.userid}
@@ -122,16 +146,19 @@ export default function StudyBuddySearch() {
               </div>
             ))}
           </div>
-          <div className="flex justify-between mt-4">
+          <div className='flex justify-between mt-4'>
             <button onClick={handlePrevPage} disabled={currentPage === 1}>
-            &larr; Previous Page
+              &larr; Previous Page
             </button>
-            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-            &rarr; Next Page
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              &rarr; Next Page
             </button>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

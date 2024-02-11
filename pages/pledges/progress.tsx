@@ -8,7 +8,7 @@ export default function progress() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pledgeUniqname, setPledgeUniqname] = useState('');
-  
+  //fetches the logged in users email from the session
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -24,6 +24,7 @@ export default function progress() {
     fetchSession();
   }, []);
 
+  //fetches the uniqname of the pledge
   useEffect(() => {
     const fetchPledgeUniqname = () => {
       const truncatedEmail = userEmail.slice(0, -10);
