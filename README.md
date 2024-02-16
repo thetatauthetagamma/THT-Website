@@ -53,7 +53,7 @@ The THT Web Committee:
 
 ### Known Issues/Bugs
 
-- [ ] None at the moment!
+- [ ] Pledge logic for NavBar is incorrect on profile page
 
 ## Domain Information
 
