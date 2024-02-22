@@ -24,6 +24,7 @@ export default function Profile () {
   const [profileImageUrl, setProfileImageUrl] = useState(null)
   const [currentClasses, setCurrentClasses] = useState([])
   const [isPledge, setIsPledge] = useState(true)
+  const [profileIsPledge, setProfileIsPledge] = useState(true)
 
   const [editableFields, setEditableFields] = useState({
     firstname: false,
@@ -113,7 +114,7 @@ export default function Profile () {
           .eq('uniqname', userid)
         if (data?.length === 1 && !error) {
           console.log(data)
-          setIsPledge(true)
+          setProfileIsPledge(true)
           setFirstname(data[0].firstname)
           setLastname(data[0].lastname)
           setYear(data[0].year)
@@ -175,7 +176,7 @@ export default function Profile () {
   }
 
   const handleSave = async () => {
-    if (!isPledge) {
+    if (!profileIsPledge) {
       try {
         // Update the user's profile in Supabase with the new values
 
@@ -238,7 +239,7 @@ export default function Profile () {
         console.error('Error updating brother profile:', error.message)
       }
     }
-    if (isPledge) {
+    if (profileIsPledge) {
       console.log('isPledge')
       try {
         const { data, error } = await supabase
@@ -467,7 +468,7 @@ export default function Profile () {
                   </div>
                 </div>
 
-                {!isPledge && (
+                {!profileIsPledge && (
                   <div className='flex flex-col items-center p-2'>
                     <p className='text-lg font-semibold mb-1'>Roll</p>
                     <p className='text-lg'>{roll}</p>
