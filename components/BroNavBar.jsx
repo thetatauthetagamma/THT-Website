@@ -119,6 +119,11 @@ export default function BroNavBar({isPledge}) {
                   <a> Study Buddy 🔎</a>
                 </Link>
               </li>
+              <li className="hover:bg-[#8b000070] transition-colors duration-300 rounded flex-grow py-4 pl-2">
+                <Link legacyBehavior href="/members/familytree" className="block p-2 rounded ">
+                  <a >Family Tree</a>
+                </Link>
+              </li>
              </ul>
           )
           :
@@ -152,6 +157,11 @@ export default function BroNavBar({isPledge}) {
               <li className="hover:bg-[#8b000070] transition-colors duration-300 rounded flex-grow py-4 pl-2">
                 <Link legacyBehavior href="/members/studybuddysearch" className="block p-2 rounded ">
                   <a> Study Buddy 🔎</a>
+                </Link>
+              </li>
+              <li className="hover:bg-[#8b000070] transition-colors duration-300 rounded flex-grow py-4 pl-2">
+                <Link legacyBehavior href="/members/familytree" className="block p-2 rounded ">
+                  <a >Family Tree</a>
                 </Link>
               </li>
               {isAdmin && (
