@@ -70,29 +70,32 @@ export default function OrgChartTree() {
   const [isPledge, setIsPledge] = useState(true);
   const [userEmail, setUserEmail] = useState("");
   useEffect(() => {
+    setUserEmail(Cookies.get('userEmail'))
+  }, [])
+  useEffect(() => {
     const checkIfBrother = async () => {
-      setUserEmail(Cookies.get("userEmail"));
+      
       const { data, error } = await supabase
-        .from("Brothers")
-        .select("*")
-        .eq("email", userEmail);
+        .from('Brothers')
+        .select('*')
+        .eq('email', userEmail)
       if (data?.length == 1 && !error) {
-        setIsPledge(false);
+        setIsPledge(false)
       }
-    };
+    }
     const checkIfPledge = async () => {
       const { data, error } = await supabase
-        .from("Pledges")
-        .select("*")
-        .eq("email", userEmail);
+        .from('Pledges')
+        .select('*')
+        .eq('email', userEmail)
       if (data?.length == 1 && !error) {
-        setIsPledge(true);
+        setIsPledge(true)
       }
-    };
+    }
 
-    checkIfBrother();
-    checkIfPledge();
-  }, []);
+    checkIfBrother()
+    checkIfPledge()
+  }, [userEmail])
 
   useEffect(() => {
     const fetchData = async () => {
