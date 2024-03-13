@@ -166,7 +166,7 @@ export default function Profile() {
           const { data: uploadData, error: uploadError } = await supabase.storage
             .from('brothers')
             .upload(fileName, profileImage, {
-              cacheControl: '86400',
+              cacheControl: '3600',
               contentType: 'image/jpeg', 
               upsert: true,
             }

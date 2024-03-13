@@ -28,6 +28,7 @@ export default function StudyBuddySearch () {
           const sortedPledges = pledgeData.data.sort(
             (a, b) => b.lastname - a.lastname
           )
+          console.log(sortedPledges)
           combinedMembers.push(...sortedPledges)
         }
 
@@ -36,7 +37,9 @@ export default function StudyBuddySearch () {
         }
 
         if (brothersData.data) {
+          
           const sortedData = brothersData.data.sort((a, b) => b.roll - a.roll)
+          console.log(sortedData)
           combinedMembers.push(...sortedData)
         }
 
@@ -135,9 +138,9 @@ export default function StudyBuddySearch () {
             style={{ maxHeight: '550px', overflowY: 'auto' }}
           >
             {currentMembers.map(member => (
-              <div key={member.userid}>
+              <div key={member.userid ? member.userid : member.uniqname}>
                 <ClassMemberTile
-                  userid={member.userid}
+                  userid={member.userid ? member.userid : member.uniqname}
                   firstname={member.firstname}
                   lastname={member.lastname}
                   email={member.email}

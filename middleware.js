@@ -10,7 +10,8 @@ export default async function middleware(req) {
 
   const memberRoutes = [    
     '/members/memberdirectory',
-    '/members/studybuddysearch'
+    '/members/studybuddysearch',
+    'members/*',
   ];
 
   const brotherRoutes = [
@@ -21,6 +22,8 @@ export default async function middleware(req) {
   const pledgeRoutes = [
     '/pledges/pledgecalendar',
     '/pledges/progress',
+    '/pledges/pledgeresources',
+    '/pledges/*',
   ];
 
   const adminRoutes = [
