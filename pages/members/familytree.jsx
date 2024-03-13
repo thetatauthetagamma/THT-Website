@@ -70,32 +70,31 @@ export default function OrgChartTree() {
   const [isPledge, setIsPledge] = useState(true);
   const [userEmail, setUserEmail] = useState("");
   useEffect(() => {
-    setUserEmail(Cookies.get('userEmail'))
-  }, [])
+    setUserEmail(Cookies.get("userEmail"));
+  }, []);
   useEffect(() => {
     const checkIfBrother = async () => {
-      
       const { data, error } = await supabase
-        .from('Brothers')
-        .select('*')
-        .eq('email', userEmail)
+        .from("Brothers")
+        .select("*")
+        .eq("email", userEmail);
       if (data?.length == 1 && !error) {
-        setIsPledge(false)
+        setIsPledge(false);
       }
-    }
+    };
     const checkIfPledge = async () => {
       const { data, error } = await supabase
-        .from('Pledges')
-        .select('*')
-        .eq('email', userEmail)
+        .from("Pledges")
+        .select("*")
+        .eq("email", userEmail);
       if (data?.length == 1 && !error) {
-        setIsPledge(true)
+        setIsPledge(true);
       }
-    }
+    };
 
-    checkIfBrother()
-    checkIfPledge()
-  }, [userEmail])
+    checkIfBrother();
+    checkIfPledge();
+  }, [userEmail]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -197,7 +196,9 @@ export default function OrgChartTree() {
     setLineage(null);
     if (chartData && searchQuery) {
       const foundNode = chartData.find(
-        (node) => node.id.toLowerCase() == searchQuery.toLowerCase()
+        (node) =>
+          (node.id ? node.id.toLowerCase() : node.id) ===
+          (searchQuery ? searchQuery.toLowerCase() : searchQuery)
       );
       const lineageIds = findLineage(foundNode);
       setLineage(lineageIds);
@@ -225,7 +226,10 @@ export default function OrgChartTree() {
   }, [lineageView]);
   const RenderRectSvgNode = ({ nodeDatum, toggleNode }) => {
     let words = nodeDatum.id.split(" ");
-    let hightlighted = searchNode.toLowerCase() === nodeDatum.id.toLowerCase();
+    let hightlighted =
+      (searchNode ? searchNode.toLowerCase() : searchNode) ===
+      (nodeDatum.id ? nodeDatum.id.toLowerCase() : nodeDatum.id);
+    console.log(nodeDatum.id, searchNode, hightlighted);
     let inLineage = lineage ? lineage.includes(nodeDatum.id) : false;
     return (
       <g onClick={toggleNode}>
