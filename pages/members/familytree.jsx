@@ -193,7 +193,9 @@ export default function OrgChartTree() {
     e.preventDefault();
     setLineage(null);
     if (chartData && searchQuery) {
-      const foundNode = chartData.find((node) => node.id == searchQuery);
+      const foundNode = chartData.find(
+        (node) => node.id.toLowerCase() == searchQuery.toLowerCase()
+      );
       const lineageIds = findLineage(foundNode);
       setLineage(lineageIds);
       if (foundNode) {
@@ -220,7 +222,7 @@ export default function OrgChartTree() {
   }, [lineageView]);
   const RenderRectSvgNode = ({ nodeDatum, toggleNode }) => {
     let words = nodeDatum.id.split(" ");
-    let hightlighted = searchNode === nodeDatum.id;
+    let hightlighted = searchNode.toLowerCase() === nodeDatum.id.toLowerCase();
     let inLineage = lineage ? lineage.includes(nodeDatum.id) : false;
     return (
       <g onClick={toggleNode}>
@@ -255,7 +257,7 @@ export default function OrgChartTree() {
   const containerStyle = {
     height: "100vh",
     width: "75vw",
-    overflowY: "scroll",
+    overflow: "auto",
   };
 
   return (
@@ -265,7 +267,7 @@ export default function OrgChartTree() {
       ) : (
         <BroNavBar isPledge={false} />
       )}
-      <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020] lg:w-1/4">
+      <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020] lg:w-3/4">
         <div className="">
           <div className="flex justify-center items-center h-16">
             <h1 className="text-red-700 text-2xl font-bold">
