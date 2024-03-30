@@ -185,16 +185,22 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
       if (interviewNum >= 30) {
         interviewNum = 30
       }
+      
+      let hoursNum = socialHours + academicHours
+      if (socialHours && academicHours && hoursNum >= 40) {
+        hoursNum = 40
+      }
+
       setCompleted(
         Math.round(
-          ((interviewNum + pd + numCommitteeSOs + socialHours + academicHours) *
+          ((interviewNum + pd + numCommitteeSOs + hoursNum) *
             100) /
             87
         )
       )
     }
     calculateProgress()
-  }, [interviews, pd, numCommitteeSOs])
+  }, [interviews, pd, numCommitteeSOs, socialHours, academicHours])
 
   //Fetches the current committee sign offs
   useEffect(() => {
