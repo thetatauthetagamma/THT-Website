@@ -20,15 +20,19 @@ const TimelineElement = ({ event }) => {
     return (
         <VerticalTimelineElement
             className="vertical-timeline-element--work"
-            contentStyle={{ background: 'rgba(163, 0, 0, 0.5)', color: '#fff' }}
-            contentArrowStyle={{ borderRight: '7px solid  rgba(163, 0, 0, 0.5)' }}
+            contentStyle={{}}
+            contentArrowStyle={{}}
             date={formatDate(event.date)}
             dateClassName={"xl:text-black"}
             iconStyle={{ background: '#8b0000', color: '#fff' }}
         >
-            <h3 style={{ color: "black", fontWeight: "bold" }}>{event.name}</h3>
-            <h4 className="vertical-timeline-element-subtitle">{event.location}</h4>
-            <p >
+            <h3 className="vertical-timeline-element-title" style={{ marginBottom: "5px" }}>
+                {event.name}
+            </h3>
+            <h4 className="vertical-timeline-element-subtitle" style={{ color: "#aaa" }}>
+                {event.location}
+            </h4>
+            <p className="" style={{ whiteSpace: "pre-wrap" }}>
                 {event.description}
             </p>
         </VerticalTimelineElement >
@@ -57,15 +61,16 @@ const Timeline = () => {
 
     return (
         <div className="bg-slate-200 m-2 flex flex-col justify-center items-center">
-            <h1 className="text-3xl  font-bold z-3 pb-1"> Events </h1>
+            <h1 className="text-5xl font-bold z-3 pb-1 m-10 text-[#8b0000]"> Events </h1>
             <VerticalTimeline >
                 {events.map((event, idx) => {
                     return <TimelineElement event={event} key={idx} />
                 })}
             </VerticalTimeline >
         </div>
-
     )
+
+
 }
 
 export default Timeline

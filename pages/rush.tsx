@@ -8,20 +8,6 @@ import Timeline from "@/components/Timeline"
 export default function rush() {
 
 
-
-  const YoutubeEmbed = () => (
-    <div className="video-responsive">
-      <iframe
-        width="853"
-        height="480"
-        src={`https://www.youtube.com/embed/XE1257ozYB0`}
-        allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        title="Embedded youtube"
-      />
-    </div>
-  );
-
   return (
     <div className="bg-gray-50 flex-grow">
       <script
@@ -35,16 +21,33 @@ export default function rush() {
 
 
       <div className=" flex-row text-lg sm:text-base md:text-lg lg:text-xl px-4 pr-6 pl-6 md:pr-40 md:pl-40 text-center md:py-4 font-semibold z-3 mt-2">
+        <p>Interested in joining the Brotherhood?</p>
         <p>
           Please fill out our&nbsp;
-          <a target="blank" href="https://docs.google.com/forms/d/1pid5B9IB1TUuvZyxRD7yFYrmFwZWRc3TKTQDV2e9kqE/edit" className="text-blue-500 hover:text-blue-300 ">
-            interest form.
+          <a target="blank" href="https://forms.gle/GNpqe7mNXnqBB4QR8" className="text-blue-500 hover:text-blue-300 ">
+            interest form
           </a>
+          &nbsp;and visit us at FallFest 2024.
         </p>
       </div>
 
+
+      <div className='mb-10'>
+        <div className="flex flex-col justify-center items-center">
+          <iframe
+            className="w-8/12 aspect-video"
+            //width="1000"
+            //height="560"
+            src={`https://www.youtube.com/embed/XE1257ozYB0`}
+            allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="RushVideo"
+          />
+        </div>
+      </div>
+
+
       <div className="flex flex-col justify-center items-center">
-        <YoutubeEmbed />
         <Timeline />
       </div>
 
