@@ -9,6 +9,19 @@ export default function rush() {
 
 
 
+  const YoutubeEmbed = () => (
+    <div className="video-responsive">
+      <iframe
+        width="853"
+        height="480"
+        src={`https://www.youtube.com/embed/XE1257ozYB0`}
+        allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="Embedded youtube"
+      />
+    </div>
+  );
+
   return (
     <div className="bg-gray-50 flex-grow">
       <script
@@ -16,8 +29,7 @@ export default function rush() {
         src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 
       <div className="inset-0 flex flex-col justify-center items-center md:pt-8 pt-4  text-[#8b0000]">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-bold z-3 pb-1" >THT Rush</h1>
-        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-bold z-3" >Theta Tau</h1>
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-bold z-3 pb-1" >Rush</h1>
       </div>
 
 
@@ -31,7 +43,12 @@ export default function rush() {
         </p>
       </div>
 
-      <Timeline />
+      <div className="flex flex-col justify-center items-center">
+        <YoutubeEmbed />
+        <Timeline />
+      </div>
+
+
 
       <div className='flex flex-grow flex-col pb-8 pt-8 bg-white border-b-2 border-[#8b000050]'>
         <div className="inset-0 flex flex-col justify-center items-center md:pt-8 md:pb-8 pb-4 text-[#8b0000]">
