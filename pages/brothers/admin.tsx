@@ -313,7 +313,7 @@ export default function BroResources() {
             <h1> Set Required Number of Social Hours</h1>
           </div>
         )}
-        {(adminRole === 'regent' || adminRole === 'scribe') && (
+        {(adminRole === 'regent' || adminRole === 'scribe' || adminRole === 'web') && (
           <div className="flex flex-col">
 
             <h1 className="flex flex-center text-4xl">Thank you for your service brother {adminRole} 🫡</h1>
@@ -387,7 +387,7 @@ export default function BroResources() {
 
           </div>
         )}
-        {(adminRole == 'academic' || adminRole == 'webHead') && (
+        {(adminRole == 'academic' || adminRole == 'web') && (
 
           <div className='flex flex-col'>
             <h1 className="flex flex-center text-4xl">Hi Kohl</h1>

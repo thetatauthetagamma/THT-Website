@@ -104,7 +104,7 @@ export default function members() {
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-1 pr-3 pl-3 md:self-start'>
               <div className='w-full h-full'>
               <Image
-                src={Casey}
+                src={Rachel}
                 alt="Gear icon"
                 className='w-full h-full rounded-full object-cover'
               />
@@ -115,7 +115,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={Rachel}
+                src={gear}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
@@ -125,7 +125,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={Owen}
+                src={gear}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
