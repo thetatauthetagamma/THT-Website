@@ -220,7 +220,7 @@ export default function members() {
               </div>
               <div className="pt-4 pb-4 text-lg">
               However, when you ask someone why they stayed, and continue to participate 
-              in the Fraternity, you'll likely never hear one answer. It's the people. 
+              in the Fraternity, you'll likely hear one answer. It's the people. 
               Among all other things, it's the people, their values, and their culture 
               that make your college experience, and what you will remember years after 
               you graduate. This is especially true with Theta Gamma Chapter, which is 
