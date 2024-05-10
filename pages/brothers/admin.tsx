@@ -32,6 +32,8 @@ export default function BroResources() {
     phone: string;
     linkedin: string;
     roll: string;
+    classes: string[];
+    archivedclasses: string[];
   }
   interface BrotherData {
     userid: string;
@@ -45,6 +47,8 @@ export default function BroResources() {
     linkedin: string;
     roll: string;
     adminrole: string;
+    classes: string[];
+    archivedclasses: string[];
   }
 
   const handleRoleNameChange = (role: string, newName: string) => {
@@ -75,42 +79,68 @@ export default function BroResources() {
     }
   };
   const handleArchiveClasses = async () => {
-
     const isConfirmed = window.confirm(
       'Are you sure you want to archive all of the current classes? Please only do this at the end of a semester.'
-    )
+    );
 
-    // If the user confirms, proceed with deletion
+    // If the user confirms, proceed with the archiving
     if (isConfirmed) {
-      /*
       try {
-        // Fetch all brothers
-        const { data: allBrothers, error } = await supabase
+        // Fetch all brothers with their classes
+        const { data: allBrothers, error: brothersError } = await supabase
           .from('Brothers')
           .select('userid, classes, archivedclasses');
 
-        if (error) {
-          throw error;
+        if (brothersError) {
+          throw brothersError;
         }
 
-        // Filter brothers who have classes in the classes column
-        const brothersWithClasses = allBrothers.filter(brother => brother.classes && brother.classes.length > 0);
+        // Update the archived classes for each brother
+        for (const brother of allBrothers) {
+          if (brother.classes && brother.classes.length > 0) {
+            const updatedClasses = [...(brother.archivedclasses || []), ...brother.classes];
 
-        // Update the archivedclasses column for each brother
-        for (const brother of brothersWithClasses) {
-          const updatedClasses = [...(brother.archivedclasses || []), ...(brother.classes || [])];
-
-          // Update the archivedclasses column in the database
-          await supabase
-            .from('Brothers')
-            .update({ archivedclasses: updatedClasses })
-            .eq('userid', brother.userid);
+            await supabase
+              .from('Brothers')
+              .update({ 
+                classes: [],
+                archivedclasses: updatedClasses
+              })
+              .eq('userid', brother.userid);
+          }
         }
 
-        console.log('Classes archived successfully');
+        console.log('Brother classes archived successfully');
+
+        // Fetch all pledges with their classes
+        const { data: allPledges, error: pledgeError } = await supabase
+          .from('Pledges')
+          .select('uniqname, classes, archivedclasses');
+
+        if (pledgeError) {
+          throw pledgeError;
+        }
+
+        // Update the archived classes for each pledge
+        for (const pledge of allPledges) {
+          if (pledge.classes && pledge.classes.length > 0) {
+            const updatedClasses = [...(pledge.archivedclasses || []), ...pledge.classes];
+
+            await supabase
+              .from('Pledges')
+              .update({ 
+                classes: [],
+                archivedclasses: updatedClasses
+              })
+              .eq('uniqname', pledge.uniqname);
+          }
+        }
+
+        console.log('Pledge classes archived successfully');
+
       } catch (error) {
         console.error('Error archiving classes:', error);
-      }*/
+      }
     }
   };
 
@@ -211,6 +241,9 @@ export default function BroResources() {
           linkedin: pledge.linkedin,
           roll: roleAssignments[pledge.uniqname],
           adminrole: '', // Assign role numbers from state
+          classes: pledge.classes,
+          archivedclasses: pledge.archivedclasses,
+          
         }));
 
         const { data, error } = await supabase.from('Brothers').upsert(brothersData);
