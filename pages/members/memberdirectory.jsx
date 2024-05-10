@@ -4,6 +4,11 @@ import MemberTile from '@/components/MemberTile'
 import supabase from '../../supabase'
 import Cookies from 'js-cookie'
 
+/*
+This page displays a member directory. It displays first all of the pledges then the brothers in reverse role order.
+To limit egress, only 10 members are shown at a time. 
+*/
+
 export default function MemberDirectory () {
   const [brothers, setBrothers] = useState([])
   const [searchQuery, setSearchQuery] = useState('')

@@ -16,7 +16,11 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { InfoIcon } from "@nextui-org/shared-icons";
-
+/*
+This page displays the family tree. 
+Each semester, big little parings need to be added to the supabase table "BigLittlePairings."
+Something we could do is make this updatable on the front end. 
+*/
 function expand(d) {
   if (d._children) {
     d.children = d._children;

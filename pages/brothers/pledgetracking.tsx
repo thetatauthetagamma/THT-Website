@@ -6,7 +6,11 @@ import BroNavBar from "@/components/BroNavBar";
 
 import Image from "next/image"
 import NewPledgeTile from "../../components/newPledge"
-
+/*
+This is the page that brothers see to view pleding progress.
+Most of the logic for the pledge tracking is in the PledgeTile component.
+The NewPledgeTile is a tile that only the moms see and is used to add new pledges to the database. 
+*/
 interface PledgeData {
   uniqname: string;
   firstname: string;
