@@ -15,7 +15,7 @@ export default function rush() {
         src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 
       <div className="inset-0 flex flex-col justify-center items-center md:pt-8 pt-4  text-[#8b0000]">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-bold z-3 pb-1" >Rush</h1>
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-bold z-3 pb-1" >Rush Theta Tau.</h1>
       </div>
 
 
