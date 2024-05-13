@@ -4,6 +4,13 @@ import ClassMemberTile from '@/components/ClassMemberTile'
 import supabase from '../../supabase'
 import Cookies from 'js-cookie'
 
+/*
+This page is used to search for members who are taking the same class as you.
+Classes are stored in both the Pledges and Brothers table in the column classes.
+At the end of the semester, classes are moved to the archivedClasses column.
+TODO: Add functionality to search for brothers who have already taken your class.
+*/
+
 export default function StudyBuddySearch () {
   const [searchQuery, setSearchQuery] = useState('')
   const [userEmail, setUserEmail] = useState('')

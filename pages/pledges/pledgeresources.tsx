@@ -1,6 +1,6 @@
 import BroNavBar from "@/components/BroNavBar";
 export default function BroResources() {
-
+//TODO: Make it so that parents can add and edit resources that are displayed.
     return (
         <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
 

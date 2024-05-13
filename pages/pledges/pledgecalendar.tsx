@@ -1,7 +1,7 @@
 import BroNavBar from "@/components/BroNavBar";
 
 export default function pledgecalendar() {
-  
+  //TODO: Get link to pledge calendar from supabase, which is uploaded by the moms. 
   return (
     <div className="flex md:flex-row flex-col flex-grow  border-b-2 border-[#a3000020]">
       <BroNavBar isPledge={true}/>

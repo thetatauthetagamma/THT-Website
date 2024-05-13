@@ -14,6 +14,12 @@ import frat from '../public/fratphoto.jpg'
 import pledge from '../public/committees/pledge.jpeg'
 import socialmedia from '../public/committees/socialmedia.jpeg'
 import corporate from '../public/committees/pd.jpeg'
+
+/*
+This page displays the committees with a picture of each and a description of each committee. 
+Should continually update the photos that are displayed here and encourage committee heads to take pics at events. 
+*/
+
 export default function committees() {
   return (
     <div className='flex-grow flex-col'>

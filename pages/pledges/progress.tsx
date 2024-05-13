@@ -3,6 +3,12 @@ import supabase from '../../supabase';
 import BroNavBar from "@/components/BroNavBar";
 import PledgeTilePledgeView from '../../components/PledgeTilePledgeView';
 
+
+/*
+This is the page that pledges see to view their own progress.
+Most of the logic for it is in the PledgeTilePledgeView component.
+
+*/
 export default function progress() {
   const [userEmail, setUserEmail] = useState('');
   const [loading, setLoading] = useState(true);
