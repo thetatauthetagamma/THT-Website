@@ -36,19 +36,19 @@ The THT Web Committee:
 - [x] Sign On/Sign Out
 - [x] Study Buddies
 - [x] Protect Routes
+- [x] Family Tree
 
 ### Major Tasks - To Be Done
 
 - [ ] Action Required Bulletin Board
 - [ ] Complete Front-End Interaction (Admin feature that can initiate pledges, change roles if Regent, ...)
-- [ ] Family Tree
 - [ ] Class Archive
 - [ ] Rush Page Revamp
 - [ ] Google Calendar Integration for Custom Event Tiles on Brother Dashboard
 
 ### Minor Tasks - To Be Done
 - [x] Fix Formatting on Profile Tile When Majors Are Long
-- [ ] Update Majors on Member Directory Page
+- [x] Update Majors on Member Directory Page
 - [ ] Update Pledge Requirement Due Date
 
 ### Known Issues/Bugs
