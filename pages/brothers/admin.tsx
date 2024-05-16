@@ -376,14 +376,15 @@ export default function Admin() {
   const currentCorSec = eboardMembers.find(member => member.adminrole === 'corsec');
 
   return (
-    <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
+    <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020] ">
 
       <BroNavBar isPledge={false} />
-      <div className="flex flex-col m-5">
-
-        {adminRole == 'parent' && (
-          <div>
-            <h1 className="flex flex-center text-lg">As {adminRole}, you can do the following things:</h1>
+      
+      <div className="flex lg:flex-row m-5 flex-col md:w-3/4">
+       
+        {adminRole == 'parent' || adminRole === 'web' && (
+          <div className = 'bg-gray-100 rounded-md p-2 m-2 lg:w-1/3 h-1/2'>
+            <h1 className="flex flex-center text-lg my-2 font-bold">Pledge Settings</h1>
             <h1> Set PD Sign Offs</h1>
             <h1> Set Committee Sign Offs</h1>
             <h1> Set Required Number of Academic Hours</h1>
@@ -391,10 +392,10 @@ export default function Admin() {
           </div>
         )}
         {(adminRole === 'regent' || adminRole === 'scribe' || adminRole === 'web') && (
-          <div className="flex flex-col">
+          <div className="flex flex-col bg-gray-100 rounded-md p-2 m-2 lg:w-1/3 h-1/2">
 
-            <h1 className="flex flex-center text-4xl">Thank you for your service brother {adminRole} 🫡</h1>
-            <h1 className="flex flex-center text-lg my-2">As {adminRole}, you can do the following things:</h1>
+            
+            <h1 className="flex flex-center text-lg my-2 font-bold">Update Statuses</h1>
             {rollEditingMode ? (
               <div className="bg-[#fff0f0] p-4 rounded-md flex flex-col m-2 items-center">
                 <h1 className='text-lg font-bold'>Assign pledges roll numbers:</h1>
@@ -465,24 +466,13 @@ export default function Admin() {
         )}
         {(adminRole == 'academic' || adminRole == 'web') && (
 
-          <div className='flex flex-col'>
-            <h1 className="flex flex-center text-4xl">Hi Kohl</h1>
-            <h1 className="flex flex-center text-lg my-2">As Academic Head, you can do the following things:</h1>
+          <div className='flex flex-col bg-gray-100 rounded-md p-2 m-2 lg:w-1/3 h-1/2'>
+            <h1 className="flex flex-center text-lg my-2 font-bold">Misc Settings</h1>
+            
             <button onClick={handleArchiveClasses} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Archive Classes</button>
           </div>
         )}
-        {(adminRole == 'treasurer') && (
-
-          <h1 className="flex flex-center text-4xl">Thank you for handling our money</h1>
-        )}
-        {(adminRole == 'corsec') && (
-
-          <h1 className="flex flex-center text-4xl">Thank you for being a fire Cor Sec </h1>
-        )}
-        {(adminRole == 'vice') && (
-
-          <h1 className="flex flex-center text-4xl">You're slaying as vice</h1>
-        )}
+       
       </div>
     </div>
   )
