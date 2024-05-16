@@ -1,11 +1,12 @@
 import BroNavBar from "@/components/BroNavBar";
 import { useState, useEffect } from 'react';
 import supabase from '@/supabase';
+import Select from 'react-select';
 interface RoleAssignments {
   [key: string]: string;
 }
 
-export default function BroResources() {
+export default function Admin() {
   const [userID, setUserID] = useState('');
   const [adminRole, setAdminRole] = useState('');
   const [roleAssignments, setRoleAssignments] = useState<RoleAssignments>({});
@@ -14,6 +15,8 @@ export default function BroResources() {
   const [eboardEditingMode, setEboardEditingMode] = useState<boolean>(false);
   const [eboardMembers, setEboardMembers] = useState<BrotherData[]>([]);
   const [newRoleNames, setNewRoleNames] = useState<{ [key: string]: string }>({});
+  const [searchResults, setSearchResults] = useState<BrotherData[]>([]);
+  const [selectedBrother, setSelectedBrother] = useState<{ [key: string]: string }>({});
   const eboardPositions = [
     { role: "regent", label: "Regent" },
     { role: "vice", label: "Vice Regent" },
@@ -102,7 +105,7 @@ export default function BroResources() {
 
             await supabase
               .from('Brothers')
-              .update({ 
+              .update({
                 classes: [],
                 archivedclasses: updatedClasses
               })
@@ -128,7 +131,7 @@ export default function BroResources() {
 
             await supabase
               .from('Pledges')
-              .update({ 
+              .update({
                 classes: [],
                 archivedclasses: updatedClasses
               })
@@ -143,6 +146,47 @@ export default function BroResources() {
       }
     }
   };
+
+  const handleSearchChange = async (inputValue: string) => {
+    if (inputValue.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('Brothers')
+        .select('userid, firstname, lastname')
+        .or(`firstname.ilike.%${inputValue}%,lastname.ilike.%${inputValue}%`);
+
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
+        setSearchResults(data as BrotherData[]);
+      }
+    } catch (error) {
+      console.error('Error searching brothers:', error);
+    }
+  };
+
+  const handleInputChange = (newValue: string, role: string) => {
+    handleSearchChange(newValue);
+  };
+
+
+  const handleSelectChange = (selectedOption: any, role: string) => {
+    setSelectedBrother((prevSelected) => ({
+      ...prevSelected,
+      [role]: selectedOption ? selectedOption.value : ''
+    }));
+    setNewRoleNames((prevNames) => ({
+      ...prevNames,
+      [role]: selectedOption ? selectedOption.value : ''
+    }));
+  };
+
 
   const handleEboardSubmit = async (adminRole: string) => {
     try {
@@ -243,7 +287,7 @@ export default function BroResources() {
           adminrole: '', // Assign role numbers from state
           classes: pledge.classes,
           archivedclasses: pledge.archivedclasses,
-          
+
         }));
 
         const { data, error } = await supabase.from('Brothers').upsert(brothersData);
@@ -379,45 +423,44 @@ export default function BroResources() {
 
             {eboardEditingMode ? (
               <div className='bg-[#fff0f0] p-4 rounded-md flex flex-col m-2'>
-                <div className='flex flex-col md:flex-row flex-center justify-start mx-auto'> {/* Added mx-auto for centering */}
-                  <h1 className='text-lg font-bold text-center'>Update Eboard and Committee Heads (Update yourself last!):</h1>
+                <div className='flex flex-col'>
+                  <h1 className='text-lg font-bold text-left mb-4'>Update Eboard and Committee Heads (Update yourself last!):</h1>
                 </div>
-                <div className='flex flex-col justify-center items-center'>
+                <div className='flex flex-col'>
                   {eboardPositions.map(({ role, label }) => (
-                    <div key={role} className='flex flex-col items-center'>
-                      <p>
+                    <div key={role} className='flex flex-col mb-4'>
+                      <p className='mb-1'>
                         Current {label}: {eboardMembers.find(member => member.adminrole === role) ?
                           `${eboardMembers.find(member => member.adminrole === role)?.firstname} ${eboardMembers.find(member => member.adminrole === role)?.lastname}` :
                           'No one found'
                         }
                       </p>
-                      <div className='flex flex-row'>
-                        <div className="flex w-64">
-                          <input
-                            type="text"
-                            placeholder={`Input new ${role} uniqname`}
-                            className="whitespace-nowrap text-center border-2 border-[#8b000070] w-full my-2"
-                            onChange={(e) => handleRoleNameChange(role, e.target.value)}
+                      <div className='flex flex-row items-center'>
+                        <div className="flex w-64 mr-2">
+                          <Select
+                            className="w-72"
+                            options={searchResults.map(brother => ({
+                              value: brother.userid,
+                              label: `${brother.firstname} ${brother.lastname}`
+                            }))}
+                            onInputChange={(newValue) => handleInputChange(newValue, role)}
+                            onChange={(selectedOption) => handleSelectChange(selectedOption, role)}
+                            placeholder={`Search for new ${label}`}
+                            isClearable
                           />
                         </div>
-                        <button onClick={() => handleEboardSubmit(role)} className="font-bold mr-2 text-md bg-[#8b000070] self-center rounded-md text-center w-24 mx-1">Submit</button>
+                        <button onClick={() => handleEboardSubmit(role)} className="font-bold text-md bg-[#8b000070] p-2 rounded-md text-center w-24">Submit</button>
                       </div>
                     </div>
                   ))}
-                  <div className="text-center mx-auto"> {/* Added mx-auto for centering */}
-                    <button onClick={handleCancelEBoard} className="font-bold mr-2 text-md bg-red-400 p-1 rounded-md text-center w-36 mt-2">Done Updating</button>
+                  <div className="text-left">
+                    <button onClick={handleCancelEBoard} className="font-bold text-md bg-red-400 p-2 rounded-md text-center w-48 mt-2">Done Updating</button>
                   </div>
                 </div>
-
-
-
-
-
               </div>
             ) : (
-              <button onClick={handleUpdateEboard} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Update EBoard</button>
+              <button onClick={handleUpdateEboard} className="font-bold text-md bg-[#8b000070] p-2 rounded-md text-center my-2 w-48">Update EBoard</button>
             )}
-
           </div>
         )}
         {(adminRole == 'academic' || adminRole == 'web') && (
