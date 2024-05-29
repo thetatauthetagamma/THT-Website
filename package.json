@@ -31,6 +31,7 @@
     "postcss-cli": "^10.1.0",
     "rc-progress": "^3.5.1",
     "react": "18.2.0",
+    "react-countup": "^6.5.3",
     "react-d3-tree": "^3.6.2",
     "react-datetime-picker": "^5.5.3",
     "react-dom": "18.2.0",
