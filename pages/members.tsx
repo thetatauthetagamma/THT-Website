@@ -8,6 +8,8 @@ import Owen from '../public/eboard/owilloug.jpeg';
 import Casey from '../public/eboard/casey.jpg';
 import Rachel from '../public/eboard/nowakra.jpeg';
 import Shubh from '../public/eboard/shubhd.jpeg';
+import Danny from '../public/eboard/Danny.jpg';
+import Kaitlyn from '../public/eboard/Kaitlyn.jpg';
 import image1 from '../public/companies/1.jpg';
 import image2 from '../public/companies/2.jpg';
 import image3 from '../public/companies/3.jpg';
@@ -115,7 +117,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={gear}
+                src={Danny}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
@@ -125,7 +127,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={gear}
+                src={Kaitlyn}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
