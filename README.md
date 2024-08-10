@@ -18,14 +18,20 @@ Welcome to the new THT Website, reconstructed with Next.js, Supabase, and Tailwi
 
 The THT Web Committee:
 
-1. Hariharan Chidambaram
-2. Kate McGraw
+1. Kate McGraw
 3. Lily Collins
 4. Owen Willoughby
 5. Luke Weaver
-6. Tomi Bruno
-7. Kirsten Knowles
-8. Ethan Schenk
+6. Pear Seraypheap
+7. Piper Blum
+8. Shu Adhya
+9. Esben Sorensen
+10. Isaac Diemer
+   
+
+Previous Developers:
+1. Hariharan Chidambaram
+2. Ethan Schenk
 
 ## Progress Report
 
@@ -37,13 +43,13 @@ The THT Web Committee:
 - [x] Study Buddies
 - [x] Protect Routes
 - [x] Family Tree
-
+- [x] Rush Page Revamp
 ### Major Tasks - To Be Done
 
 - [ ] Action Required Bulletin Board
 - [ ] Complete Front-End Interaction (Admin feature that can initiate pledges, change roles if Regent, ...)
 - [ ] Class Archive
-- [ ] Rush Page Revamp
+
 - [ ] Google Calendar Integration for Custom Event Tiles on Brother Dashboard
 
 ### Minor Tasks - To Be Done
@@ -84,7 +90,7 @@ Use the following process for making changes:
     - Create commit with `git commit -m "meaningful commit message"`.
     - Push changes to the remote repository with `git push --set-upstream origin [FEATURE_NAME]`.
 5. If a branch is ready to be merged, open a Pull Request on Github.
-6. Notify Hari or Kate for the merge approval.
+6. Notify Kate for the merge approval.
 7. Post-merge, the feature branch may be deleted. Repeat the process and generate a new branch for the next set of changes.
 
 NOTE: Any changes merged to the main branch will be automatically built, cloned onto Hari's personal repo (via Github Actions), and deployed.
