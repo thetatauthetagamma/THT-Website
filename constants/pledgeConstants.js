@@ -1,0 +1,31 @@
+//key = supabase column, value = display value
+
+export const pdRequirementList = {
+    resume: 'Resume and Cover Letter',
+    interview: 'Mock Interview',
+    coResearch: 'Company Research',
+    '4YrPlan': 'Four Year Class Plan',
+    jobApp: 'Apply for a Job',
+    linkedin: 'LinkedIn',
+    alumPanel: 'Alumni Panel'
+  }
+
+export const committeeList = {
+    apparel: 'Apparel',
+    pd: 'PD',
+    philanthropy: 'Philanthropy',
+    recsports: 'Rec Sports',
+    social: 'Social',
+    diversity: 'Diversity',
+    historian: 'Historian',
+    web:'Web',
+    corsec: 'CorSec',
+    socialMedia:'Social Media'
+  }
+
+/*This should have the following format: YYYY-MM-DD */
+export const requirementDueDate = '2024/11/30'
+
+/*Update the required number of academic and social hours required each semester*/ 
+export const numAcademicHours = 20;
+export const numSocialHours = 20;

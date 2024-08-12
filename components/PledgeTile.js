@@ -4,7 +4,7 @@ import thtlogo from '../public/tht-logo.png'
 import trash from '../public/trash-can.png'
 import Image from 'next/image'
 import supabase from '../supabase'
-
+import { pdRequirementList, committeeList, numAcademicHours,numSocialHours } from '../constants/pledgeConstants';
 import {
   Dropdown,
   DropdownTrigger,
@@ -47,28 +47,6 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
   })
 
   //key = supabase column, value = display value
-  const pdRequirementList = {
-    resume: 'Resume and Cover Letter',
-    interview: 'Mock Interview',
-    coResearch: 'Company Research',
-    '4YrPlan': 'Four Year Class Plan',
-    jobApp: 'Apply for a Job',
-    linkedin: 'LinkedIn',
-    alumPanel: 'Alumni Panel'
-  }
-
-  const committeeList = {
-    apparel: 'Apparel',
-    pd: 'PD',
-    philanthropy: 'Philanthropy',
-    recsports: 'Rec Sports',
-    social: 'Social',
-    diversity: 'Diversity',
-    historian: 'Historian',
-    web:'Web',
-    corsec: 'CorSec',
-    socialMedia:'Social Media'
-  }
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -195,7 +173,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
         Math.round(
           ((interviewNum + pd + numCommitteeSOs + hoursNum) *
             100) /
-            87
+            30 + Object.keys(pdRequirementList).length+ Object.keys(committeeList).length + numAcademicHours + numSocialHours
         )
       )
     }

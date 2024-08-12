@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import gear from '../public/theta-tau-gear.png'
 import supabase from '../supabase'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import HorizontalMarquee from '../components/HorizontalMarquee';
+import CountUp from 'react-countup';
 import Leah from '../public/eboard/kidderl.jpeg';
 import Owen from '../public/eboard/owilloug.jpeg';
 import Casey from '../public/eboard/casey.jpg';
@@ -52,7 +53,36 @@ export default function members() {
   const [corsecLast, setCorsecLast] = useState('');
   const [corsecImg, setCorsecImg] = useState('');
 
+  const refActiveMembers = useRef(null);
+  const refDifferentMajors = useRef(null);
+  const refEmploymentRate = useRef(null);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-open-menu');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    [refActiveMembers, refDifferentMajors, refEmploymentRate].forEach((ref) => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    });
+
+    return () => {
+      [refActiveMembers, refDifferentMajors, refEmploymentRate].forEach((ref) => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      });
+    };
+  }, []);
   useEffect(() => {
     const fetchEBoard = async (
       adminRole: string,
@@ -163,7 +193,7 @@ export default function members() {
            <div className='flex flex-row md:pt-8 pt-4 justify-around items-center'>
             <div className='flex flex-col text-center'>
               <div className='font-bold text-[#8b0000] text-3xl sm:text-4xl md:text-5xl lg:text-6xl'>
-                70+
+              <CountUp start={0} end={70} duration={2.5} suffix="+" />
               </div>
               <div className='font-semibold text-[#8b000098] md:text-lg text-[15px]'>
                 Active Members
@@ -172,7 +202,7 @@ export default function members() {
             </div>
             <div className='flex flex-col text-center'>
               <div className='font-bold text-[#8b0000] text-3xl sm:text-4xl md:text-5xl lg:text-6xl'>
-                15+
+              <CountUp start={0} end={15} duration={2.5} suffix="+" />
               </div>
               <div className='font-semibold text-[#8b000098] md:text-lg text-[15px]'>
                 Different Majors
@@ -181,7 +211,7 @@ export default function members() {
             </div>
             <div className='flex flex-col text-center'>
               <div className='font-bold text-[#8b0000] text-3xl sm:text-4xl md:text-5xl lg:text-6xl'>
-                100%
+              <CountUp start={0} end={100} duration={2.5} suffix="%" />
               </div>
               <div className='font-semibold text-[#8b000098] md:text-lg text-[15px]'>
                 Employment Rate
