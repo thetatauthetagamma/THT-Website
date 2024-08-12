@@ -6,7 +6,7 @@ import Select from 'react-select';
 interface RoleAssignments {
   [key: string]: string;
 }
-
+/*This page is shown to "admin" of our org. On it different  */
 export default function Admin() {
   const [userID, setUserID] = useState('');
   const [adminRole, setAdminRole] = useState('');
@@ -362,7 +362,7 @@ export default function Admin() {
       <BroNavBar isPledge={false} />
       
       <div className="flex lg:flex-row m-5 flex-col md:w-3/4">
-        {adminRole == 'parent' || adminRole === 'web' && (
+        {adminRole == 'parent' || adminRole === 'dev' && (
           <div className='bg-gray-100 rounded-md p-2 m-2 lg:w-1/3 min-h-1/2'>
             <h1 className="flex flex-center text-lg my-2 font-bold">Pledge Settings</h1>
             <h1> Set PD Sign Offs</h1>
@@ -371,7 +371,7 @@ export default function Admin() {
             <h1> Set Required Number of Social Hours</h1>
           </div>
         )}
-        {(adminRole === 'regent' || adminRole === 'scribe' || adminRole === 'web') && (
+        {(adminRole === 'regent' || adminRole === 'scribe' || adminRole === 'dev') && (
           <div className="flex flex-col bg-gray-100 rounded-md p-2 m-2 lg:w-1/3 min-h-1/2">
             <h1 className="flex flex-center text-lg my-2 font-bold">Update Statuses</h1>
             {rollEditingMode ? (
@@ -451,7 +451,7 @@ export default function Admin() {
             )}
           </div>
         )}
-        {(adminRole == 'academic' || adminRole == 'web') && (
+        {(adminRole == 'academic' || adminRole == 'dev') && (
           <div className='flex flex-col bg-gray-100 rounded-md p-2 m-2 lg:w-1/3 min-h-1/2'>
             <h1 className="flex flex-center text-lg my-2 font-bold">Misc Settings</h1>
             <button onClick={handleArchiveClasses} className="font-bold mr-2 text-md bg-[#8b000070] p-2 rounded-md text-center">Archive Classes</button>

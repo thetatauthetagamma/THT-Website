@@ -4,6 +4,10 @@ import thtlogo from '../public/tht-logo.png'
 import Image from 'next/image'
 import supabase from '../supabase'
 import moment from 'moment-timezone'
+import { pdRequirementList, committeeList,requirementDueDate, numAcademicHours, numSocialHours} from '../constants/pledgeConstants';
+
+
+
 const PledgeTilePledgeView = ({ pledge }) => {
   //array of brother emails who pledge has interviewed:
   const [interviews, setInterviews] = useState(pledge.interviews)
@@ -28,30 +32,6 @@ const PledgeTilePledgeView = ({ pledge }) => {
 
   const [countdown, setCountdown] = useState('')
 
-  //key = supabase column, value = display value
-  //supabase table name is 'PDSignOffs'
-  const pdRequirementList = {
-    resume: 'Resume and Cover Letter',
-    interview: 'Mock Interview',
-    coResearch: 'Company Research',
-    '4YrPlan': 'Four Year Class Plan',
-    jobApp: 'Apply for a Job',
-    linkedin: 'LinkedIn',
-    alumPanel: 'Alumni Panel'
-  }
-  //supabase table name is 'fetchCommitteeSignoffs'
-  const committeeList = {
-    apparel: 'Apparel',
-    pd: 'PD',
-    philanthropy: 'Philanthropy',
-    recsports: 'Rec Sports',
-    social: 'Social',
-    diversity: 'Diversity',
-    historian: 'Historian',
-    web: 'Web',
-    corsec: 'CorSec',
-    socialMedia: 'Social Media'
-  }
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -163,7 +143,7 @@ const PledgeTilePledgeView = ({ pledge }) => {
     const interval = setInterval(() => {
       const now = moment().tz('America/Detroit').startOf('day')
       const eventDate = moment
-        .tz('2024-04-14', 'YYYY-MM-DD', 'America/Detroit')
+        .tz(requirementDueDate, 'YYYY-MM-DD', 'America/Detroit')
         .startOf('day')
 
       const remainingTime = eventDate.diff(now, 'days') // diff in days
@@ -222,12 +202,12 @@ const PledgeTilePledgeView = ({ pledge }) => {
       <div className='pb-6 w-full border-t-2 border-[#a3000020] pt-1'>
         <div className='text-lg'>
           You have completed {numCommitteeSOs} committee sign offs. You have{' '}
-          {10 - numCommitteeSOs} sign offs remaining.
+          {Object.keys(committeeList).length - numCommitteeSOs} sign offs remaining.
         </div>
 
         <ProgressBar
           className='w-full py-2'
-          completed={Math.round((numCommitteeSOs * 100) / 10)}
+          completed={Math.round((numCommitteeSOs * 100) / Object.keys(committeeList).length)}
           bgColor='#22c55e'
           height='40px'
         />
@@ -253,11 +233,11 @@ const PledgeTilePledgeView = ({ pledge }) => {
       <div className='w-full pb-6 border-t-2 border-[#a3000020] pt-1'>
         <div className='text-lg '>
           You have completed {pd} professional development sign offs. You have{' '}
-          {7 - pd} sign offs remaining.
+          {Object.keys(pdRequirementList).length - pd} sign offs remaining.
         </div>
         <ProgressBar
           className='w-full py-2'
-          completed={Math.round((pd * 100) / 7)}
+          completed={Math.round((pd * 100) / Object.keys(pdRequirementList).length)}
           bgColor='#22c55e'
           height='40px'
         />
@@ -282,12 +262,12 @@ const PledgeTilePledgeView = ({ pledge }) => {
       <div className='w-full pb-6 border-t-2 border-[#a3000020] pt-1'>
         <div className='text-lg '>
           You have completed {socialHours} social hours and {academicHours}{' '}
-          academic hours. You have {40 - socialHours - academicHours} hours
+          academic hours. You have {numSocialHours + numAcademicHours - socialHours - academicHours} hours
           remaining.
         </div>
         <ProgressBar
           className='w-full py-2'
-          completed={Math.round(((academicHours + socialHours) * 100) / 40)}
+          completed={Math.round(((academicHours + socialHours) * 100) / (numSocialHours+numAcademicHours))}
           bgColor='#22c55e'
           height='40px'
         />

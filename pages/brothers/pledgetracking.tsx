@@ -74,7 +74,7 @@ export default function pledgetracking() {
           throw error
         }
         if (data) {
-          if (data[0].adminrole == 'parent' ||data[0].adminrole == 'web' ) {
+          if (data[0].adminrole == 'parent' ||data[0].adminrole == 'dev' ) {
             setIsAdmin(true);
           }
         }
