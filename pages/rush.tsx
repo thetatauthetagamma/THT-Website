@@ -24,7 +24,7 @@ export default function rush() {
         <p>Interested in joining the Brotherhood?</p>
         <p>
           Please fill out our&nbsp;
-          <a target="blank" href="https://forms.gle/GNpqe7mNXnqBB4QR8" className="text-blue-500 hover:text-blue-300 ">
+          <a target="blank" href="https://forms.gle/xEriJJ41MjCWXvYcA" className="text-blue-500 hover:text-blue-300 ">
             interest form
           </a>
           &nbsp;and visit us at Festifall 2024.
