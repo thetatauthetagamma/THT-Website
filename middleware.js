@@ -11,7 +11,7 @@ export default async function middleware(req) {
   const memberRoutes = [    
     '/members/memberdirectory',
     '/members/studybuddysearch',
-    'members/*',
+    '/members/*',
   ];
 
   const brotherRoutes = [
@@ -68,7 +68,11 @@ export default async function middleware(req) {
     return NextResponse.redirect(httpsRedirectUrl);
   }
 
-  if (!isUserBrother && !isUserPledge && (memberRoutes.concat(brotherRoutes, pledgeRoutes)).some(route => path.startsWith(route)) && path !== errorPage) {
+  const isPrivateRoute = (memberRoutes.concat(brotherRoutes, pledgeRoutes, ["/members/"])).some(route => {
+    return path.startsWith(route)}
+  )
+
+  if (!isUserBrother && !isUserPledge && isPrivateRoute && path !== errorPage) {
     const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
     return NextResponse.redirect(httpsRedirectUrl);
   }
