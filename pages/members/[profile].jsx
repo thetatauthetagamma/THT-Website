@@ -96,6 +96,7 @@ export default function Profile () {
       console.log(data)
       console.log(error)
       if (data?.length === 1 && !error) {
+        setProfileIsPledge(false)
         setUserid(data[0].userid)
         setFirstname(data[0].firstname)
         setLastname(data[0].lastname)
@@ -124,7 +125,9 @@ export default function Profile () {
           setLinkedin(data[0].linkedin)
           setEmail(data[0].email)
           setCurrentClasses(data[0].classes)
+          console.log("Is this brother a pledge?", profileIsPledge)
         }
+        
       }
     }
 

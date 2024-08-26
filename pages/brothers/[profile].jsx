@@ -224,6 +224,7 @@ export default function Profile () {
   }
   // Adds a new empty class to the currentClasses array so that user can edit it to add new class
   const handleAddClass = () => {
+    console.log(classesArray);
     const classesArray = currentClasses || [] // Use empty array if currentClasses is null
     const updatedClasses = [...classesArray, ''] // Add an empty string for a new class
     setCurrentClasses(updatedClasses)
