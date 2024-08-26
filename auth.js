@@ -29,14 +29,21 @@ export const isPledge = async (userEmail) => {
 
 export const isAdmin = async (userEmail) => {
   try {
-    if(userEmail){
+    if (userEmail) {
       const { data, error } = await supabase
-      .from('Brothers')
-      .select('adminrole')
-      .eq('email', userEmail.value)
-      return data[0].adminrole && data[0].adminrole != '' && !error;
+        .from('Brothers')
+        .select('adminrole')
+        .eq('email', userEmail) // Assuming userEmail is a string
+
+      if (error || !data || data.length === 0) {
+        console.error('Error checking admin status or no data found:', error);
+        return false;
+      }
+
+      // Ensure data[0] exists and has the adminrole property
+      return data[0].adminrole && data[0].adminrole !== '';
     }
-   return false;
+    return false;
   } catch (error) {
     console.error('Error checking admin status:', error);
     return false;
