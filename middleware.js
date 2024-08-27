@@ -11,9 +11,9 @@ export default async function middleware(req) {
   const memberRoutes = [    
     '/members/memberdirectory',
     '/members/studybuddysearch',
-    'members/*',
+    '/members/*',
   ];
-  const memberBasePath = '/members';
+  const memberBasePath = '/members/';
   
   const brotherRoutes = [
     '/brothers',
@@ -62,15 +62,6 @@ export default async function middleware(req) {
       const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
       return NextResponse.redirect(httpsRedirectUrl);
   }
-
-  if (path.startsWith(memberBasePath)) {
-    if (isUserBrother || isUserPledge) {
-      return NextResponse.next(); // Allow access for brothers and pledges
-    } else {
-      const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
-      return NextResponse.redirect(httpsRedirectUrl); // Redirect non-members
-    }
-  }
   
   // Restrict access for pledges to brother routes
   if (!isUserPledge && pledgeRoutes.some(route => path.startsWith(route)) && path !== errorPage) {
@@ -78,7 +69,12 @@ export default async function middleware(req) {
     return NextResponse.redirect(httpsRedirectUrl);
   }
 
-  if (!isUserBrother && !isUserPledge && memberRoutes.some(route => path.startsWith(route)) && path !== errorPage) {
+  // redirect non members
+  const isPrivateRoute = (memberRoutes.concat(brotherRoutes, pledgeRoutes, ["/members/"])).some(route => {
+    return path.startsWith(route)}
+  )
+
+  if (!isUserBrother && !isUserPledge && isPrivateRoute && path !== errorPage) {
     const httpsRedirectUrl = new URL(errorPage, req.nextUrl).toString();
     return NextResponse.redirect(httpsRedirectUrl);
   }
