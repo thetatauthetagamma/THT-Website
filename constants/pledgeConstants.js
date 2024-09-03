@@ -6,7 +6,7 @@ export const pdRequirementList = {
     coResearch: 'Company Research',
     '4YrPlan': 'Four Year Class Plan',
     jobApp: 'Apply for a Job',
-    linkedin: 'LinkedIn',
+    linkedin: 'LinkedIn Panel',
     alumPanel: 'Alumni Panel'
   }
 
@@ -19,9 +19,10 @@ export const committeeList = {
     diversity: 'Diversity',
     historian: 'Historian',
     web:'Web',
-    corsec: 'CorSec',
-    socialMedia:'Social Media'
+    socialMedia:'Social Media',
+    brohood: 'Brotherhood'
   }
+
 
 /*This should have the following format: YYYY-MM-DD */
 export const requirementDueDate = '2024/11/30'
