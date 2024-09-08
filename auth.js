@@ -33,7 +33,7 @@ export const isAdmin = async (userEmail) => {
       const { data, error } = await supabase
         .from('Brothers')
         .select('adminrole')
-        .eq('email', userEmail) // Assuming userEmail is a string
+        .eq('email', userEmail.value) // Assuming userEmail is a string
 
       if (error || !data || data.length === 0) {
         console.error('Error checking admin status or no data found:', error);
