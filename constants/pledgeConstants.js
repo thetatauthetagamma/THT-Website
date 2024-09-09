@@ -20,7 +20,8 @@ export const committeeList = {
     historian: 'Historian',
     web:'Web',
     socialMedia:'Social Media',
-    brohood: 'Brotherhood'
+    brohood: 'Brotherhood',
+    corsec: 'Cor Sec'
   }
 
 
