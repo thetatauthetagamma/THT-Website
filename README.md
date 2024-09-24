@@ -48,14 +48,14 @@ Previous Developers:
 
 - [ ] Action Required Bulletin Board
 - [ ] Complete Front-End Interaction (Admin feature that can initiate pledges, change roles if Regent, ...)
-- [ ] Class Archive
+- [x] Class Archive
 
 - [ ] Google Calendar Integration for Custom Event Tiles on Brother Dashboard
 
 ### Minor Tasks - To Be Done
 - [x] Fix Formatting on Profile Tile When Majors Are Long
 - [x] Update Majors on Member Directory Page
-- [ ] Update Pledge Requirement Due Date
+- [x] Update Pledge Requirement Due Date
 
 ### Known Issues/Bugs
 
