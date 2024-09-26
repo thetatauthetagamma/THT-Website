@@ -75,9 +75,17 @@ export default function MemberDirectory () {
     checkIfPledge()
   }, [userEmail])
 
+  const normalizedSearchQuery  = searchQuery.trim().toLowerCase();
+
+  function normalizePhone(phone) {
+    return phone?.replace(/[\(\s\-\)]/g, '');
+  } 
   const filteredBrothers = brothers.filter(brother =>
-    brother.firstname.toLowerCase().includes(searchQuery.toLowerCase())
+    brother.firstname.toLowerCase().includes(normalizedSearchQuery) ||
+    brother.lastname .toLowerCase().includes(normalizedSearchQuery) ||
+    normalizePhone(brother.phone)?.includes(searchQuery)
   )
+  
 
   const majorFilteredBrothers = selectedMajor
     ? filteredBrothers.filter(brother => {
@@ -167,7 +175,7 @@ export default function MemberDirectory () {
           <div className='flex flex-col md:flex-row items-center md:item-center md:justify-start'>
             <input
               type='text'
-              placeholder='Search by brother first name'
+              placeholder='Search by first name, last name, or phone #(no spaces)'  
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className='p-2 border border-gray-800 rounded w-full md:w-1/2 mb-4 md:mr-8'
