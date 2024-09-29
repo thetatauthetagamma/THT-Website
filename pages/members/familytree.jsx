@@ -272,7 +272,7 @@ export default function OrgChartTree() {
   };
 
   return (
-    <div className="flex md:flex-row">
+    <div className="flex md:flex-row flex-col flex-grow border-b-2 border-[#a3000020]">
       {isPledge ? (
         <BroNavBar isPledge={true} />
       ) : (
