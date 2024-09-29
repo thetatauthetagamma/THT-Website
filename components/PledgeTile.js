@@ -41,9 +41,11 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
 
   const [isAdmin, setIsAdmin] = useState(false)
 
+  const [newImage, setNewImage] = useState(null)
   const [editableFields, setEditableFields] = useState({
     academicHours: false,
-    socialHours: false
+    socialHours: false,
+    imageUrl: false, // New field for image editing
   })
 
   //key = supabase column, value = display value
@@ -79,7 +81,7 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
           throw error
         }
         if (data) {
-          if (data[0].adminrole == 'parent') {
+          if (data[0].adminrole == 'parent' || data[0].adminrole == 'dev') {
             setIsAdmin(true)
           }
         }
@@ -157,28 +159,74 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
     fetchPledgeImage()
   }, [])
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+
+    // Validate the file format (JPEG)
+    if (file && file.type === 'image/jpeg') {
+      const image = URL.createObjectURL(file)
+      setNewImage(file) // Store the image for upload
+      setImageUrl(image) // Preview the image immediately
+    } else {
+      console.error('Invalid file format. Please select a JPEG image.')
+    }
+  }
+
+  const handleImageSave = async () => {
+    if (newImage) {
+      const fileName = `${pledge}.jpeg`
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('pledges')
+        .upload(fileName, newImage, {
+          cacheControl: '3600',
+          contentType: 'image/jpeg',
+          upsert: true
+        })
+
+      if (!uploadError) {
+        console.log('Profile photo uploaded successfully')
+        setNewImage(null) // Reset the image input after successful upload
+        window.alert('Image updated successfully.')
+      } else {
+        console.error('Error uploading image:', uploadError.message)
+      }
+    }
+  }
+
   useEffect(() => {
     const calculateProgress = async () => {
-      let interviewNum = interviews?.length
+      let interviewNum = interviews?.length || 0;
       if (interviewNum >= 30) {
-        interviewNum = 30
+        interviewNum = 30;
       }
-      
-      let hoursNum = socialHours + academicHours
+  
+      let hoursNum = socialHours + academicHours;
       if (socialHours && academicHours && hoursNum >= 40) {
-        hoursNum = 40
+        hoursNum = 40;
       }
 
-      setCompleted(
-        Math.round(
-          ((interviewNum + pd + numCommitteeSOs + hoursNum) *
-            100) /
-            30 + Object.keys(pdRequirementList).length+ Object.keys(committeeList).length + numAcademicHours + numSocialHours
-        )
-      )
-    }
-    calculateProgress()
-  }, [interviews, pd, numCommitteeSOs, socialHours, academicHours])
+  
+      const pdLength = pd;
+    
+  
+      const committeeLength = numCommitteeSOs;
+  
+      const pdReqListLength = Object.keys(pdRequirementList).length;
+  
+      const committeeListLength = Object.keys(committeeList).length;
+
+  
+      const totalProgress = Math.round(
+        ((interviewNum + pdLength + committeeLength + hoursNum) * 100) /
+          (30 + pdReqListLength + committeeListLength + numAcademicHours + numSocialHours)
+      );
+  
+      console.log('Calculated Progress:', totalProgress);
+  
+      setCompleted(totalProgress);
+    };
+    calculateProgress();
+  }, [interviews, pd, numCommitteeSOs, socialHours, academicHours]);
 
   //Fetches the current committee sign offs
   useEffect(() => {
@@ -418,7 +466,8 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
     setEditableFields(prevFields => ({
       ...prevFields,
       academicHours: !prevFields.academicHours,
-      socialHours: !prevFields.socialHours
+      socialHours: !prevFields.socialHours,
+      imageUrl: !prevFields.imageUrl, // Toggle image edit mode
     }))
     if (!editableFields.academicHours) {
       setAcademicHours(academicHours) // Use the initial state or fetch it from the server
@@ -490,7 +539,27 @@ const PledgeTile = ({ pledge, fetchPledges }) => {
             />
           )}
         </div>
-
+        {isAdmin && editableFields.imageUrl && (
+          <div className='w-full flex justify-center'>
+            <label className='cursor-pointer bg-[#8b000070] py-1 text-white  mx-1 rounded-md  text-center'>
+              Upload photo (JPEG only)
+              <input
+                type='file'
+                accept='image/*'
+                onChange={handleImageChange}
+                className='hidden'
+              />
+            </label>
+            {newImage && (
+              <button
+                className='bg-green-500 text-white py-1 px-4 rounded-md hover:scale-105'
+                onClick={handleImageSave}
+              >
+                Save Image
+              </button>
+            )}
+          </div>
+        )}
         <div className='text-center'>
           <p className='font-bold'>
             {firstname} {lastname}
