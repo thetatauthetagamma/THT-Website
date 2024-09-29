@@ -6,12 +6,13 @@ import Social from "../public/committees/social1.jpeg"
 import Brohood from "../public/committees/brohood.jpeg"
 import wellness from "../public/committees/wellness1.jpeg"
 import diversity from "../public/committees/diversity1.jpeg"
-import philanthropy from "../public/committees/philanthropy1.jpeg"
-import historian from "../public/committees/hist1.jpeg"
+import philanthropy from "../public/committees/phil.jpeg"
+import historian from "../public/committees/hist.jpeg"
+import recsports from "../public/committees/recsports.jpeg"
 import Image from 'next/image';
 import Head from 'next/head'
 import frat from '../public/fratphoto.jpg'
-import pledge from '../public/committees/pledge.jpeg'
+import pledge from '../public/committees/pledge1.jpeg'
 import socialmedia from '../public/committees/socialmedia.jpeg'
 import corporate from '../public/committees/pd.jpeg'
 
@@ -139,15 +140,15 @@ export default function committees() {
         <div className='flex flex-grow pb-4 md:w-1/2 md:pr-2'>
           <div className="flex flex-col md:flex-col bg-gray-100 justify-center flex-grow px-4 md:px-16 md:pt-8 md:pb-8 pt-4 pb-4 ">
             <div className="flex flex-col w-full items-center">
-              <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Social Media</h1>
+              <h1 className="pt-4 pb-4 text-2xl md:text-4xl font-bold md:text-left text-center text-[#8b0000]" >Rec Sports</h1>
               <div className="flex flex-col md:flex-row  md:text-lg text-md pt-4 pb-4">
-              The Social Media Committee within our professional engineering fraternity takes charge of our online presence. With an active presence on Instagram and TikTok, we keep our members and followers engaged with captivating content that highlights our fraternity's activities, achievements, and the vibrant community we've built. Whether it's sharing exciting event updates, showcasing member accomplishments, or providing a glimpse into our fraternity's culture, the Social Media Committee ensures that our digital platforms are a dynamic and interactive hub for fraternity news and connection.
+              The Rec Sports Committee contributes to enabling members to come together outside of the academic setting. They are responsible for organizing intramural sports teams, encouraging friendly competition and teamwork. Additionally, the committee coordinates a variety of fun activities, such as field days, ice skating events, and trips to trampoline parks, providing members with opportunities to bond and relax outside of their academic and professional commitments.
               </div>
             </div>
             <div className="w-full  flex flex-grow justify-center items-center pt-4 pb-4 self-end">
 
               <Image
-                src={socialmedia}
+                src={recsports}
                 alt="Full Fraternity Photo"
                 className="w-[100%] height-auto self-end"
               />
