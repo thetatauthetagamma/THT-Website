@@ -12,13 +12,13 @@ export default function BroResources() {
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSeTxmB4izmoL-nWGXb1Zo9XhAogTX9A3G5qvZ0DJbYzbAo5Rg/viewform" target="_blank" className="block p-2 rounded">📋 Attendance Form</a>
         </li>
         <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfw_cjGj30e2fQCLhg0-bI3QnQ8h2C0AvIz1mXUtO9Cxs1rSA/viewform" target="_blank" className="block p-2 rounded">📝 Fraternity Feedback Form</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdfHRTc4M4yQXpUBWtXyslxA2YPedpIl5wZ91OnCUKHvhA4Sg/viewform" target="_blank" className="block p-2 rounded">📝 Fraternity Feedback Form</a>
         </li>
         <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfq6hfFpId8sGpt5jE9Yqa3QaylnTkVET_vCtzeRFJMniVZZw/viewform" target="_blank" className="block p-2 rounded">📝 EBoard Feedback Form</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeSvOo7mJgb0BVqQnZFSMQ7TQCWo3tcOxNe6ZEPTT2eAh9TXg/viewform" target="_blank" className="block p-2 rounded">📝 EBoard Feedback Form</a>
         </li>
         <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdsr8YZ9j7BIgob_oMfVYjI0nl3ymy54BmM-FvAP0td0GUSpg/viewform" target="_blank" className="block p-2 rounded">📝 Risk Manager Form F24</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfUTU0_aeKyi1cL5y-2_lhdQWmVQg86Th0YQnl_5_j-_SmO8w/viewform" target="_blank" className="block p-2 rounded">📝 Risk Manager Form W25</a>
         </li>
         <li className="hover:bg-gray-200 transition-colors duration-300 rounded  flex-grow">
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNNyhwN1R-PwXXp7xacAd4_QEu-FVPMiP5RU10sEd19k0mDw/viewform" target="_blank" className="block p-2 rounded">👶 Pledge Feedback Form</a>
