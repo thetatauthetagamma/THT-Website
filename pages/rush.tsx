@@ -24,10 +24,10 @@ export default function rush() {
         <p>Interested in joining the Brotherhood?</p>
         <p>
           Please fill out our&nbsp;
-          <a target="blank" href="https://forms.gle/xEriJJ41MjCWXvYcA" className="text-blue-500 hover:text-blue-300 ">
+          <a target="blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdqAtBgBYou59xilkjSWuMUrYjCzejajaH4T1nGTRaryQ5DNA/viewform" className="text-blue-500 hover:text-blue-300 ">
             interest form
           </a>
-          &nbsp;and visit us at Festifall 2024.
+          &nbsp;and visit us at Winterfest 2025.
         </p>
       </div>
 
