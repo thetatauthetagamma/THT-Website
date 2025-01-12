@@ -4,13 +4,12 @@ import supabase from '../supabase'
 import React, { useEffect, useRef, useState } from 'react';
 import HorizontalMarquee from '../components/HorizontalMarquee';
 import CountUp from 'react-countup';
-import Leah from '../public/eboard/kidderl.jpeg';
-import Owen from '../public/eboard/owilloug.jpeg';
-import Casey from '../public/eboard/casey.jpg';
-import Rachel from '../public/eboard/nowakra.jpeg';
-import Shubh from '../public/eboard/shubhd.jpeg';
+
 import Danny from '../public/eboard/Danny.jpg';
-import Kaitlyn from '../public/eboard/Kaitlyn.jpg';
+import Elliot from '../public/eboard/Elliot.jpeg';
+import Michelle from '../public/eboard/Michelle.jpg';
+import Michael from '../public/eboard/Micheal.jpeg';
+import JV from '../public/eboard/JV.jpeg';
 import image1 from '../public/companies/1.jpg';
 import image2 from '../public/companies/2.jpg';
 import image3 from '../public/companies/3.jpg';
@@ -136,7 +135,7 @@ export default function members() {
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-1 pr-3 pl-3 md:self-start'>
               <div className='w-full h-full'>
               <Image
-                src={Rachel}
+                src={Danny}
                 alt="Gear icon"
                 className='w-full h-full rounded-full object-cover'
               />
@@ -147,7 +146,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={Danny}
+                src={JV}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
@@ -157,7 +156,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4 pr-3 pl-3 md:self-start'>
               <Image
-                src={Kaitlyn}
+                src={Michelle}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
@@ -167,7 +166,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 md:pb-0 pb-4  pr-3 pl-3 md:self-start'>
               <Image
-                src={Shubh}
+                src={Michael}
                 alt="Gear icon"
                 className='w-full h-full rounded-full'
               />
@@ -177,7 +176,7 @@ export default function members() {
 
             <div className='flex-col text-center md:w-1/5 w-3/4 pr-3 pl-3 md:self-start'>
                 <Image
-                  src={Leah}
+                  src={Elliot}
                   alt="Gear icon"
                   className='w-full h-full rounded-full'
                 />
